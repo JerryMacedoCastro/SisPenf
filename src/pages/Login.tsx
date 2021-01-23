@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Header from '../components/Header';
 
 const Login = () => {
   return (
@@ -9,7 +10,7 @@ const Login = () => {
         colors={['#fff', 'transparent']}
         style={styles.background}
       />
-      <Text>Login</Text>
+      <Header title="Login" />
     </View>
   );
 };

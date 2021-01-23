@@ -51,11 +51,12 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   title: {
-    fontSize: 35,
+    fontSize: 18,
     color: '#34615C',
     padding: 2,
     position: 'absolute',
     top: 20,
+    fontFamily: 'JosefinSans_700Bold',
   },
 
   button: {
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 40,
+    height: 60,
     marginTop: 10,
     width: '85%',
   },
