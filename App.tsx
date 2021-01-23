@@ -1,33 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import pregnantImg from './assets/gravida.png'
+import Routes from './src/Routes';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>SisPenf</Text>
-      <Image source={pregnantImg} />
-      <StatusBar style="auto" />
-    </View>
-  );
+  return <Routes />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#BCE0DC',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  title: {
-    fontSize: 100,
-    color: '#34615C',
-    padding: 2,
-    position: 'absolute',
-    top: 20,
-    fontFamily: 'Josefin Sans'
-    
-  }
-});
