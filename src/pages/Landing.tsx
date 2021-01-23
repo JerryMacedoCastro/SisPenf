@@ -5,6 +5,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import pregnantImg from '../../assets/gravida.png';
+import Gradient from '../components/Gradient';
 
 const Landing = () => {
   const navigation = useNavigation();
@@ -12,12 +13,13 @@ const Landing = () => {
   const handleNavigateToLogin = () => {
     navigation.navigate('Login');
   };
+
+  const handleNavigateToRegister = () => {
+    navigation.navigate('Register');
+  };
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={['#fff', 'transparent']}
-        style={styles.background}
-      />
+      <Gradient />
 
       <Text style={styles.title}>SisPenf</Text>
       <Image source={pregnantImg} />
@@ -28,7 +30,10 @@ const Landing = () => {
       >
         <Text style={styles.primaryButtonText}>Login</Text>
       </RectButton>
-      <RectButton style={[styles.button, styles.secondaryButton]}>
+      <RectButton
+        style={[styles.button, styles.secondaryButton]}
+        onPress={handleNavigateToRegister}
+      >
         <Text style={styles.secondaryButtonText}>Solicitar Acesso</Text>
       </RectButton>
       <StatusBar style="auto" />
@@ -43,13 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    height: '100%',
-  },
+
   title: {
     fontSize: 18,
     color: '#34615C',
@@ -67,6 +66,7 @@ const styles = StyleSheet.create({
     height: 60,
     marginTop: 10,
     width: '85%',
+    fontFamily: 'JosefinSans_700Bold',
   },
 
   primaryButton: {
