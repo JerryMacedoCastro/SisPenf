@@ -50,7 +50,10 @@ const Login = () => {
         </View>
 
         <RectButton style={{ height: 26 }}>
-          <Text onPress={navigation.goBack} style={styles.inputStyle}>
+          <Text
+            onPress={() => navigation.navigate('PasswordRecover')}
+            style={styles.inputStyle}
+          >
             Esqueceu a senha? Clique aqui.
           </Text>
         </RectButton>
