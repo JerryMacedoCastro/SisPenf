@@ -16,9 +16,10 @@ const Register = () => {
   };
   return (
     <>
-      <Gradient />
-      <Header title="Solicitar Acesso" />
-      <View style={styles.body}>
+      <View style={styles.container}>
+        <Gradient />
+        <Header title="Solicitar Acesso" />
+
         <Text style={styles.subTitle}>SisPenf</Text>
         <TextInput
           autoFocus
@@ -28,6 +29,14 @@ const Register = () => {
           value={name}
           onChangeText={(text) => setName(text)}
         />
+
+        <TextInput
+          id="cargo"
+          placeholder="Cargo"
+          style={styles.input}
+          value={role}
+          onChangeText={(text) => setRole(text)}
+        />
         <TextInput
           id="cpf"
           placeholder="CPF (Somente números)"
@@ -35,13 +44,6 @@ const Register = () => {
           value={cpf}
           keyboardType="numeric"
           onChangeText={(text) => setCpf(text)}
-        />
-        <TextInput
-          id="cargo"
-          placeholder="Cargo"
-          style={styles.input}
-          value={role}
-          onChangeText={(text) => setRole(text)}
         />
         <TextInput
           id="registro"
@@ -65,20 +67,19 @@ const Register = () => {
 export default Register;
 
 const styles = StyleSheet.create({
-  body: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+  container: {
+    flex: 1,
+    backgroundColor: '#BCE0DC',
     alignItems: 'center',
-    height: '80%',
+    justifyContent: 'center',
   },
+
   subTitle: {
     fontFamily: 'JosefinSans_700Bold',
     color: '#51615F',
     fontSize: 26,
     padding: 20,
   },
-
   input: {
     backgroundColor: '#ffF',
     width: '80%',
