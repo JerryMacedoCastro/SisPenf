@@ -9,9 +9,9 @@ import { globalStyles } from '../Assets/GlobalStyles';
 import Header from '../components/Header';
 
 const Login = () => {
-  const navigation = useNavigation();
   const [user, setUser] = useState<string>('');
   const [password, setPassword] = useState('');
+  const navigation = useNavigation();
 
   const handleChangeUser = (text: string) => {
     setUser(text);
@@ -23,7 +23,7 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <Gradient />
-      <Header title="Acessar" />
+      <Header title="Acessar" goBackOption={true} />
 
       <Text style={styles.subTitle}>SisPenf</Text>
 
@@ -52,7 +52,7 @@ const Login = () => {
 
       <RectButton
         onPress={() => {
-          Alert.alert('Warning', 'This function is not implemented yet');
+          navigation.navigate('Home');
         }}
         style={[globalStyles.button, globalStyles.primaryButton]}
       >

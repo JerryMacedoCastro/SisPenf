@@ -5,6 +5,8 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import PasswordRecover from './pages/PasswordRecover';
+import Panel from './pages/Home';
+import Home from './pages/Home';
 
 const { Navigator, Screen } = createStackNavigator();
 const Routes = () => {
@@ -20,6 +22,7 @@ const Routes = () => {
         <Screen name="Login" component={Login} />
         <Screen name="Register" component={Register} />
         <Screen name="PasswordRecover" component={PasswordRecover} />
+        <Screen name="Home" component={Home} />
       </Navigator>
     </NavigationContainer>
   );

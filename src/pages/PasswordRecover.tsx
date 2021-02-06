@@ -9,7 +9,7 @@ const PasswordRecover = () => {
   return (
     <View style={styles.container}>
       <Gradient />
-      <Header title="Recuperar Senha" />
+      <Header title="Recuperar Senha" goBackOption={true} />
 
       <View style={styles.inputContainer}>
         <TextInput

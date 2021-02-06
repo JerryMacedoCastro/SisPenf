@@ -6,24 +6,37 @@ import { useNavigation } from '@react-navigation/native';
 
 interface HeaderProps {
   title: string;
+  destinyBack?: string;
+  goBackOption?: boolean;
 }
 const Header = (props: HeaderProps) => {
-  const { title } = props;
+  const { title, destinyBack, goBackOption } = props;
   const navigation = useNavigation();
+
+  const handleGoBack = () => {
+    if (!!!destinyBack) {
+      navigation.goBack();
+    } else {
+      navigation.navigate(destinyBack);
+    }
+  };
+
   return (
     <>
       <View style={styles.container}></View>
-      <BorderlessButton style={styles.goBack}>
-        <Feather
-          name="arrow-left"
-          size={18}
-          color="#51615F"
-          onPress={navigation.goBack}
-        />
-        <Text style={styles.goBacktext} onPress={navigation.goBack}>
-          Voltar
-        </Text>
-      </BorderlessButton>
+      {goBackOption && (
+        <BorderlessButton style={styles.goBack}>
+          <Feather
+            name="arrow-left"
+            size={18}
+            color="#51615F"
+            onPress={navigation.goBack}
+          />
+          <Text style={styles.goBacktext} onPress={handleGoBack}>
+            Voltar
+          </Text>
+        </BorderlessButton>
+      )}
 
       <Text style={styles.title}>{title}</Text>
     </>
