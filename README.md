@@ -6,7 +6,7 @@ Sistematização do Processo de Enfermagem
  - React Native
  - Expo 
  
- ## Iniciando após clona repositório
+ ## Iniciando após clonagem repositório
  - Comando yarn para instalar as dependencias
  > Yarn 
  - Comando yarn start para iniciar o projeto com o expo
