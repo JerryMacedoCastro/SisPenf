@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { RectButton, TextInput } from 'react-native-gesture-handler';
 import Gradient from '../components/Gradient';
+import { globalStyles } from '../Assets/GlobalStyles';
+
 import Header from '../components/Header';
 
 const Login = () => {
@@ -52,9 +54,9 @@ const Login = () => {
         onPress={() => {
           Alert.alert('Warning', 'This function is not implemented yet');
         }}
-        style={[styles.button, styles.primaryButton]}
+        style={[globalStyles.button, globalStyles.primaryButton]}
       >
-        <Text style={styles.primaryButtonText}>Login</Text>
+        <Text style={globalStyles.primaryButtonText}>Login</Text>
       </RectButton>
       <RectButton style={{ height: 26, marginBottom: 20 }}>
         <Text
@@ -99,27 +101,6 @@ const styles = StyleSheet.create({
   inputStyle: {
     flex: 1,
     color: '#27615A',
-    fontFamily: 'JosefinSans_700Bold',
-  },
-  button: {
-    borderRadius: 25,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 60,
-    marginBottom: 40,
-    width: '80%',
-    fontFamily: 'JosefinSans_700Bold',
-  },
-
-  primaryButton: {
-    backgroundColor: '#34615C',
-  },
-  primaryButtonText: {
-    color: '#FFF',
-    fontSize: 16,
-    marginLeft: 16,
-    fontWeight: '700',
     fontFamily: 'JosefinSans_700Bold',
   },
 });

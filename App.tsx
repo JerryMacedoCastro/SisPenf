@@ -1,6 +1,5 @@
 import React from 'react';
 import Routes from './src/Routes';
-import { Text } from 'react-native';
 
 import { useFonts } from 'expo-font';
 import { JosefinSans_700Bold } from '@expo-google-fonts/josefin-sans';
