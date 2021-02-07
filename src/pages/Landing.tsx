@@ -1,9 +1,10 @@
 import React from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
+
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
+import { globalStyles } from '../Assets/GlobalStyles';
 import pregnantImg from '../../assets/gravida.png';
 import Gradient from '../components/Gradient';
 
@@ -25,16 +26,16 @@ const Landing = () => {
       <Image source={pregnantImg} />
 
       <RectButton
-        style={[styles.button, styles.primaryButton]}
+        style={[globalStyles.button, globalStyles.primaryButton]}
         onPress={handleNavigateToLogin}
       >
-        <Text style={styles.primaryButtonText}>Login</Text>
+        <Text style={globalStyles.primaryButtonText}>Login</Text>
       </RectButton>
       <RectButton
-        style={[styles.button, styles.secondaryButton]}
+        style={[globalStyles.button, globalStyles.secondaryButton]}
         onPress={handleNavigateToRegister}
       >
-        <Text style={styles.secondaryButtonText}>Solicitar Acesso</Text>
+        <Text style={globalStyles.secondaryButtonText}>Solicitar Acesso</Text>
       </RectButton>
       <StatusBar style="auto" />
     </View>
@@ -56,41 +57,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     fontFamily: 'JosefinSans_700Bold',
-  },
-
-  button: {
-    borderRadius: 25,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 60,
-    marginTop: 10,
-    width: '85%',
-    fontFamily: 'JosefinSans_700Bold',
-  },
-
-  primaryButton: {
-    backgroundColor: '#34615C',
-  },
-
-  secondaryButton: {
-    backgroundColor: '#fff',
-    borderWidth: 3,
-    borderColor: '#34615C',
-  },
-
-  primaryButtonText: {
-    color: '#FFF',
-    fontSize: 16,
-    marginLeft: 16,
-    fontWeight: '700',
-  },
-
-  secondaryButtonText: {
-    color: '#34615C',
-    fontSize: 16,
-    marginLeft: 16,
-    fontWeight: '700',
   },
 });
 

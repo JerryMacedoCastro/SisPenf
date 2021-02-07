@@ -18,7 +18,7 @@ const Register = () => {
     <>
       <View style={styles.container}>
         <Gradient />
-        <Header title="Solicitar Acesso" />
+        <Header title="Solicitar Acesso" goBackOption={true} />
 
         <Text style={styles.subTitle}>SisPenf</Text>
         <TextInput

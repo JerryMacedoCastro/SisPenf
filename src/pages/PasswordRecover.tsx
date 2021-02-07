@@ -1,14 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { RectButton, TextInput } from 'react-native-gesture-handler';
 import Gradient from '../components/Gradient';
 import Header from '../components/Header';
+import { globalStyles } from '../Assets/GlobalStyles';
 
 const PasswordRecover = () => {
   return (
     <View style={styles.container}>
       <Gradient />
-      <Header title="Recuperar Senha" />
+      <Header title="Recuperar Senha" goBackOption={true} />
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -24,6 +25,15 @@ const PasswordRecover = () => {
           placeholder={'CPF'}
         />
       </View>
+
+      <RectButton
+        onPress={() => {
+          alert('Warning');
+        }}
+        style={[globalStyles.button, globalStyles.primaryButton]}
+      >
+        <Text style={globalStyles.primaryButtonText}>Login</Text>
+      </RectButton>
     </View>
   );
 };
