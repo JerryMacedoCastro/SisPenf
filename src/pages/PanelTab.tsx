@@ -11,7 +11,16 @@ const PanelTab = () => {
     <View style={styles.container}>
       <Gradient />
       <Header title="Olá, jessica" />
-      <Text>Visão geral do alojamento</Text>
+      <Text
+        style={{
+          color: '#27615A',
+          fontFamily: 'JosefinSans_700Bold',
+          right: -20,
+          fontSize: 18,
+        }}
+      >
+        Visão geral do alojamento
+      </Text>
       <View style={[styles.panelContent, styles.info]}>
         <View style={styles.circle}>
           <Text style={styles.percentage}>40%</Text>
@@ -86,7 +95,7 @@ const styles = StyleSheet.create({
   info: {
     height: 112,
     marginBottom: 25,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#27615A',
   },
 
@@ -98,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     top: -6,
     left: -20,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#27615A',
     display: 'flex',
     alignItems: 'center',
