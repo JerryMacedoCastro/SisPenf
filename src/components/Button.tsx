@@ -11,13 +11,17 @@ interface ButtonProps {
   icon?: any;
   color?: string;
   size?: number;
+  handlePress?: () => void;
 }
 
 const Button = (props: ButtonProps) => {
-  const { title, icon, color, size } = props;
+  const { title, icon, color, size, handlePress } = props;
 
   return (
-    <RectButton style={[styles.button, globalStyles.primaryButton]}>
+    <RectButton
+      style={[styles.button, globalStyles.primaryButton]}
+      onPress={handlePress}
+    >
       <Text style={globalStyles.primaryButtonText}>{title}</Text>
       {icon && <Feather name={icon} color={color} size={size} />}
     </RectButton>

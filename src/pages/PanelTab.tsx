@@ -1,12 +1,17 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, Modal, Pressable } from 'react-native';
 
 import Gradient from '../components/Gradient';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import PanelInfo from '../components/PanelInfo';
+import CustomModal from '../components/CustomModal';
 
 const PanelTab = () => {
+  const [modalIsVisible, setModalIsVisible] = React.useState(false);
+  const handleClick = () => {
+    setModalIsVisible(!modalIsVisible);
+  };
   return (
     <View style={styles.container}>
       <Gradient />
@@ -33,8 +38,16 @@ const PanelTab = () => {
           <PanelInfo value={8} label="Número de puérperas" />
         </View>
       </View>
+      <CustomModal modalVisible={modalIsVisible} onClose={handleClick} />
+
       <View style={styles.content}>
-        <Button title="Admitir paciente" icon="log-in" color="#FFF" size={24} />
+        <Button
+          title="Admitir paciente"
+          icon="log-in"
+          color="#FFF"
+          size={24}
+          handlePress={handleClick}
+        />
         <Button
           title="Processo de Enfermagem"
           icon="user-check"
