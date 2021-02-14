@@ -8,9 +8,11 @@ interface HeaderProps {
   title: string;
   destinyBack?: string;
   goBackOption?: boolean;
+  textColor?: string;
 }
+
 const Header = (props: HeaderProps) => {
-  const { title, destinyBack, goBackOption } = props;
+  const { title, destinyBack, goBackOption, textColor } = props;
   const navigation = useNavigation();
 
   const handleGoBack = () => {
@@ -29,16 +31,27 @@ const Header = (props: HeaderProps) => {
           <Feather
             name="arrow-left"
             size={18}
-            color="#51615F"
+            color={textColor ? textColor : '#51615F'}
             onPress={navigation.goBack}
           />
-          <Text style={styles.goBacktext} onPress={handleGoBack}>
+          <Text
+            style={
+              textColor
+                ? [styles.goBacktext, { color: textColor }]
+                : styles.goBacktext
+            }
+            onPress={handleGoBack}
+          >
             Voltar
           </Text>
         </BorderlessButton>
       )}
 
-      <Text style={styles.title}>{title}</Text>
+      <Text
+        style={textColor ? [styles.title, { color: textColor }] : styles.title}
+      >
+        {title}
+      </Text>
     </>
   );
 };
