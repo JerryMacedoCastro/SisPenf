@@ -11,7 +11,7 @@ const TabsNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ color, size }) => {
           if (route.name === 'Painel') {
             return <Feather name="home" size={size} color={color} />;
           } else {
