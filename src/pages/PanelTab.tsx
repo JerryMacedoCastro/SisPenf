@@ -38,7 +38,12 @@ const PanelTab = () => {
           <PanelInfo value={8} label="Número de puérperas" />
         </View>
       </View>
-      <CustomModal modalVisible={modalIsVisible} onClose={handleClick} />
+      <CustomModal
+        modalVisible={modalIsVisible}
+        onClose={handleClick}
+        firstButtonText="Admitir puérpera"
+        secondButtonText="Admitir recém-nascido"
+      />
 
       <View style={styles.content}>
         <Button

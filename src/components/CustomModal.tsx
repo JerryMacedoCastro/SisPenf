@@ -1,28 +1,32 @@
 import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
-
-import Button from './Button';
+import { useNavigation } from '@react-navigation/native';
 import { globalStyles } from '../Assets/GlobalStyles';
-import { RectButton } from 'react-native-gesture-handler';
 
 interface customModalProps {
   modalVisible: boolean;
-
-  onClose?: () => void;
+  firstButtonText: string;
+  secondButtonText: string;
+  onClose: () => void;
 }
 
 const CustomModal = (props: customModalProps) => {
-  const { modalVisible, onClose } = props;
+  const { modalVisible, onClose, firstButtonText, secondButtonText } = props;
+  const navigation = useNavigation();
+  const handleNavigation = () => {
+    onClose();
+    navigation.navigate('NewPuerperal');
+  };
   return (
     <Modal animationType="fade" transparent visible={modalVisible}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Pressable
             style={[globalStyles.button, globalStyles.secondaryButton]}
-            onPress={onClose}
+            onPress={handleNavigation}
           >
             <Text style={globalStyles.secondaryButtonText}>
-              Admitir puérpera
+              {firstButtonText}
             </Text>
           </Pressable>
           <Pressable
@@ -30,7 +34,7 @@ const CustomModal = (props: customModalProps) => {
             onPress={onClose}
           >
             <Text style={globalStyles.secondaryButtonText}>
-              Admitir recém-nascido
+              {secondButtonText}
             </Text>
           </Pressable>
 
