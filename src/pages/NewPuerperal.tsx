@@ -5,7 +5,6 @@ import { RectButton } from 'react-native-gesture-handler';
 import { globalStyles } from '../Assets/GlobalStyles';
 import CommonInput from '../components/CommonInput';
 import DateHeader from '../components/DateHeader';
-import Button from '../components/Button';
 
 const NewPuerperal = () => {
   return (
@@ -32,19 +31,26 @@ const NewPuerperal = () => {
         </View>
 
         <View style={styles.content}>
-          <CommonInput />
-          <CommonInput />
-          <CommonInput />
-          <CommonInput />
-          <CommonInput />
-          <CommonInput />
-          <CommonInput />
-          <CommonInput />
+          <CommonInput title="Diagnótico médico" />
+          <CommonInput title="Dieta prescrita" />
+          <CommonInput title="Nome" />
+          <CommonInput title="Idade" keyboardNumeric />
+          <CommonInput title="Estado civil" />
+          <CommonInput title="Escolaridade" />
+          <CommonInput title="Ocupação" />
         </View>
 
         <View style={styles.confirmButtonsContainer}>
-          <Button title="Confirmar" />
-          <Button title="Cancelar" />
+          <RectButton style={[globalStyles.button, globalStyles.primaryButton]}>
+            <Text style={globalStyles.primaryButtonText}>
+              Iniciar processo de enfermagem
+            </Text>
+          </RectButton>
+          <RectButton
+            style={[globalStyles.button, globalStyles.secondaryButton]}
+          >
+            <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
+          </RectButton>
         </View>
       </ScrollView>
     </>
@@ -73,7 +79,6 @@ const styles = StyleSheet.create({
 
   content: {
     backgroundColor: 'rgb(220, 220, 220)',
-
     width: '90%',
     borderRadius: 20,
   },
@@ -86,6 +91,8 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   confirmButtonsContainer: {
-    width: '90%',
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 10,
   },
 });
