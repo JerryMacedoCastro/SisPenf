@@ -5,7 +5,12 @@ import { TextInput } from 'react-native-gesture-handler';
 const CommonInput = () => {
   return (
     <View style={styles.inputContainer}>
-      <TextInput style={styles.inputText} placeholder="Nome"></TextInput>
+      <TextInput
+        returnKeyType="next"
+        blurOnSubmit
+        style={styles.inputText}
+        placeholder="Nome"
+      ></TextInput>
     </View>
   );
 };
