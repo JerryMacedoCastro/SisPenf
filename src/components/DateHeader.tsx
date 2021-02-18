@@ -27,7 +27,6 @@ export default DateHeader;
 const styles = StyleSheet.create({
   container: {
     top: 0,
-    position: 'absolute',
     backgroundColor: '#27615A',
     alignItems: 'center',
     justifyContent: 'center',
@@ -35,6 +34,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
+    position: 'absolute',
   },
   dateText: {
     position: 'absolute',
