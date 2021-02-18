@@ -14,15 +14,16 @@ const types = {
 };
 
 interface useFormProps {
-  type?: string;
+  type: 'email' | 'password' | null;
 }
+
 const useForm = (props: useFormProps) => {
   const { type } = props;
   const [value, setValue] = React.useState('');
-  const [error, setError] = React.useState(null);
+  const [error, setError] = React.useState<string | null>(null);
 
-  const validate = (value) => {
-    if (type === false) return true;
+  const validate = (value: string) => {
+    if (type === null) return true;
     if (value.length === 0) {
       setError('Preencha algum valor!');
       return false;
@@ -35,9 +36,9 @@ const useForm = (props: useFormProps) => {
     }
   };
 
-  const onChange = ({ target }) => {
-    if (error) validate(target.value);
-    setValue(target.value);
+  const onChange = (text: string) => {
+    if (error) validate(text);
+    setValue(text);
   };
   return {
     value,
