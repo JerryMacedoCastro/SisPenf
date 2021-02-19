@@ -4,6 +4,7 @@ import { TextInput } from 'react-native-gesture-handler';
 interface commonInputProps {
   title: string;
   keyboardNumeric?: boolean;
+  value?: string;
 }
 
 const CommonInput = ({ title, keyboardNumeric }: commonInputProps) => {
