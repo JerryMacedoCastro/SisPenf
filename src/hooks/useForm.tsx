@@ -19,6 +19,7 @@ interface useFormProps {
 
 const useForm = (props: useFormProps) => {
   const { type } = props;
+
   const [value, setValue] = React.useState('');
   const [error, setError] = React.useState<string | null>(null);
 

@@ -5,8 +5,10 @@ import { RectButton } from 'react-native-gesture-handler';
 import { globalStyles } from '../Assets/GlobalStyles';
 import CommonInput from '../components/CommonInput';
 import DateHeader from '../components/DateHeader';
+import useForm from '../hooks/useForm';
 
 const NewPuerperal = () => {
+  const name = useForm({ type: null });
   return (
     <>
       <ScrollView
