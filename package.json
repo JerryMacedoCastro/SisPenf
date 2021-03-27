@@ -7,6 +7,23 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
+  "expo": {
+    "name": "SisPenf"
+  },
+  "splash" : {
+    "image": "./assets/splash.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#34615C"
+  },
+  "android": {
+    "package": "com.JMCSoftware.SisPenf",
+    "versionCode": 1
+  },
+  "ios": {
+    "SupportTablet": true,
+    "bundleIdentifier": "com.JMCSoftware.SisPenf",
+    "buildNumber": "1.0.0"
+  },
   "dependencies": {
     "@expo-google-fonts/josefin-sans": "^0.1.0",
     "@expo/vector-icons": "^12.0.3",
