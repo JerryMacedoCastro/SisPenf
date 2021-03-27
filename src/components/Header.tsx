@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { BorderlessButton } from 'react-native-gesture-handler';
-import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { BorderlessButton } from "react-native-gesture-handler";
+import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 interface HeaderProps {
   title: string;
@@ -31,7 +31,7 @@ const Header = (props: HeaderProps) => {
           <Feather
             name="arrow-left"
             size={18}
-            color={textColor ? textColor : '#51615F'}
+            color={textColor ? textColor : "#51615F"}
             onPress={navigation.goBack}
           />
           <Text
@@ -60,29 +60,29 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop:10,
     marginBottom: 100,
   },
   goBack: {
     height: 20,
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 30,
-    alignSelf: 'flex-start',
+    flexDirection: "row",
+    position: "absolute",
+    top: 50,
+    marginLeft: 8,
+    alignSelf: "flex-start",
   },
 
   goBacktext: {
-    fontFamily: 'JosefinSans_700Bold',
+    fontFamily: "JosefinSans_700Bold",
     fontSize: 14,
     marginLeft: 4,
-    color: '#51615F',
+    color: "#51615F",
   },
 
   title: {
-    fontFamily: 'JosefinSans_700Bold',
+    fontFamily: "JosefinSans_700Bold",
     fontSize: 14,
-    color: '#51615F',
-    position: 'absolute',
-    top: 30,
+    color: "#51615F",
+    position: "absolute",
+    top: 50,
   },
 });
