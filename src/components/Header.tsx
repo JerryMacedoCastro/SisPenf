@@ -60,6 +60,7 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop:10,
     marginBottom: 100,
   },
   goBack: {
