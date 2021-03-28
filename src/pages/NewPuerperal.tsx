@@ -1,35 +1,60 @@
-import { Feather } from '@expo/vector-icons';
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
-import { globalStyles } from '../Assets/GlobalStyles';
-import CommonInput from '../components/CommonInput';
-import DateHeader from '../components/DateHeader';
-import useForm from '../hooks/useForm';
+import { Feather } from "@expo/vector-icons";
+import React from "react";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
+import { globalStyles } from "../Assets/GlobalStyles";
+import CommonInput from "../components/CommonInput";
+import DateHeader from "../components/DateHeader";
+import PickerInfirmary from "../components/Picker";
+
 
 const NewPuerperal = () => {
-  const name = useForm({ type: null });
+
+  const infirmaries = [
+    { label: "Enfermaria 01", value: 1 },
+    { label: "Enfermaria 02", value: 2 },
+    { label: "Enfermaria 03", value: 3 },
+    { label: "Enfermaria 04", value: 4 },
+  ]
+
+  const hospitalBeds = [
+    { label: "Leito 01", value: 1 },
+    { label: "Leito 02", value: 2 },
+    { label: "Leito 03", value: 3 },
+    { label: "Leito 04", value: 4 },
+    { label: "Leito 05", value: 4 },
+    { label: "Leito 333", value: 4 },
+    { label: "Leito 1234", value: 4 },
+    { label: "Leito 34344", value: 4 },
+    { label: "Leito 4444", value: 4 },
+    { label: "Leito 00", value: 4 },
+  ]
+
   return (
     <>
       <ScrollView
         style={styles.container}
         contentContainerStyle={{
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <DateHeader />
+
         <View style={styles.buttonsContainer}>
-          <RectButton style={[styles.button, globalStyles.primaryButton]}>
+          <PickerInfirmary placeholder="Selecione a enfermaria" items={infirmaries} />
+          <PickerInfirmary placeholder="Selecione o leito" items={hospitalBeds} />
+          {/* <RectButton style={[styles.button, globalStyles.primaryButton]}>
             <Text style={globalStyles.primaryButtonText}>
               Selecionar enfermaria
             </Text>
+
             <Feather name="chevrons-down" color="#fff" size={18} />
-          </RectButton>
-          <RectButton style={[styles.button, globalStyles.primaryButton]}>
+          </RectButton> */}
+          {/* <RectButton style={[styles.button, globalStyles.primaryButton]}>
             <Text style={globalStyles.primaryButtonText}>Selecionar leito</Text>
             <Feather name="chevrons-down" color="#fff" size={18} />
-          </RectButton>
+          </RectButton> */}
         </View>
 
         <View style={styles.content}>
@@ -63,38 +88,38 @@ export default NewPuerperal;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#BCE0DC',
-    width: '100%',
+    backgroundColor: "#BCE0DC",
+    width: "100%",
   },
 
   button: {
     borderRadius: 25,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     height: 42,
     marginTop: 10,
-    width: '45%',
-    fontFamily: 'JosefinSans_700Bold',
+    width: "45%",
+    fontFamily: "JosefinSans_700Bold",
     padding: 16,
   },
 
   content: {
-    backgroundColor: 'rgb(220, 220, 220)',
-    width: '90%',
+    backgroundColor: "rgb(220, 220, 220)",
+    width: "90%",
     borderRadius: 20,
   },
   buttonsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '90%',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%",
     padding: 16,
     marginTop: 100,
   },
   confirmButtonsContainer: {
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
     marginBottom: 10,
   },
 });
