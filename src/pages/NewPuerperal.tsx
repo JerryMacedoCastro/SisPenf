@@ -5,11 +5,31 @@ import { RectButton } from "react-native-gesture-handler";
 import { globalStyles } from "../Assets/GlobalStyles";
 import CommonInput from "../components/CommonInput";
 import DateHeader from "../components/DateHeader";
-import PickerInfirmary from "../components/PickerInfirmary";
-import useForm from "../hooks/useForm";
+import PickerInfirmary from "../components/Picker";
+
 
 const NewPuerperal = () => {
-  const name = useForm({ type: null });
+
+  const infirmaries = [
+    { label: "Enfermaria 01", value: 1 },
+    { label: "Enfermaria 02", value: 2 },
+    { label: "Enfermaria 03", value: 3 },
+    { label: "Enfermaria 04", value: 4 },
+  ]
+
+  const hospitalBeds = [
+    { label: "Leito 01", value: 1 },
+    { label: "Leito 02", value: 2 },
+    { label: "Leito 03", value: 3 },
+    { label: "Leito 04", value: 4 },
+    { label: "Leito 05", value: 4 },
+    { label: "Leito 333", value: 4 },
+    { label: "Leito 1234", value: 4 },
+    { label: "Leito 34344", value: 4 },
+    { label: "Leito 4444", value: 4 },
+    { label: "Leito 00", value: 4 },
+  ]
+
   return (
     <>
       <ScrollView
@@ -22,7 +42,8 @@ const NewPuerperal = () => {
         <DateHeader />
 
         <View style={styles.buttonsContainer}>
-          <PickerInfirmary />
+          <PickerInfirmary placeholder="Selecione a enfermaria" items={infirmaries} />
+          <PickerInfirmary placeholder="Selecione o leito" items={hospitalBeds} />
           {/* <RectButton style={[styles.button, globalStyles.primaryButton]}>
             <Text style={globalStyles.primaryButtonText}>
               Selecionar enfermaria
@@ -30,10 +51,10 @@ const NewPuerperal = () => {
 
             <Feather name="chevrons-down" color="#fff" size={18} />
           </RectButton> */}
-          <RectButton style={[styles.button, globalStyles.primaryButton]}>
+          {/* <RectButton style={[styles.button, globalStyles.primaryButton]}>
             <Text style={globalStyles.primaryButtonText}>Selecionar leito</Text>
             <Feather name="chevrons-down" color="#fff" size={18} />
-          </RectButton>
+          </RectButton> */}
         </View>
 
         <View style={styles.content}>
