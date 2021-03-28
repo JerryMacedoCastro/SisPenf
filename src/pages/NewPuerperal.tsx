@@ -1,11 +1,12 @@
-import { Feather } from '@expo/vector-icons';
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
-import { globalStyles } from '../Assets/GlobalStyles';
-import CommonInput from '../components/CommonInput';
-import DateHeader from '../components/DateHeader';
-import useForm from '../hooks/useForm';
+import { Feather } from "@expo/vector-icons";
+import React from "react";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
+import { globalStyles } from "../Assets/GlobalStyles";
+import CommonInput from "../components/CommonInput";
+import DateHeader from "../components/DateHeader";
+import PickerInfirmary from "../components/PickerInfirmary";
+import useForm from "../hooks/useForm";
 
 const NewPuerperal = () => {
   const name = useForm({ type: null });
@@ -14,18 +15,21 @@ const NewPuerperal = () => {
       <ScrollView
         style={styles.container}
         contentContainerStyle={{
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <DateHeader />
+
         <View style={styles.buttonsContainer}>
-          <RectButton style={[styles.button, globalStyles.primaryButton]}>
+          <PickerInfirmary />
+          {/* <RectButton style={[styles.button, globalStyles.primaryButton]}>
             <Text style={globalStyles.primaryButtonText}>
               Selecionar enfermaria
             </Text>
+
             <Feather name="chevrons-down" color="#fff" size={18} />
-          </RectButton>
+          </RectButton> */}
           <RectButton style={[styles.button, globalStyles.primaryButton]}>
             <Text style={globalStyles.primaryButtonText}>Selecionar leito</Text>
             <Feather name="chevrons-down" color="#fff" size={18} />
@@ -63,38 +67,38 @@ export default NewPuerperal;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#BCE0DC',
-    width: '100%',
+    backgroundColor: "#BCE0DC",
+    width: "100%",
   },
 
   button: {
     borderRadius: 25,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     height: 42,
     marginTop: 10,
-    width: '45%',
-    fontFamily: 'JosefinSans_700Bold',
+    width: "45%",
+    fontFamily: "JosefinSans_700Bold",
     padding: 16,
   },
 
   content: {
-    backgroundColor: 'rgb(220, 220, 220)',
-    width: '90%',
+    backgroundColor: "rgb(220, 220, 220)",
+    width: "90%",
     borderRadius: 20,
   },
   buttonsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '90%',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%",
     padding: 16,
     marginTop: 100,
   },
   confirmButtonsContainer: {
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
     marginBottom: 10,
   },
 });
