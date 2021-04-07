@@ -5,7 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 interface HeaderProps {
-  title: string;
+  title?: string;
   destinyBack?: string;
   goBackOption?: boolean;
   textColor?: string;
@@ -25,7 +25,7 @@ const Header = (props: HeaderProps) => {
 
   return (
     <>
-      <View style={styles.container}></View>
+
       {goBackOption && (
         <BorderlessButton style={styles.goBack}>
           <Feather
@@ -46,12 +46,12 @@ const Header = (props: HeaderProps) => {
           </Text>
         </BorderlessButton>
       )}
-
-      <Text
+      {title && (<Text
         style={textColor ? [styles.title, { color: textColor }] : styles.title}
       >
         {title}
       </Text>
+      )}
     </>
   );
 };

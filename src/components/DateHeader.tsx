@@ -1,18 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
 import moment from 'moment';
-
 import Header from './Header';
 
-const DateHeader = () => {
+interface DateHeaderProps {
+  title: string;
+}
+
+const DateHeader = ({ title }: DateHeaderProps) => {
   moment().locale('pt-br');
 
   let now = moment().format('LLLL');
   return (
     <View style={styles.container}>
       <Header
-        title="Admitir puérpera"
+        title={title}
         destinyBack="Home"
         goBackOption
         textColor="#fff"

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 42,
+    height: 50,
     marginTop: 10,
     width: '100%',
     fontFamily: 'JosefinSans_700Bold',

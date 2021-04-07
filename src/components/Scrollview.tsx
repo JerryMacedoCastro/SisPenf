@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, FlatList, Text, View } from "react-native";
+import { StyleSheet, FlatList, Text, View } from "react-native";
 
 import InfirmaryItem from "./InfirmaryItem";
 
@@ -8,13 +8,14 @@ const Scrollview = () => {
     { infirmary: "01" },
     { infirmary: "02" },
     { infirmary: "03" },
+    { infirmary: "04" },
+    { infirmary: "05" },
+    { infirmary: "06" },
   ];
 
   const [selectedInfirmary, setSelectedInfirmary] = React.useState(
     infirmaries[0].infirmary
   );
-
-  const handlehandle = () => {};
 
   return (
     <>
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   listContainer: {
-    height: 120,
+    height: 80,
   },
   subtitleContainer: {
     width: "100%",

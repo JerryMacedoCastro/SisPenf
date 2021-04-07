@@ -15,7 +15,7 @@ const PanelTab = () => {
   return (
     <View style={styles.container}>
       <Gradient />
-      <Header title="Olá, jessica" />
+      <Header />
       <Text
         style={{
           color: '#27615A',
