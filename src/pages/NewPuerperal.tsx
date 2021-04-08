@@ -1,4 +1,3 @@
-import { Feather } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
@@ -39,22 +38,12 @@ const NewPuerperal = () => {
           alignItems: "center",
         }}
       >
-        <DateHeader />
+        <DateHeader title="Admitir puérpera" />
 
         <View style={styles.buttonsContainer}>
           <PickerInfirmary placeholder="Selecione a enfermaria" items={infirmaries} />
           <PickerInfirmary placeholder="Selecione o leito" items={hospitalBeds} />
-          {/* <RectButton style={[styles.button, globalStyles.primaryButton]}>
-            <Text style={globalStyles.primaryButtonText}>
-              Selecionar enfermaria
-            </Text>
 
-            <Feather name="chevrons-down" color="#fff" size={18} />
-          </RectButton> */}
-          {/* <RectButton style={[styles.button, globalStyles.primaryButton]}>
-            <Text style={globalStyles.primaryButtonText}>Selecionar leito</Text>
-            <Feather name="chevrons-down" color="#fff" size={18} />
-          </RectButton> */}
         </View>
 
         <View style={styles.content}>
@@ -105,7 +94,8 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    backgroundColor: "rgb(220, 220, 220)",
+    //backgroundColor: "rgb(220, 220, 220)",
+    backgroundColor: 'white',
     width: "90%",
     borderRadius: 20,
   },

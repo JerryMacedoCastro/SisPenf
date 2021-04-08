@@ -7,7 +7,7 @@ interface commonInputProps {
   value?: string;
 }
 
-const CommonInput = ({ title, keyboardNumeric }: commonInputProps) => {
+const CommonInput = ({ title, value, keyboardNumeric }: commonInputProps) => {
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -15,6 +15,7 @@ const CommonInput = ({ title, keyboardNumeric }: commonInputProps) => {
         style={styles.inputText}
         placeholder={title}
         keyboardType={keyboardNumeric ? 'numeric' : 'default'}
+        value={value}
       ></TextInput>
     </View>
   );
@@ -33,7 +34,9 @@ const styles = StyleSheet.create({
     elevation: 0,
     padding: 4,
     margin: 10,
+    backgroundColor: '#fff'
   },
+
   inputText: {
     padding: 6,
     color: '#34615C',
