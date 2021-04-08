@@ -32,10 +32,10 @@ const PanelTab = () => {
         </View>
 
         <View style={styles.blockContainer}>
-          <PanelInfo value={8} label="Número de puérperas" />
-          <PanelInfo value={8} label="Número de puérperas" />
-          <PanelInfo value={8} label="Número de puérperas" />
-          <PanelInfo value={8} label="Número de puérperas" />
+          <PanelInfo value={8} label="Puérperas" />
+          <PanelInfo value={8} label="Recém nascidos" />
+          <PanelInfo value={8} label="Enfermarias" />
+          <PanelInfo value={8} label="Alessandra" />
         </View>
       </View>
       <CustomModal
