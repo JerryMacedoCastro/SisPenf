@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import moment from 'moment';
-import Header from './Header';
+import Header from '../Header';
 
 interface DateHeaderProps {
   title: string;

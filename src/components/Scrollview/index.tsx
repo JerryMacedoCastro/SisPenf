@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, FlatList, Text, View } from "react-native";
 
-import InfirmaryItem from "./InfirmaryItem";
+import InfirmaryItem from "../InfirmaryItem";
 
 const Scrollview = () => {
   const infirmaries = [

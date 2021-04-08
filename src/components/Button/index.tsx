@@ -2,7 +2,7 @@ import React from 'react';
 import { Feather } from '@expo/vector-icons';
 import { StyleSheet, Text, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-import { globalStyles } from '../Assets/GlobalStyles';
+import { globalStyles } from '../../Assets/GlobalStyles';
 import { Icon, IconProps } from '@expo/vector-icons/build/createIconSet';
 import iconSet from '@expo/vector-icons/build/Fontisto';
 

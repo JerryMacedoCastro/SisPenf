@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Fieldset from './Fieldset';
+import Fieldset from '../Fieldset';
 
 export default function PatientsList() {
   return (
