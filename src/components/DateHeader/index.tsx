@@ -2,15 +2,21 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import moment from 'moment';
 import Header from '../Header';
+import {
+
+  format,
+
+} from 'date-fns';
+import { ptBR } from "date-fns/locale";
+
 
 interface DateHeaderProps {
   title: string;
 }
 
 const DateHeader = ({ title }: DateHeaderProps) => {
-  moment().locale('pt-br');
 
-  let now = moment().format('LLLL');
+  const today = format(new Date(), 'PPPPp', { locale: ptBR })
   return (
     <View style={styles.container}>
       <Header
@@ -19,7 +25,7 @@ const DateHeader = ({ title }: DateHeaderProps) => {
         goBackOption
         textColor="#fff"
       />
-      <Text style={styles.dateText}>{now}</Text>
+      <Text style={styles.dateText}>{today}</Text>
     </View>
   );
 };
