@@ -8,6 +8,7 @@ import PasswordRecover from './pages/PasswordRecover';
 import Panel from './pages/Home';
 import Home from './pages/Home';
 import NewPuerperal from './pages/NewPuerperal';
+import FindPatient from './pages/FindPatient';
 
 const { Navigator, Screen } = createStackNavigator();
 const Routes = () => {
@@ -25,6 +26,7 @@ const Routes = () => {
         <Screen name="PasswordRecover" component={PasswordRecover} />
         <Screen name="Home" component={Home} />
         <Screen name="NewPuerperal" component={NewPuerperal} />
+        <Screen name="FindPatient" component={FindPatient} />
       </Navigator>
     </NavigationContainer>
   );

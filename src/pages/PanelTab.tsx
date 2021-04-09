@@ -6,12 +6,17 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import PanelInfo from '../components/PanelInfo';
 import CustomModal from '../components/CustomModal';
+import { useNavigation } from '@react-navigation/native';
 
 const PanelTab = () => {
   const [modalIsVisible, setModalIsVisible] = React.useState(false);
-  const handleClick = () => {
+  const handleNewPatientClick = () => {
     setModalIsVisible(!modalIsVisible);
   };
+  const navigation = useNavigation();
+  const handleNavigate = (to: string) => {
+    navigation.navigate(to);
+  }
   return (
     <View style={styles.container}>
       <Gradient />
@@ -40,7 +45,7 @@ const PanelTab = () => {
       </View>
       <CustomModal
         modalVisible={modalIsVisible}
-        onClose={handleClick}
+        onClose={handleNewPatientClick}
         firstButtonText="Admitir puérpera"
         secondButtonText="Admitir recém-nascido"
       />
@@ -51,13 +56,14 @@ const PanelTab = () => {
           icon="log-in"
           color="#FFF"
           size={24}
-          handlePress={handleClick}
+          handlePress={handleNewPatientClick}
         />
         <Button
           title="Processo de Enfermagem"
           icon="user-check"
           color="#FFF"
           size={24}
+          handlePress={() => handleNavigate('FindPatient')}
         />
         <Button
           title="Pendências"
