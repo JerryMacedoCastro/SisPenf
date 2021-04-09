@@ -20,7 +20,7 @@ const Scrollview = () => {
   return (
     <>
       <View style={styles.subtitleContainer}>
-        <Text style={styles.subtitleText}>Acompanhamento de enfermeiras</Text>
+        <Text style={styles.subtitleText}>Acompanhamento de enfermarias</Text>
       </View>
       <View style={styles.listContainer}>
         <FlatList
@@ -61,6 +61,8 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#34615C",
     alignItems: "center",
+    height: '12%',
+    justifyContent: 'flex-end'
   },
   subtitleText: {
     color: "#fff",
