@@ -53,13 +53,14 @@ const NewPuerperal = () => {
             }}
           >
             <View style={styles.content}>
-              <CommonInput title="Diagnótico médico" />
-              <CommonInput title="Dieta prescrita" />
-              <CommonInput title="Nome" />
-              <CommonInput title="Idade" keyboardNumeric />
-              <CommonInput title="Estado civil" />
-              <CommonInput title="Escolaridade" />
-              <CommonInput title="Ocupação" />
+
+              <CommonInput title="Diagnótico médico" returnKeyType="next" onSubmitEditing={() => { }} />
+              <CommonInput title="Dieta prescrita" returnKeyType="next" />
+              <CommonInput title="Nome" returnKeyType="next" />
+              <CommonInput title="Idade" keyboardType="numeric" />
+              <CommonInput title="Estado civil" returnKeyType="next" />
+              <CommonInput title="Escolaridade" returnKeyType="next" />
+              <CommonInput title="Ocupação" returnKeyType="go" />
             </View>
           </ScrollView>
         </KeyboardAvoidingView>

@@ -1,21 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextInputProps, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-interface commonInputProps {
+interface commonInputProps extends TextInputProps {
   title: string;
-  keyboardNumeric?: boolean;
   value?: string;
+
 }
 
-const CommonInput = ({ title, value, keyboardNumeric }: commonInputProps) => {
+const CommonInput = ({ title, value, ...rest }: commonInputProps) => {
   return (
     <View style={styles.inputContainer}>
       <TextInput
         returnKeyType="next"
         style={styles.inputText}
         placeholder={title}
-        keyboardType={keyboardNumeric ? 'numeric' : 'default'}
         value={value}
+        {...rest}
       ></TextInput>
     </View>
   );
