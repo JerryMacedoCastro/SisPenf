@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
   percentage: {
     color: '#27615A',
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: '700',
     fontFamily: 'JosefinSans_700Bold',
   },

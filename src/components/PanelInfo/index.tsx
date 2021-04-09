@@ -21,23 +21,20 @@ const styles = StyleSheet.create({
   block: {
     display: "flex",
     flexDirection: "column",
-    width: 70,
-
+    width: "40%",
     alignItems: "center",
-    padding: 3,
-    marginRight: 20,
   },
 
   value: {
     color: "#27615A",
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: "JosefinSans_700Bold",
   },
   label: {
     color: "#27615A",
     textAlign: "center",
-    fontSize: 10,
+    fontSize: 16,
     fontFamily: "JosefinSans_700Bold",
   },
 });
