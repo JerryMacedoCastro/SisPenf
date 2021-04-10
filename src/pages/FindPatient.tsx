@@ -27,7 +27,9 @@ const FindPatient = () => {
           <Feather name={"search"} color={"#34615C"} size={24} onPress={handleSearchPress} />
         </View>
       </View>
-      <Separator text="Ou" />
+      <View>
+        <Separator text="Ou" />
+      </View>
     </View>
   )
 }
