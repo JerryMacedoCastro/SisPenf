@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform, Keyboard } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { globalStyles } from "../Assets/GlobalStyles";
 import CommonInput from "../components/CommonInput";
@@ -8,6 +8,20 @@ import PickerInfirmary from "../components/Picker";
 
 
 const NewPuerperal = () => {
+
+  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+
+  useEffect(() => {
+    Keyboard.addListener("keyboardDidShow", handlekeyboardShow);
+    Keyboard.addListener("keyboardDidHide", handleKeyboardHidde);
+    return () => {
+      Keyboard.removeListener("keyboardDidShow", handlekeyboardShow);
+      Keyboard.removeListener("keyboardDidHide", handleKeyboardHidde);
+    };
+  }, []);
+
+  const handlekeyboardShow = () => setIsKeyboardShown(true);
+  const handleKeyboardHidde = () => setIsKeyboardShown(false);
 
   const infirmaries = [
     { label: "Enfermaria 01", value: 1 },
@@ -53,7 +67,6 @@ const NewPuerperal = () => {
             }}
           >
             <View style={styles.content}>
-
               <CommonInput title="Diagnótico médico" returnKeyType="next" onSubmitEditing={() => { }} />
               <CommonInput title="Dieta prescrita" returnKeyType="next" />
               <CommonInput title="Nome" returnKeyType="next" />
@@ -65,19 +78,21 @@ const NewPuerperal = () => {
           </ScrollView>
         </KeyboardAvoidingView>
 
-        <View style={styles.confirmButtonsContainer}  >
-          <RectButton style={[globalStyles.button, globalStyles.primaryButton]}>
-            <Text style={globalStyles.primaryButtonText}>
-              Iniciar processo de enfermagem
+        {!isKeyboardShown &&
+          <View style={styles.confirmButtonsContainer}  >
+            <RectButton style={[globalStyles.button, globalStyles.primaryButton]}>
+              <Text style={globalStyles.primaryButtonText}>
+                Iniciar processo de enfermagem
             </Text>
-          </RectButton>
-          <RectButton
-            style={[globalStyles.button, globalStyles.secondaryButton]}
-          >
-            <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
-          </RectButton>
+            </RectButton>
+            <RectButton
+              style={[globalStyles.button, globalStyles.secondaryButton]}
+            >
+              <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
+            </RectButton>
 
-        </View>
+          </View>
+        }
 
       </View>
     </>
@@ -124,7 +139,7 @@ const styles = StyleSheet.create({
 
   },
   confirmButtonsContainer: {
-
+    flex: 0,
     width: "100%",
     alignItems: "center",
     marginBottom: 10,
