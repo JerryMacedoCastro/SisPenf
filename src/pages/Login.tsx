@@ -23,7 +23,7 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <Gradient />
-      <Header title="Acessar" goBackOption={true} />
+      <Header goBackOption={true} />
 
       <Text style={styles.subTitle}>SisPenf</Text>
 

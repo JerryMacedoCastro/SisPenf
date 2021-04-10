@@ -32,7 +32,7 @@ const PasswordRecover = () => {
         }}
         style={[globalStyles.button, globalStyles.primaryButton]}
       >
-        <Text style={globalStyles.primaryButtonText}>Login</Text>
+        <Text style={globalStyles.primaryButtonText}>Recuperar senha</Text>
       </RectButton>
     </View>
   );

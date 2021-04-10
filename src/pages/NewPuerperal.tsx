@@ -1,6 +1,5 @@
-import { Feather } from "@expo/vector-icons";
-import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform, Keyboard } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { globalStyles } from "../Assets/GlobalStyles";
 import CommonInput from "../components/CommonInput";
@@ -9,6 +8,20 @@ import PickerInfirmary from "../components/Picker";
 
 
 const NewPuerperal = () => {
+
+  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+
+  useEffect(() => {
+    Keyboard.addListener("keyboardDidShow", handlekeyboardShow);
+    Keyboard.addListener("keyboardDidHide", handleKeyboardHidde);
+    return () => {
+      Keyboard.removeListener("keyboardDidShow", handlekeyboardShow);
+      Keyboard.removeListener("keyboardDidHide", handleKeyboardHidde);
+    };
+  }, []);
+
+  const handlekeyboardShow = () => setIsKeyboardShown(true);
+  const handleKeyboardHidde = () => setIsKeyboardShown(false);
 
   const infirmaries = [
     { label: "Enfermaria 01", value: 1 },
@@ -32,54 +45,56 @@ const NewPuerperal = () => {
 
   return (
     <>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <DateHeader />
+
+      <View style={styles.container}  >
+        <DateHeader title="Admitir puérpera" />
 
         <View style={styles.buttonsContainer}>
           <PickerInfirmary placeholder="Selecione a enfermaria" items={infirmaries} />
           <PickerInfirmary placeholder="Selecione o leito" items={hospitalBeds} />
-          {/* <RectButton style={[styles.button, globalStyles.primaryButton]}>
-            <Text style={globalStyles.primaryButtonText}>
-              Selecionar enfermaria
-            </Text>
-
-            <Feather name="chevrons-down" color="#fff" size={18} />
-          </RectButton> */}
-          {/* <RectButton style={[styles.button, globalStyles.primaryButton]}>
-            <Text style={globalStyles.primaryButtonText}>Selecionar leito</Text>
-            <Feather name="chevrons-down" color="#fff" size={18} />
-          </RectButton> */}
         </View>
+        <KeyboardAvoidingView style={styles.container}
+          behavior={Platform.OS === "ios" ? "padding" : "height"} >
 
-        <View style={styles.content}>
-          <CommonInput title="Diagnótico médico" />
-          <CommonInput title="Dieta prescrita" />
-          <CommonInput title="Nome" />
-          <CommonInput title="Idade" keyboardNumeric />
-          <CommonInput title="Estado civil" />
-          <CommonInput title="Escolaridade" />
-          <CommonInput title="Ocupação" />
-        </View>
+          <ScrollView
 
-        <View style={styles.confirmButtonsContainer}>
-          <RectButton style={[globalStyles.button, globalStyles.primaryButton]}>
-            <Text style={globalStyles.primaryButtonText}>
-              Iniciar processo de enfermagem
-            </Text>
-          </RectButton>
-          <RectButton
-            style={[globalStyles.button, globalStyles.secondaryButton]}
+            contentContainerStyle={{
+              justifyContent: "center",
+              alignItems: "center",
+              position: 'relative',
+
+
+            }}
           >
-            <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
-          </RectButton>
-        </View>
-      </ScrollView>
+            <View style={styles.content}>
+              <CommonInput title="Diagnótico médico" returnKeyType="next" onSubmitEditing={() => { }} />
+              <CommonInput title="Dieta prescrita" returnKeyType="next" />
+              <CommonInput title="Nome" returnKeyType="next" />
+              <CommonInput title="Idade" keyboardType="numeric" />
+              <CommonInput title="Estado civil" returnKeyType="next" />
+              <CommonInput title="Escolaridade" returnKeyType="next" />
+              <CommonInput title="Ocupação" returnKeyType="go" />
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+
+        {!isKeyboardShown &&
+          <View style={styles.confirmButtonsContainer}  >
+            <RectButton style={[globalStyles.button, globalStyles.primaryButton]}>
+              <Text style={globalStyles.primaryButtonText}>
+                Iniciar processo de enfermagem
+            </Text>
+            </RectButton>
+            <RectButton
+              style={[globalStyles.button, globalStyles.secondaryButton]}
+            >
+              <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
+            </RectButton>
+
+          </View>
+        }
+
+      </View>
     </>
   );
 };
@@ -90,6 +105,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#BCE0DC",
     width: "100%",
+    height: "100%",
+    flex: 1
+
   },
 
   button: {
@@ -105,21 +123,27 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    backgroundColor: "rgb(220, 220, 220)",
+
+    backgroundColor: '#fff',
     width: "90%",
     borderRadius: 20,
   },
   buttonsContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
+    justifyContent: "space-around",
+    opacity: 1,
+    width: "100%",
     padding: 16,
     marginTop: 100,
+
   },
   confirmButtonsContainer: {
+    flex: 0,
     width: "100%",
     alignItems: "center",
     marginBottom: 10,
+    bottom: 0
+
   },
 });

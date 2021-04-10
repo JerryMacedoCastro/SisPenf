@@ -1,25 +1,26 @@
 import React from "react";
-import { ScrollView, StyleSheet, FlatList, Text, View } from "react-native";
+import { StyleSheet, FlatList, Text, View } from "react-native";
 
-import InfirmaryItem from "./InfirmaryItem";
+import InfirmaryItem from "../InfirmaryItem";
 
 const Scrollview = () => {
   const infirmaries = [
     { infirmary: "01" },
     { infirmary: "02" },
     { infirmary: "03" },
+    { infirmary: "04" },
+    { infirmary: "05" },
+    { infirmary: "06" },
   ];
 
   const [selectedInfirmary, setSelectedInfirmary] = React.useState(
     infirmaries[0].infirmary
   );
 
-  const handlehandle = () => {};
-
   return (
     <>
       <View style={styles.subtitleContainer}>
-        <Text style={styles.subtitleText}>Acompanhamento de enfermeiras</Text>
+        <Text style={styles.subtitleText}>Acompanhamento de enfermarias</Text>
       </View>
       <View style={styles.listContainer}>
         <FlatList
@@ -54,12 +55,14 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   listContainer: {
-    height: 120,
+    height: 80,
   },
   subtitleContainer: {
     width: "100%",
     backgroundColor: "#34615C",
     alignItems: "center",
+    height: '12%',
+    justifyContent: 'flex-end'
   },
   subtitleText: {
     color: "#fff",

@@ -6,16 +6,21 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import PanelInfo from '../components/PanelInfo';
 import CustomModal from '../components/CustomModal';
+import { useNavigation } from '@react-navigation/native';
 
 const PanelTab = () => {
   const [modalIsVisible, setModalIsVisible] = React.useState(false);
-  const handleClick = () => {
+  const handleNewPatientClick = () => {
     setModalIsVisible(!modalIsVisible);
   };
+  const navigation = useNavigation();
+  const handleNavigate = (to: string) => {
+    navigation.navigate(to);
+  }
   return (
     <View style={styles.container}>
       <Gradient />
-      <Header title="Olá, jessica" />
+      <Header />
       <Text
         style={{
           color: '#27615A',
@@ -32,15 +37,15 @@ const PanelTab = () => {
         </View>
 
         <View style={styles.blockContainer}>
-          <PanelInfo value={8} label="Número de puérperas" />
-          <PanelInfo value={8} label="Número de puérperas" />
-          <PanelInfo value={8} label="Número de puérperas" />
-          <PanelInfo value={8} label="Número de puérperas" />
+          <PanelInfo value={8} label="Puérperas" />
+          <PanelInfo value={8} label="Recém nascidos" />
+          <PanelInfo value={8} label="Enfermarias" />
+          <PanelInfo value={8} label="Alessandra" />
         </View>
       </View>
       <CustomModal
         modalVisible={modalIsVisible}
-        onClose={handleClick}
+        onClose={handleNewPatientClick}
         firstButtonText="Admitir puérpera"
         secondButtonText="Admitir recém-nascido"
       />
@@ -51,13 +56,14 @@ const PanelTab = () => {
           icon="log-in"
           color="#FFF"
           size={24}
-          handlePress={handleClick}
+          handlePress={handleNewPatientClick}
         />
         <Button
           title="Processo de Enfermagem"
           icon="user-check"
           color="#FFF"
           size={24}
+          handlePress={() => handleNavigate('FindPatient')}
         />
         <Button
           title="Pendências"
@@ -133,7 +139,7 @@ const styles = StyleSheet.create({
   },
   percentage: {
     color: '#27615A',
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: '700',
     fontFamily: 'JosefinSans_700Bold',
   },

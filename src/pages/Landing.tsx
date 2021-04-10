@@ -1,12 +1,11 @@
 import React from 'react';
-
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import { globalStyles } from '../Assets/GlobalStyles';
-import pregnantImg from '../../assets/gravida.png';
 import Gradient from '../components/Gradient';
+import pregnantImg from '../../assets/gravida.png'
 
 const Landing = () => {
   const navigation = useNavigation();

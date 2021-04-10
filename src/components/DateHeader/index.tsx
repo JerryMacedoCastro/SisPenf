@@ -1,23 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
 import moment from 'moment';
+import Header from '../Header';
+import {
 
-import Header from './Header';
+  format,
 
-const DateHeader = () => {
-  moment().locale('pt-br');
+} from 'date-fns';
+import { ptBR } from "date-fns/locale";
 
-  let now = moment().format('LLLL');
+
+interface DateHeaderProps {
+  title: string;
+}
+
+const DateHeader = ({ title }: DateHeaderProps) => {
+
+  const today = format(new Date(), 'PPPPp', { locale: ptBR })
   return (
     <View style={styles.container}>
       <Header
-        title="Admitir puérpera"
+        title={title}
         destinyBack="Home"
         goBackOption
         textColor="#fff"
       />
-      <Text style={styles.dateText}>{now}</Text>
+      <Text style={styles.dateText}>{today}</Text>
     </View>
   );
 };
