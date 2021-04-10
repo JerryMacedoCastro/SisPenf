@@ -28,7 +28,7 @@ const Landing = () => {
         style={[globalStyles.button, globalStyles.primaryButton]}
         onPress={handleNavigateToLogin}
       >
-        <Text style={globalStyles.primaryButtonText}>Login</Text>
+        <Text style={globalStyles.primaryButtonText}>Acessar</Text>
       </RectButton>
       <RectButton
         style={[globalStyles.button, globalStyles.secondaryButton]}

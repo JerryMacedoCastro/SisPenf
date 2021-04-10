@@ -56,9 +56,9 @@ const Login = () => {
         }}
         style={[globalStyles.button, globalStyles.primaryButton]}
       >
-        <Text style={globalStyles.primaryButtonText}>Login</Text>
+        <Text style={globalStyles.primaryButtonText}>Acessar</Text>
       </RectButton>
-      <RectButton style={{ height: 26, marginBottom: 20 }}>
+      <RectButton style={{ height: 26, marginBottom: 20, marginTop: 20 }}>
         <Text
           onPress={() => navigation.navigate('PasswordRecover')}
           style={styles.inputStyle}
@@ -74,10 +74,11 @@ export default Login;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     backgroundColor: '#BCE0DC',
     alignItems: 'center',
     justifyContent: 'center',
+
   },
 
   subTitle: {
