@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform, Keyboard } from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { globalStyles } from "../Assets/GlobalStyles";
 import CommonInput from "../components/CommonInput";
@@ -46,13 +46,10 @@ const NewPuerperal = () => {
           behavior={Platform.OS === "ios" ? "padding" : "height"} >
 
           <ScrollView
-
             contentContainerStyle={{
               justifyContent: "center",
               alignItems: "center",
               position: 'relative',
-
-
             }}
           >
             <View style={styles.content}>
