@@ -5,23 +5,12 @@ import { globalStyles } from "../Assets/GlobalStyles";
 import CommonInput from "../components/CommonInput";
 import DateHeader from "../components/DateHeader";
 import PickerInfirmary from "../components/Picker";
+import useKeyboardControll from "../hooks/useKeyboardControll";
 
 
 const NewPuerperal = () => {
 
-  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
-
-  useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", handlekeyboardShow);
-    Keyboard.addListener("keyboardDidHide", handleKeyboardHidde);
-    return () => {
-      Keyboard.removeListener("keyboardDidShow", handlekeyboardShow);
-      Keyboard.removeListener("keyboardDidHide", handleKeyboardHidde);
-    };
-  }, []);
-
-  const handlekeyboardShow = () => setIsKeyboardShown(true);
-  const handleKeyboardHidde = () => setIsKeyboardShown(false);
+  const { isKeyboardShown } = useKeyboardControll();
 
   const infirmaries = [
     { label: "Enfermaria 01", value: 1 },
