@@ -1,18 +1,34 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { StyleSheet, Text, View } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
+import { RectButton, TextInput } from 'react-native-gesture-handler'
 import DateHeader from '../components/DateHeader'
 import Gradient from '../components/Gradient'
 import Separator from '../components/Separator'
+import useKeyboardControll from '../hooks/useKeyboardControll'
+import PickerInfirmary from '../components/Picker'
+import { globalStyles } from '../Assets/GlobalStyles'
 
 const FindPatient = () => {
+  const hospitalBeds = [
+    { label: 'Leito 01', value: 1 },
+    { label: 'Leito 02', value: 2 },
+    { label: 'Leito 03', value: 3 },
+    { label: 'Leito 04', value: 4 },
+    { label: 'Leito 05', value: 4 },
+    { label: 'Leito 333', value: 4 },
+    { label: 'Leito 1234', value: 4 },
+    { label: 'Leito 34344', value: 4 },
+    { label: 'Leito 4444', value: 4 },
+    { label: 'Leito 00', value: 4 }
+  ]
+  const { isKeyboardShown } = useKeyboardControll()
 
-  //<TextInput> or others dont work here
+  // <TextInput> or others dont work here
   const searchInput = useRef<any>(null)
   const handleSearchPress = () => {
     if (searchInput && searchInput.current) {
-      searchInput.current.focus();
+      searchInput.current.focus()
     }
   }
 
@@ -23,13 +39,30 @@ const FindPatient = () => {
       <View>
         <Text style={styles.label}>Buscar paciente pelo nome</Text>
         <View style={styles.inputContainer}>
-          <TextInput ref={searchInput} placeholder={"Digite o nome do paciente"} style={styles.input} />
-          <Feather name={"search"} color={"#34615C"} size={24} onPress={handleSearchPress} />
+          <TextInput ref={searchInput} placeholder={'Digite o nome do paciente'} style={styles.input} />
+          <Feather name={'search'} color={'#34615C'} size={24} onPress={handleSearchPress} />
         </View>
       </View>
-      <View>
-        <Separator text="Ou" />
-      </View>
+      {!isKeyboardShown &&
+        <>
+          <View style={{ paddingVertical: '10%' }}>
+            <Separator text="Ou" />
+          </View>
+          <View style={styles.pickerButtonsContainer}>
+            <PickerInfirmary placeholder="Selecione a enfermaria" items={hospitalBeds} />
+            <PickerInfirmary placeholder="Selecione o leito" items={hospitalBeds} />
+          </View>
+          <View style={styles.buttonsContainer}>
+
+            <RectButton style={[globalStyles.button, globalStyles.primaryButton]}>
+              <Text style={globalStyles.primaryButtonText}>Buscar</Text>
+            </RectButton>
+            <RectButton style={[globalStyles.button, globalStyles.secondaryButton]}>
+              <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
+            </RectButton>
+          </View>
+        </>
+      }
     </View>
   )
 }
@@ -41,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#BCE0DC',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     position: 'absolute',
     bottom: 0,
     top: 0,
@@ -50,27 +83,41 @@ const styles = StyleSheet.create({
     minHeight: '100%'
   },
   label: {
-    color: "#34615C",
+    color: '#34615C',
     alignSelf: 'flex-start',
     marginLeft: 6,
     marginBottom: 4,
     fontSize: 16,
-    fontFamily: 'JosefinSans_700Bold',
+    fontFamily: 'JosefinSans_700Bold'
   },
   inputContainer: {
-    display: "flex",
+    display: 'flex',
     flexDirection: 'row',
-    justifyContent: "space-around",
+    justifyContent: 'space-around',
     width: '90%',
     backgroundColor: '#fff',
     paddingHorizontal: 1,
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: '#34615C',
+    borderColor: '#34615C'
   },
   input: {
     width: '80%',
-    color: '#34615C',
+    color: '#34615C'
   },
+  pickerButtonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%'
+  },
+  buttonsContainer: {
+    position: 'absolute',
+    width: '100%',
+
+    alignItems: 'center',
+    bottom: 10
+
+  }
 
 })

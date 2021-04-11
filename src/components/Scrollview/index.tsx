@@ -1,21 +1,20 @@
-import React from "react";
-import { StyleSheet, FlatList, Text, View } from "react-native";
+import { useState } from 'react'
+import { StyleSheet, FlatList, Text, View } from 'react-native'
+import InfirmaryItem from '../InfirmaryItem'
 
-import InfirmaryItem from "../InfirmaryItem";
-
-const Scrollview = () => {
+const index = () => {
   const infirmaries = [
-    { infirmary: "01" },
-    { infirmary: "02" },
-    { infirmary: "03" },
-    { infirmary: "04" },
-    { infirmary: "05" },
-    { infirmary: "06" },
-  ];
+    { infirmary: '01' },
+    { infirmary: '02' },
+    { infirmary: '03' },
+    { infirmary: '04' },
+    { infirmary: '05' },
+    { infirmary: '06' }
+  ]
 
-  const [selectedInfirmary, setSelectedInfirmary] = React.useState(
+  const [selectedInfirmary, setSelectedInfirmary] = useState(
     infirmaries[0].infirmary
-  );
+  )
 
   return (
     <>
@@ -43,46 +42,46 @@ const Scrollview = () => {
         </Text>
       </View>
     </>
-  );
-};
+  )
+}
 
-export default Scrollview;
+export default index
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#34615C",
+    backgroundColor: '#34615C',
 
-    padding: 2,
+    padding: 2
   },
   listContainer: {
-    height: 80,
+    height: 80
   },
   subtitleContainer: {
-    width: "100%",
-    backgroundColor: "#34615C",
-    alignItems: "center",
+    width: '100%',
+    backgroundColor: '#34615C',
+    alignItems: 'center',
     height: '12%',
     justifyContent: 'flex-end'
   },
   subtitleText: {
-    color: "#fff",
-    fontFamily: "JosefinSans_700Bold",
+    color: '#fff',
+    fontFamily: 'JosefinSans_700Bold',
     fontSize: 18,
     padding: 6,
-    marginBottom: 4,
+    marginBottom: 4
   },
   footer: {
-    display: "flex",
-    alignItems: "center",
-    backgroundColor: "#34615C",
-    width: "100%",
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: '#34615C',
+    width: '100%',
     borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomRightRadius: 20
   },
   footerText: {
-    color: "#fff",
-    fontFamily: "JosefinSans_700Bold",
+    color: '#fff',
+    fontFamily: 'JosefinSans_700Bold',
     fontSize: 10,
-    marginBottom: 10,
-  },
-});
+    marginBottom: 10
+  }
+})

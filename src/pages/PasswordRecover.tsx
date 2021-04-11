@@ -1,9 +1,9 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { RectButton, TextInput } from 'react-native-gesture-handler';
-import Gradient from '../components/Gradient';
-import Header from '../components/Header';
-import { globalStyles } from '../Assets/GlobalStyles';
+
+import { StyleSheet, Text, View } from 'react-native'
+import { RectButton, TextInput } from 'react-native-gesture-handler'
+import Gradient from '../components/Gradient'
+import Header from '../components/Header'
+import { globalStyles } from '../Assets/GlobalStyles'
 
 const PasswordRecover = () => {
   return (
@@ -28,24 +28,24 @@ const PasswordRecover = () => {
 
       <RectButton
         onPress={() => {
-          alert('Warning');
+          alert('Warning')
         }}
         style={[globalStyles.button, globalStyles.primaryButton]}
       >
         <Text style={globalStyles.primaryButtonText}>Recuperar senha</Text>
       </RectButton>
     </View>
-  );
-};
+  )
+}
 
-export default PasswordRecover;
+export default PasswordRecover
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#BCE0DC',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
 
   inputContainer: {
@@ -58,11 +58,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 4,
     padding: 20,
-    marginBottom: 10,
+    marginBottom: 10
   },
   inputStyle: {
     flex: 1,
     color: '#27615A',
-    fontFamily: 'JosefinSans_700Bold',
-  },
-});
+    fontFamily: 'JosefinSans_700Bold'
+  }
+})

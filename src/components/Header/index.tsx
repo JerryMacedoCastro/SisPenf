@@ -1,8 +1,7 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { BorderlessButton } from "react-native-gesture-handler";
-import { Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, Text } from 'react-native'
+import { BorderlessButton } from 'react-native-gesture-handler'
+import { Feather } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 
 interface HeaderProps {
   title?: string;
@@ -11,17 +10,17 @@ interface HeaderProps {
   textColor?: string;
 }
 
-const Header = (props: HeaderProps) => {
-  const { title, destinyBack, goBackOption, textColor } = props;
-  const navigation = useNavigation();
+const index = (props: HeaderProps) => {
+  const { title, destinyBack, goBackOption, textColor } = props
+  const navigation = useNavigation()
 
   const handleGoBack = () => {
-    if (!!!destinyBack) {
-      navigation.goBack();
+    if (!destinyBack) {
+      navigation.goBack()
     } else {
-      navigation.navigate(destinyBack);
+      navigation.navigate(destinyBack)
     }
-  };
+  }
 
   return (
     <>
@@ -31,7 +30,7 @@ const Header = (props: HeaderProps) => {
           <Feather
             name="arrow-left"
             size={18}
-            color={textColor ? textColor : "#51615F"}
+            color={textColor || '#51615F'}
             onPress={navigation.goBack}
           />
           <Text
@@ -53,36 +52,36 @@ const Header = (props: HeaderProps) => {
       </Text>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default index
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 1,
+    marginBottom: 1
   },
   goBack: {
     height: 20,
-    flexDirection: "row",
-    position: "absolute",
+    flexDirection: 'row',
+    position: 'absolute',
     top: 50,
     marginLeft: 8,
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start'
   },
 
   goBacktext: {
-    fontFamily: "JosefinSans_700Bold",
+    fontFamily: 'JosefinSans_700Bold',
     fontSize: 14,
     marginLeft: 4,
-    color: "#51615F",
+    color: '#51615F'
   },
 
   title: {
-    fontFamily: "JosefinSans_700Bold",
+    fontFamily: 'JosefinSans_700Bold',
     fontSize: 14,
-    color: "#51615F",
-    position: "absolute",
-    top: 50,
-  },
-});
+    color: '#51615F',
+    position: 'absolute',
+    top: 50
+  }
+})

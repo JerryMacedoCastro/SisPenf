@@ -1,10 +1,8 @@
-import React from 'react';
-import { Feather } from '@expo/vector-icons';
-import { StyleSheet, Text, View } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
-import { globalStyles } from '../../Assets/GlobalStyles';
-import { Icon, IconProps } from '@expo/vector-icons/build/createIconSet';
-import iconSet from '@expo/vector-icons/build/Fontisto';
+
+import { Feather } from '@expo/vector-icons'
+import { StyleSheet, Text } from 'react-native'
+import { RectButton } from 'react-native-gesture-handler'
+import { globalStyles } from '../../Assets/GlobalStyles'
 
 interface ButtonProps {
   title: string;
@@ -14,8 +12,8 @@ interface ButtonProps {
   handlePress?: () => void;
 }
 
-const Button = (props: ButtonProps) => {
-  const { title, icon, color, size, handlePress } = props;
+const index = (props: ButtonProps) => {
+  const { title, icon, color, size, handlePress } = props
 
   return (
     <RectButton
@@ -25,10 +23,10 @@ const Button = (props: ButtonProps) => {
       <Text style={globalStyles.primaryButtonText}>{title}</Text>
       {icon && <Feather name={icon} color={color} size={size} />}
     </RectButton>
-  );
-};
+  )
+}
 
-export default Button;
+export default index
 
 const styles = StyleSheet.create({
   button: {
@@ -40,6 +38,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: '100%',
     fontFamily: 'JosefinSans_700Bold',
-    padding: 16,
-  },
-});
+    padding: 16
+  }
+})

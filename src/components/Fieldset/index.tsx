@@ -1,14 +1,13 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { StyleSheet, Text, View } from 'react-native'
+import { Feather } from '@expo/vector-icons'
 
 interface FieldsetProps {
   label: string;
   value: string;
 }
 
-const Fieldset = (props: FieldsetProps) => {
-  const { label, value } = props;
+const index = (props: FieldsetProps) => {
+  const { label, value } = props
   return (
     <View style={styles.fieldSet}>
       <Text style={styles.legend}>{label}</Text>
@@ -19,10 +18,10 @@ const Fieldset = (props: FieldsetProps) => {
       <Feather name="log-out" size={20} color="#27615A" />
       <Feather name="more-horizontal" size={20} color="#27615A" />
     </View>
-  );
-};
+  )
+}
 
-export default Fieldset;
+export default index
 
 const styles = StyleSheet.create({
   fieldSet: {
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   legend: {
     position: 'absolute',
@@ -48,11 +47,11 @@ const styles = StyleSheet.create({
     color: '#27615A',
     fontFamily: 'JosefinSans_700Bold',
     fontSize: 12,
-    padding: 2,
+    padding: 2
   },
   value: {
     color: '#27615A',
     fontFamily: 'JosefinSans_700Bold',
-    fontSize: 12,
-  },
-});
+    fontSize: 12
+  }
+})

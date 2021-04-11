@@ -1,6 +1,4 @@
-import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-
 interface SeparatorProps {
   text: string;
 
@@ -25,7 +23,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '90%'
-
   },
   lines: {
     flex: 1,
@@ -35,8 +32,8 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     paddingHorizontal: 10,
-    color: "#34615C",
+    color: '#34615C',
     fontSize: 16,
-    fontFamily: 'JosefinSans_700Bold',
+    fontFamily: 'JosefinSans_700Bold'
   }
 })
