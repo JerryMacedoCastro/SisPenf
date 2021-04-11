@@ -1,25 +1,26 @@
-import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
-import { RectButton, TextInput } from 'react-native-gesture-handler';
-import Gradient from '../components/Gradient';
-import { globalStyles } from '../Assets/GlobalStyles';
+import { Feather } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
+import { useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { RectButton, TextInput } from 'react-native-gesture-handler'
+import Gradient from '../components/Gradient'
+import { globalStyles } from '../Assets/GlobalStyles'
 
-import Header from '../components/Header';
+import Header from '../components/Header'
 
 const Login = () => {
-  const [user, setUser] = useState<string>('');
-  const [password, setPassword] = useState('');
-  const navigation = useNavigation();
+  const [user, setUser] = useState<string>('')
+  // eslint-disable-next-line no-unused-vars
+  const [password, setPassword] = useState('')
+  const navigation = useNavigation()
 
   const handleChangeUser = (text: string) => {
-    setUser(text);
-  };
+    setUser(text)
+  }
 
   const handleChangePassword = (text: string) => {
-    setPassword(text);
-  };
+    setPassword(text)
+  }
   return (
     <View style={styles.container}>
       <Gradient />
@@ -52,7 +53,7 @@ const Login = () => {
 
       <RectButton
         onPress={() => {
-          navigation.navigate('Home');
+          navigation.navigate('Home')
         }}
         style={[globalStyles.button, globalStyles.primaryButton]}
       >
@@ -67,17 +68,17 @@ const Login = () => {
         </Text>
       </RectButton>
     </View>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
 
 const styles = StyleSheet.create({
   container: {
     flex: 2,
     backgroundColor: '#BCE0DC',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
 
   },
 
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     fontFamily: 'JosefinSans_700Bold',
     color: '#51615F',
     fontSize: 26,
-    padding: 20,
+    padding: 20
   },
   inputContainer: {
     flexDirection: 'row',
@@ -97,11 +98,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 4,
     padding: 20,
-    marginBottom: 10,
+    marginBottom: 10
   },
   inputStyle: {
     flex: 1,
     color: '#27615A',
-    fontFamily: 'JosefinSans_700Bold',
-  },
-});
+    fontFamily: 'JosefinSans_700Bold'
+  }
+})

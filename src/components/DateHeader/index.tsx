@@ -1,21 +1,17 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import moment from 'moment';
-import Header from '../Header';
+import { StyleSheet, Text, View } from 'react-native'
+import Header from '../Header'
 import {
 
-  format,
+  format
 
-} from 'date-fns';
-import { ptBR } from "date-fns/locale";
-
+} from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 interface DateHeaderProps {
   title: string;
 }
 
-const DateHeader = ({ title }: DateHeaderProps) => {
-
+const index = ({ title }: DateHeaderProps) => {
   const today = format(new Date(), 'PPPPp', { locale: ptBR })
   return (
     <View style={styles.container}>
@@ -27,10 +23,10 @@ const DateHeader = ({ title }: DateHeaderProps) => {
       />
       <Text style={styles.dateText}>{today}</Text>
     </View>
-  );
-};
+  )
+}
 
-export default DateHeader;
+export default index
 
 const styles = StyleSheet.create({
   container: {
@@ -42,13 +38,13 @@ const styles = StyleSheet.create({
     width: '100%',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    position: 'absolute',
+    position: 'absolute'
   },
   dateText: {
     position: 'absolute',
     bottom: 0,
     padding: 6,
     color: '#fff',
-    fontFamily: 'JosefinSans_700Bold',
-  },
-});
+    fontFamily: 'JosefinSans_700Bold'
+  }
+})

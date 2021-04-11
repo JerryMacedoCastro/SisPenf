@@ -1,13 +1,13 @@
-import React from 'react';
-import { StyleSheet, Text, TextInputProps, View } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+
+import { StyleSheet, TextInputProps, View } from 'react-native'
+import { TextInput } from 'react-native-gesture-handler'
 interface commonInputProps extends TextInputProps {
   title: string;
   value?: string;
 
 }
 
-const CommonInput = ({ title, value, ...rest }: commonInputProps) => {
+const index = ({ title, value, ...rest }: commonInputProps) => {
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -18,10 +18,10 @@ const CommonInput = ({ title, value, ...rest }: commonInputProps) => {
         {...rest}
       ></TextInput>
     </View>
-  );
-};
+  )
+}
 
-export default CommonInput;
+export default index
 
 const styles = StyleSheet.create({
   inputContainer: {
@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
 
   inputText: {
     padding: 6,
-    color: '#34615C',
-  },
-});
+    color: '#34615C'
+  }
+})

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { StyleSheet, Text, View } from 'react-native'
 import { RectButton, TextInput } from 'react-native-gesture-handler'
@@ -7,30 +7,28 @@ import Gradient from '../components/Gradient'
 import Separator from '../components/Separator'
 import useKeyboardControll from '../hooks/useKeyboardControll'
 import PickerInfirmary from '../components/Picker'
-import { Rect } from 'react-native-svg'
 import { globalStyles } from '../Assets/GlobalStyles'
-import { BottomTabBar } from '@react-navigation/bottom-tabs'
 
 const FindPatient = () => {
   const hospitalBeds = [
-    { label: "Leito 01", value: 1 },
-    { label: "Leito 02", value: 2 },
-    { label: "Leito 03", value: 3 },
-    { label: "Leito 04", value: 4 },
-    { label: "Leito 05", value: 4 },
-    { label: "Leito 333", value: 4 },
-    { label: "Leito 1234", value: 4 },
-    { label: "Leito 34344", value: 4 },
-    { label: "Leito 4444", value: 4 },
-    { label: "Leito 00", value: 4 },
+    { label: 'Leito 01', value: 1 },
+    { label: 'Leito 02', value: 2 },
+    { label: 'Leito 03', value: 3 },
+    { label: 'Leito 04', value: 4 },
+    { label: 'Leito 05', value: 4 },
+    { label: 'Leito 333', value: 4 },
+    { label: 'Leito 1234', value: 4 },
+    { label: 'Leito 34344', value: 4 },
+    { label: 'Leito 4444', value: 4 },
+    { label: 'Leito 00', value: 4 }
   ]
-  const { isKeyboardShown } = useKeyboardControll();
+  const { isKeyboardShown } = useKeyboardControll()
 
-  //<TextInput> or others dont work here
+  // <TextInput> or others dont work here
   const searchInput = useRef<any>(null)
   const handleSearchPress = () => {
     if (searchInput && searchInput.current) {
-      searchInput.current.focus();
+      searchInput.current.focus()
     }
   }
 
@@ -41,8 +39,8 @@ const FindPatient = () => {
       <View>
         <Text style={styles.label}>Buscar paciente pelo nome</Text>
         <View style={styles.inputContainer}>
-          <TextInput ref={searchInput} placeholder={"Digite o nome do paciente"} style={styles.input} />
-          <Feather name={"search"} color={"#34615C"} size={24} onPress={handleSearchPress} />
+          <TextInput ref={searchInput} placeholder={'Digite o nome do paciente'} style={styles.input} />
+          <Feather name={'search'} color={'#34615C'} size={24} onPress={handleSearchPress} />
         </View>
       </View>
       {!isKeyboardShown &&
@@ -82,43 +80,43 @@ const styles = StyleSheet.create({
     top: 0,
     width: '100%',
     height: '100%',
-    minHeight: '100%',
+    minHeight: '100%'
   },
   label: {
-    color: "#34615C",
+    color: '#34615C',
     alignSelf: 'flex-start',
     marginLeft: 6,
     marginBottom: 4,
     fontSize: 16,
-    fontFamily: 'JosefinSans_700Bold',
+    fontFamily: 'JosefinSans_700Bold'
   },
   inputContainer: {
-    display: "flex",
+    display: 'flex',
     flexDirection: 'row',
-    justifyContent: "space-around",
+    justifyContent: 'space-around',
     width: '90%',
     backgroundColor: '#fff',
     paddingHorizontal: 1,
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: '#34615C',
+    borderColor: '#34615C'
   },
   input: {
     width: '80%',
-    color: '#34615C',
+    color: '#34615C'
   },
   pickerButtonsContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%'
   },
   buttonsContainer: {
     position: 'absolute',
     width: '100%',
 
     alignItems: 'center',
-    bottom: 10,
+    bottom: 10
 
   }
 

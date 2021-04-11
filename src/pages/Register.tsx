@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
-import { RectButton, TextInput } from 'react-native-gesture-handler';
+import { useState } from 'react'
+import { Alert, StyleSheet, Text, View } from 'react-native'
+import { RectButton, TextInput } from 'react-native-gesture-handler'
 
-import Gradient from '../components/Gradient';
-import Header from '../components/Header';
+import Gradient from '../components/Gradient'
+import Header from '../components/Header'
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [role, setRole] = useState('');
-  const [registerNumber, setRegisterNumber] = useState('');
+  const [name, setName] = useState('')
+  const [cpf, setCpf] = useState('')
+  const [role, setRole] = useState('')
+  const [registerNumber, setRegisterNumber] = useState('')
 
   const handleSubmit = () => {
-    Alert.alert('Not Implemented', `${name} ${cpf} ${role} ${registerNumber}`);
-  };
+    Alert.alert('Not Implemented', `${name} ${cpf} ${role} ${registerNumber}`)
+  }
   return (
     <>
       <View style={styles.container}>
@@ -61,24 +61,24 @@ const Register = () => {
         </RectButton>
       </View>
     </>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#BCE0DC',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
 
   subTitle: {
     fontFamily: 'JosefinSans_700Bold',
     color: '#51615F',
     fontSize: 26,
-    padding: 20,
+    padding: 20
   },
   input: {
     backgroundColor: '#ffF',
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 4,
     fontFamily: 'JosefinSans_700Bold',
-    padding: 4,
+    padding: 4
   },
   button: {
     borderRadius: 20,
@@ -97,16 +97,16 @@ const styles = StyleSheet.create({
     height: 60,
     marginBottom: 40,
     width: '80%',
-    fontFamily: 'JosefinSans_700Bold',
+    fontFamily: 'JosefinSans_700Bold'
   },
   primaryButton: {
-    backgroundColor: '#34615C',
+    backgroundColor: '#34615C'
   },
   primaryButtonText: {
     color: '#FFF',
     fontSize: 16,
     marginLeft: 16,
     fontWeight: '700',
-    fontFamily: 'JosefinSans_700Bold',
-  },
-});
+    fontFamily: 'JosefinSans_700Bold'
+  }
+})

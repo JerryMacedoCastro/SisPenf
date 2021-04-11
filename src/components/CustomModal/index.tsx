@@ -1,7 +1,7 @@
-import React from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { globalStyles } from '../../Assets/GlobalStyles';
+
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { globalStyles } from '../../Assets/GlobalStyles'
 
 interface customModalProps {
   modalVisible: boolean;
@@ -10,13 +10,13 @@ interface customModalProps {
   onClose: () => void;
 }
 
-const CustomModal = (props: customModalProps) => {
-  const { modalVisible, onClose, firstButtonText, secondButtonText } = props;
-  const navigation = useNavigation();
+const index = (props: customModalProps) => {
+  const { modalVisible, onClose, firstButtonText, secondButtonText } = props
+  const navigation = useNavigation()
   const handleNavigation = () => {
-    onClose();
-    navigation.navigate('NewPuerperal');
-  };
+    onClose()
+    navigation.navigate('NewPuerperal')
+  }
   return (
     <Modal animationType="fade" transparent visible={modalVisible}>
       <View style={styles.centeredView}>
@@ -47,17 +47,17 @@ const CustomModal = (props: customModalProps) => {
         </View>
       </View>
     </Modal>
-  );
-};
+  )
+}
 
-export default CustomModal;
+export default index
 
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     marginTop: 22,
-    backgroundColor: 'rgba(2555,255,255,0.6)',
+    backgroundColor: 'rgba(2555,255,255,0.6)'
   },
   modalView: {
     backgroundColor: '#fff',
@@ -68,10 +68,10 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 5,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
-  },
-});
+    elevation: 5
+  }
+})

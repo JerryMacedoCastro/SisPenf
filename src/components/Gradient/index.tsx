@@ -1,17 +1,16 @@
-import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient'
+import { StyleSheet } from 'react-native'
 
-const Gradient = () => {
+const index = () => {
   return (
     <LinearGradient
       colors={['#fff', 'transparent']}
       style={styles.background}
     />
-  );
-};
+  )
+}
 
-export default Gradient;
+export default index
 
 const styles = StyleSheet.create({
   background: {
@@ -19,6 +18,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    height: '100%',
-  },
-});
+    height: '100%'
+  }
+})
