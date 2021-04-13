@@ -1,6 +1,6 @@
-import { useState } from 'react'
+// eslint-disable-next-line no-use-before-define
+import React, { useState } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-
 import Gradient from '../components/Gradient'
 import Header from '../components/Header'
 import Button from '../components/Button'

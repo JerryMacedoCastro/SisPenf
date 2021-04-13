@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-use-before-define
+import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { BorderlessButton } from 'react-native-gesture-handler'
 import { Feather } from '@expo/vector-icons'

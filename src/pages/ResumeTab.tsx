@@ -1,4 +1,6 @@
 
+// eslint-disable-next-line no-use-before-define
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import Gradient from '../components/Gradient'
 import PatientsList from '../components/PatientsList'

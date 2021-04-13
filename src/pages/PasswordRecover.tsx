@@ -1,4 +1,6 @@
 
+// eslint-disable-next-line no-use-before-define
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { RectButton, TextInput } from 'react-native-gesture-handler'
 import Gradient from '../components/Gradient'

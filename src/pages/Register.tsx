@@ -1,4 +1,5 @@
-import { useState } from 'react'
+// eslint-disable-next-line no-use-before-define
+import React, { useState } from 'react'
 import { Alert, StyleSheet, Text, View } from 'react-native'
 import { RectButton, TextInput } from 'react-native-gesture-handler'
 

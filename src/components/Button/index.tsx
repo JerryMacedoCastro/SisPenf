@@ -1,4 +1,6 @@
 
+// eslint-disable-next-line no-use-before-define
+import React from 'react'
 import { Feather } from '@expo/vector-icons'
 import { StyleSheet, Text } from 'react-native'
 import { RectButton } from 'react-native-gesture-handler'

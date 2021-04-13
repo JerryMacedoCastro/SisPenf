@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-use-before-define
+import React from 'react'
 import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import { RectButton } from 'react-native-gesture-handler'
 import { globalStyles } from '../Assets/GlobalStyles'

@@ -1,4 +1,5 @@
-
+// eslint-disable-next-line no-use-before-define
+import React from 'react'
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { globalStyles } from '../../Assets/GlobalStyles'
