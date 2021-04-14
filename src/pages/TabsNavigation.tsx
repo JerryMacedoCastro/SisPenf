@@ -1,4 +1,5 @@
-// import { StyleSheet } from 'react-native'
+// eslint-disable-next-line no-use-before-define
+import React from 'react'
 import { Feather } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 

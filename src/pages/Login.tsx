@@ -1,7 +1,8 @@
+// eslint-disable-next-line no-use-before-define
+import React, { useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
 import { RectButton, TextInput } from 'react-native-gesture-handler'
 import Gradient from '../components/Gradient'
 import { globalStyles } from '../Assets/GlobalStyles'

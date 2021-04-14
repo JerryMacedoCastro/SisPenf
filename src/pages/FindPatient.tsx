@@ -1,4 +1,5 @@
-import { useRef } from 'react'
+// eslint-disable-next-line no-use-before-define
+import React, { useRef } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { StyleSheet, Text, View } from 'react-native'
 import { RectButton, TextInput } from 'react-native-gesture-handler'

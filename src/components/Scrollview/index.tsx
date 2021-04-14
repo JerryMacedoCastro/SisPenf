@@ -1,4 +1,5 @@
-import { useState } from 'react'
+// eslint-disable-next-line no-use-before-define
+import React, { useState } from 'react'
 import { StyleSheet, FlatList, Text, View } from 'react-native'
 import InfirmaryItem from '../InfirmaryItem'
 

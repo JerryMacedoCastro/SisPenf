@@ -1,4 +1,5 @@
-
+// eslint-disable-next-line no-use-before-define
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Fieldset from '../Fieldset'

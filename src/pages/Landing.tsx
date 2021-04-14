@@ -1,3 +1,6 @@
+
+// eslint-disable-next-line no-use-before-define
+import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { RectButton } from 'react-native-gesture-handler'
 import { StatusBar } from 'expo-status-bar'

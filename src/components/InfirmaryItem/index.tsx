@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-use-before-define
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
