@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-use-before-define
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { StyleSheet, Text, View } from 'react-native'
 import { RectButton, TextInput } from 'react-native-gesture-handler'
@@ -9,21 +9,14 @@ import Separator from '../components/Separator'
 import useKeyboardControll from '../hooks/useKeyboardControll'
 import PickerInfirmary from '../components/Picker'
 import { globalStyles } from '../Assets/GlobalStyles'
+import { hospitalBeds, infirmaries } from '../data'
 
 const FindPatient = () => {
-  const hospitalBeds = [
-    { label: 'Leito 01', value: 1 },
-    { label: 'Leito 02', value: 2 },
-    { label: 'Leito 03', value: 3 },
-    { label: 'Leito 04', value: 4 },
-    { label: 'Leito 05', value: 4 },
-    { label: 'Leito 333', value: 4 },
-    { label: 'Leito 1234', value: 4 },
-    { label: 'Leito 34344', value: 4 },
-    { label: 'Leito 4444', value: 4 },
-    { label: 'Leito 00', value: 4 }
-  ]
   const { isKeyboardShown } = useKeyboardControll()
+  const [searchPatient, setSearchPatient] = useState('Teste')
+  const handleChangeInput = () => {
+
+  }
 
   // <TextInput> or others dont work here
   const searchInput = useRef<any>(null)
@@ -40,7 +33,7 @@ const FindPatient = () => {
       <View>
         <Text style={styles.label}>Buscar paciente pelo nome</Text>
         <View style={styles.inputContainer}>
-          <TextInput ref={searchInput} placeholder={'Digite o nome do paciente'} style={styles.input} />
+          <TextInput ref={searchInput} placeholder={'Digite o nome do paciente'} style={styles.input} value={searchPatient} onChange={handleChangeInput} />
           <Feather name={'search'} color={'#34615C'} size={24} onPress={handleSearchPress} />
         </View>
       </View>
@@ -50,7 +43,7 @@ const FindPatient = () => {
             <Separator text="Ou" />
           </View>
           <View style={styles.pickerButtonsContainer}>
-            <PickerInfirmary placeholder="Selecione a enfermaria" items={hospitalBeds} />
+            <PickerInfirmary placeholder="Selecione a enfermaria" items={infirmaries} />
             <PickerInfirmary placeholder="Selecione o leito" items={hospitalBeds} />
           </View>
           <View style={styles.buttonsContainer}>

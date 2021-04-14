@@ -7,29 +7,10 @@ import CommonInput from '../components/CommonInput'
 import DateHeader from '../components/DateHeader'
 import PickerInfirmary from '../components/Picker'
 import useKeyboardControll from '../hooks/useKeyboardControll'
+import { infirmaries, hospitalBeds } from '../data'
 
 const NewPuerperal = () => {
   const { isKeyboardShown } = useKeyboardControll()
-
-  const infirmaries = [
-    { label: 'Enfermaria 01', value: 1 },
-    { label: 'Enfermaria 02', value: 2 },
-    { label: 'Enfermaria 03', value: 3 },
-    { label: 'Enfermaria 04', value: 4 }
-  ]
-
-  const hospitalBeds = [
-    { label: 'Leito 01', value: 1 },
-    { label: 'Leito 02', value: 2 },
-    { label: 'Leito 03', value: 3 },
-    { label: 'Leito 04', value: 4 },
-    { label: 'Leito 05', value: 4 },
-    { label: 'Leito 333', value: 4 },
-    { label: 'Leito 1234', value: 4 },
-    { label: 'Leito 34344', value: 4 },
-    { label: 'Leito 4444', value: 4 },
-    { label: 'Leito 00', value: 4 }
-  ]
 
   return (
     <>
