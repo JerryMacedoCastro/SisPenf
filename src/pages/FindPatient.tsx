@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-use-before-define
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { StyleSheet, Text, View } from 'react-native'
 import { RectButton, TextInput } from 'react-native-gesture-handler'
@@ -13,6 +13,10 @@ import { hospitalBeds, infirmaries } from '../data'
 
 const FindPatient = () => {
   const { isKeyboardShown } = useKeyboardControll()
+  const [searchPatient, setSearchPatient] = useState('Teste')
+  const handleChangeInput = () => {
+
+  }
 
   // <TextInput> or others dont work here
   const searchInput = useRef<any>(null)
@@ -29,7 +33,7 @@ const FindPatient = () => {
       <View>
         <Text style={styles.label}>Buscar paciente pelo nome</Text>
         <View style={styles.inputContainer}>
-          <TextInput ref={searchInput} placeholder={'Digite o nome do paciente'} style={styles.input} />
+          <TextInput ref={searchInput} placeholder={'Digite o nome do paciente'} style={styles.input} value={searchPatient} onChange={handleChangeInput} />
           <Feather name={'search'} color={'#34615C'} size={24} onPress={handleSearchPress} />
         </View>
       </View>
