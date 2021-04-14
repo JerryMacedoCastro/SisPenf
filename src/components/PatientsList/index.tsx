@@ -1,8 +1,10 @@
+
 // eslint-disable-next-line no-use-before-define
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Fieldset from '../Fieldset'
+import { patients } from '../../data'
 
 const index = () => {
   return (
@@ -15,22 +17,10 @@ const index = () => {
           alignItems: 'center',
           position: 'relative'
         }}>
-        <Fieldset label="Leito 01" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 02" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 03" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
-        <Fieldset label="Leito 04" value="Maria Ribeiro da Costa e Lima" />
+        {patients.map((patient, index) => {
+          return <Fieldset value={patient.name} label={`Leito ${(index + 1).toString()}`} />
+        })}
+
       </ScrollView>
     </View>)
 }

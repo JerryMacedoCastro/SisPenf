@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   value: {
     color: '#27615A',
     fontFamily: 'JosefinSans_700Bold',
-    fontSize: 12
+    fontSize: 12,
+    width: '50%'
   }
 })

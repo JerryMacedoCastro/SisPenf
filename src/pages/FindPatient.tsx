@@ -9,20 +9,9 @@ import Separator from '../components/Separator'
 import useKeyboardControll from '../hooks/useKeyboardControll'
 import PickerInfirmary from '../components/Picker'
 import { globalStyles } from '../Assets/GlobalStyles'
+import { hospitalBeds, infirmaries } from '../data'
 
 const FindPatient = () => {
-  const hospitalBeds = [
-    { label: 'Leito 01', value: 1 },
-    { label: 'Leito 02', value: 2 },
-    { label: 'Leito 03', value: 3 },
-    { label: 'Leito 04', value: 4 },
-    { label: 'Leito 05', value: 4 },
-    { label: 'Leito 333', value: 4 },
-    { label: 'Leito 1234', value: 4 },
-    { label: 'Leito 34344', value: 4 },
-    { label: 'Leito 4444', value: 4 },
-    { label: 'Leito 00', value: 4 }
-  ]
   const { isKeyboardShown } = useKeyboardControll()
 
   // <TextInput> or others dont work here
@@ -50,7 +39,7 @@ const FindPatient = () => {
             <Separator text="Ou" />
           </View>
           <View style={styles.pickerButtonsContainer}>
-            <PickerInfirmary placeholder="Selecione a enfermaria" items={hospitalBeds} />
+            <PickerInfirmary placeholder="Selecione a enfermaria" items={infirmaries} />
             <PickerInfirmary placeholder="Selecione o leito" items={hospitalBeds} />
           </View>
           <View style={styles.buttonsContainer}>
