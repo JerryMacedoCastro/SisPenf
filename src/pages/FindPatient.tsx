@@ -13,12 +13,14 @@ import { hospitalBeds, infirmaries } from '../data'
 
 const FindPatient = () => {
   const { isKeyboardShown } = useKeyboardControll()
-  const [searchPatient, setSearchPatient] = useState('Teste')
+  // eslint-disable-next-line no-unused-vars
+  const [searchPatient, setSearchPatient] = useState('')
   const handleChangeInput = () => {
 
   }
 
   // <TextInput> or others dont work here
+  // forced to use <any>
   const searchInput = useRef<any>(null)
   const handleSearchPress = () => {
     if (searchInput && searchInput.current) {

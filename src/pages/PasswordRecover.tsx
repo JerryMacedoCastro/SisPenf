@@ -25,6 +25,7 @@ const PasswordRecover = () => {
           style={styles.inputStyle}
           autoCorrect={false}
           placeholder={'CPF'}
+          keyboardType="numeric"
         />
       </View>
 

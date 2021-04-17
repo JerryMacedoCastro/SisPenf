@@ -18,7 +18,7 @@ const index = () => {
           position: 'relative'
         }}>
         {patients.map((patient, index) => {
-          return <Fieldset value={patient.name} label={`Leito ${(index + 1).toString()}`} />
+          return <Fieldset key={index} value={patient.name} label={`Leito ${(index + 1).toString()}`} />
         })}
 
       </ScrollView>
