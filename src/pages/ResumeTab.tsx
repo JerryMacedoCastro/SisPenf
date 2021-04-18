@@ -1,30 +1,28 @@
-
 // eslint-disable-next-line no-use-before-define
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import Gradient from '../components/Gradient'
-import PatientsList from '../components/PatientsList'
-import Scrollview from '../components/Scrollview'
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import Gradient from "../components/Gradient";
+import PatientsList from "../components/PatientsList";
+import Scrollview from "../components/Scrollview";
 
-const ResumeTab = () => {
+const ResumeTab = (): JSX.Element => {
   return (
     <View style={styles.container}>
       <Gradient />
       <Scrollview />
       <PatientsList />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    backgroundColor: '#BCE0DC',
-    alignItems: 'center'
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    backgroundColor: "#BCE0DC",
+    alignItems: "center",
+  },
+});
 
-  }
-})
-
-export default ResumeTab
+export default ResumeTab;

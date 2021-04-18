@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-use-before-define
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 interface infirmaryItemProps {
   isSelected?: boolean;
@@ -9,8 +9,8 @@ interface infirmaryItemProps {
   handlePress: () => void;
 }
 
-const index = (props: infirmaryItemProps) => {
-  const { isSelected, infirmary, handlePress } = props
+const index = (props: infirmaryItemProps): JSX.Element => {
+  const { isSelected, infirmary, handlePress } = props;
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
@@ -20,26 +20,26 @@ const index = (props: infirmaryItemProps) => {
         <Text style={styles.itemText}>{`Enfermaria ${infirmary}`}</Text>
       </View>
     </TouchableWithoutFeedback>
-  )
-}
+  );
+};
 
-export default index
+export default index;
 
 const styles = StyleSheet.create({
   item: {
     width: 150,
     height: 30,
-    alignItems: 'center',
-    marginHorizontal: 20
+    alignItems: "center",
+    marginHorizontal: 20,
   },
 
   seletedItem: {
     borderBottomWidth: 4,
-    borderColor: '#BCE0DC'
+    borderColor: "#BCE0DC",
   },
   itemText: {
-    color: '#fff',
-    fontFamily: 'JosefinSans_700Bold',
-    fontSize: 18
-  }
-})
+    color: "#fff",
+    fontFamily: "JosefinSans_700Bold",
+    fontSize: 18,
+  },
+});

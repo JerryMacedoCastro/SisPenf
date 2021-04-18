@@ -1,15 +1,15 @@
 // eslint-disable-next-line no-use-before-define
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Feather } from '@expo/vector-icons'
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 interface FieldsetProps {
   label: string;
   value: string;
 }
 
-const index = (props: FieldsetProps) => {
-  const { label, value } = props
+const index = (props: FieldsetProps): JSX.Element => {
+  const { label, value } = props;
   return (
     <View style={styles.fieldSet}>
       <Text style={styles.legend}>{label}</Text>
@@ -20,10 +20,10 @@ const index = (props: FieldsetProps) => {
       <Feather name="log-out" size={20} color="#27615A" />
       <Feather name="more-horizontal" size={20} color="#27615A" />
     </View>
-  )
-}
+  );
+};
 
-export default index
+export default index;
 
 const styles = StyleSheet.create({
   fieldSet: {
@@ -32,29 +32,29 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderRadius: 15,
     borderWidth: 1,
-    alignItems: 'center',
-    borderColor: '#27615A',
+    alignItems: "center",
+    borderColor: "#27615A",
     paddingVertical: 10,
     marginBottom: 10,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   legend: {
-    position: 'absolute',
+    position: "absolute",
     top: -10,
     left: 10,
-    fontWeight: 'bold',
-    backgroundColor: '#fff',
-    color: '#27615A',
-    fontFamily: 'JosefinSans_700Bold',
+    fontWeight: "bold",
+    backgroundColor: "#fff",
+    color: "#27615A",
+    fontFamily: "JosefinSans_700Bold",
     fontSize: 12,
-    padding: 2
+    padding: 2,
   },
   value: {
-    color: '#27615A',
-    fontFamily: 'JosefinSans_700Bold',
+    color: "#27615A",
+    fontFamily: "JosefinSans_700Bold",
     fontSize: 12,
-    width: '50%'
-  }
-})
+    width: "50%",
+  },
+});

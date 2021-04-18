@@ -11,14 +11,17 @@ import PickerInfirmary from "../components/Picker";
 import { globalStyles } from "../Assets/GlobalStyles";
 import { hospitalBeds, infirmaries } from "../data";
 
-const FindPatient = () => {
-  const { isKeyboardShown } = useKeyboardControll();
-  // eslint-disable-next-line no-unused-vars
+const FindPatient = (): JSX.Element => {
+  const isKeyboardShown = useKeyboardControll();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchPatient, setSearchPatient] = useState("");
-  const handleChangeInput = () => {};
+  const handleChangeInput = () => {
+    console.log("");
+  };
 
   // <TextInput> or others dont work here
   // forced to use <any>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const searchInput = useRef<any>(null);
   const handleSearchPress = () => {
     if (searchInput && searchInput.current) {

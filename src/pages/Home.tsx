@@ -2,7 +2,7 @@
 import React from "react";
 import TabsNavigation from "./TabsNavigation";
 
-const Home = () => {
+const Home = (): JSX.Element => {
   return (
     <>
       <TabsNavigation />

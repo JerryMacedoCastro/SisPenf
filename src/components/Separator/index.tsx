@@ -1,12 +1,11 @@
 // eslint-disable-next-line no-use-before-define
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 interface SeparatorProps {
   text: string;
-
 }
 
-const index = ({ text }: SeparatorProps) => {
+const index = ({ text }: SeparatorProps): JSX.Element => {
   return (
     <View style={styles.container}>
       <View style={styles.lines} />
@@ -15,27 +14,27 @@ const index = ({ text }: SeparatorProps) => {
       </View>
       <View style={styles.lines} />
     </View>
-  )
-}
+  );
+};
 
-export default index
+export default index;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '90%'
+    flexDirection: "row",
+    alignItems: "center",
+    width: "90%",
   },
   lines: {
     flex: 1,
     height: 1,
-    backgroundColor: '#34615C'
+    backgroundColor: "#34615C",
   },
   text: {
-    textAlign: 'center',
+    textAlign: "center",
     paddingHorizontal: 10,
-    color: '#34615C',
+    color: "#34615C",
     fontSize: 16,
-    fontFamily: 'JosefinSans_700Bold'
-  }
-})
+    fontFamily: "JosefinSans_700Bold",
+  },
+});
