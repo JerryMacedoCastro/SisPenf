@@ -1,13 +1,12 @@
-
 // eslint-disable-next-line no-use-before-define
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { RectButton, TextInput } from 'react-native-gesture-handler'
-import Gradient from '../components/Gradient'
-import Header from '../components/Header'
-import { globalStyles } from '../Assets/GlobalStyles'
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { RectButton, TextInput } from "react-native-gesture-handler";
+import Gradient from "../components/Gradient";
+import Header from "../components/Header";
+import { globalStyles } from "../Assets/GlobalStyles";
 
-const PasswordRecover = () => {
+const PasswordRecover = (): JSX.Element => {
   return (
     <View style={styles.container}>
       <Gradient />
@@ -17,54 +16,55 @@ const PasswordRecover = () => {
         <TextInput
           style={styles.inputStyle}
           autoCorrect={false}
-          placeholder={'Email'}
+          placeholder={"Email"}
         />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.inputStyle}
           autoCorrect={false}
-          placeholder={'CPF'}
+          placeholder={"CPF"}
+          keyboardType="numeric"
         />
       </View>
 
       <RectButton
         onPress={() => {
-          alert('Warning')
+          alert("Warning");
         }}
         style={[globalStyles.button, globalStyles.primaryButton]}
       >
         <Text style={globalStyles.primaryButtonText}>Recuperar senha</Text>
       </RectButton>
     </View>
-  )
-}
+  );
+};
 
-export default PasswordRecover
+export default PasswordRecover;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#BCE0DC',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: "#BCE0DC",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   inputContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderBottomWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     paddingBottom: 10,
-    width: '80%',
+    width: "80%",
     height: 50,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 4,
     padding: 20,
-    marginBottom: 10
+    marginBottom: 10,
   },
   inputStyle: {
     flex: 1,
-    color: '#27615A',
-    fontFamily: 'JosefinSans_700Bold'
-  }
-})
+    color: "#27615A",
+    fontFamily: "JosefinSans_700Bold",
+  },
+});

@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-use-before-define
-import React from 'react'
-import { StyleSheet, Text } from 'react-native'
-import { BorderlessButton } from 'react-native-gesture-handler'
-import { Feather } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import React from "react";
+import { StyleSheet, Text } from "react-native";
+import { BorderlessButton } from "react-native-gesture-handler";
+import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 interface HeaderProps {
   title?: string;
@@ -12,27 +12,26 @@ interface HeaderProps {
   textColor?: string;
 }
 
-const index = (props: HeaderProps) => {
-  const { title, destinyBack, goBackOption, textColor } = props
-  const navigation = useNavigation()
+const index = (props: HeaderProps): JSX.Element => {
+  const { title, destinyBack, goBackOption, textColor } = props;
+  const navigation = useNavigation();
 
   const handleGoBack = () => {
     if (!destinyBack) {
-      navigation.goBack()
+      navigation.goBack();
     } else {
-      navigation.navigate(destinyBack)
+      navigation.navigate(destinyBack);
     }
-  }
+  };
 
   return (
     <>
-
       {goBackOption && (
         <BorderlessButton style={styles.goBack}>
           <Feather
             name="arrow-left"
             size={18}
-            color={textColor || '#51615F'}
+            color={textColor || "#51615F"}
             onPress={navigation.goBack}
           />
           <Text
@@ -47,43 +46,46 @@ const index = (props: HeaderProps) => {
           </Text>
         </BorderlessButton>
       )}
-      {title && (<Text
-        style={textColor ? [styles.title, { color: textColor }] : styles.title}
-      >
-        {title}
-      </Text>
+      {title && (
+        <Text
+          style={
+            textColor ? [styles.title, { color: textColor }] : styles.title
+          }
+        >
+          {title}
+        </Text>
       )}
     </>
-  )
-}
+  );
+};
 
-export default index
+export default index;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 1
+    marginBottom: 1,
   },
   goBack: {
     height: 20,
-    flexDirection: 'row',
-    position: 'absolute',
+    flexDirection: "row",
+    position: "absolute",
     top: 50,
     marginLeft: 8,
-    alignSelf: 'flex-start'
+    alignSelf: "flex-start",
   },
 
   goBacktext: {
-    fontFamily: 'JosefinSans_700Bold',
+    fontFamily: "JosefinSans_700Bold",
     fontSize: 14,
     marginLeft: 4,
-    color: '#51615F'
+    color: "#51615F",
   },
 
   title: {
-    fontFamily: 'JosefinSans_700Bold',
+    fontFamily: "JosefinSans_700Bold",
     fontSize: 14,
-    color: '#51615F',
-    position: 'absolute',
-    top: 50
-  }
-})
+    color: "#51615F",
+    position: "absolute",
+    top: 50,
+  },
+});

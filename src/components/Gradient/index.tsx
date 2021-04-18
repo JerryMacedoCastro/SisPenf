@@ -1,25 +1,25 @@
 // eslint-disable-next-line no-use-before-define
-import React from 'react'
-import { LinearGradient } from 'expo-linear-gradient'
-import { StyleSheet } from 'react-native'
+import React from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import { StyleSheet } from "react-native";
 
-const index = () => {
+const index = (): JSX.Element => {
   return (
     <LinearGradient
-      colors={['#fff', 'transparent']}
+      colors={["#fff", "transparent"]}
       style={styles.background}
     />
-  )
-}
+  );
+};
 
-export default index
+export default index;
 
 const styles = StyleSheet.create({
   background: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,
-    height: '100%'
-  }
-})
+    height: "100%",
+  },
+});

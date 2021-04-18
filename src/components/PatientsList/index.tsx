@@ -1,39 +1,40 @@
-
 // eslint-disable-next-line no-use-before-define
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
-import Fieldset from '../Fieldset'
-import { patients } from '../../data'
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import Fieldset from "../Fieldset";
+import { patients } from "../../data";
 
-const index = () => {
+const index = (): JSX.Element => {
   return (
-
-    <View
-      style={styles.content}
-    >
+    <View style={styles.content}>
       <ScrollView
         contentContainerStyle={{
-          alignItems: 'center',
-          position: 'relative'
-        }}>
+          alignItems: "center",
+          position: "relative",
+        }}
+      >
         {patients.map((patient, index) => {
-          return <Fieldset value={patient.name} label={`Leito ${(index + 1).toString()}`} />
+          return (
+            <Fieldset
+              key={index}
+              value={patient.name}
+              label={`Leito ${(index + 1).toString()}`}
+            />
+          );
         })}
-
       </ScrollView>
-    </View>)
-}
-export default index
+    </View>
+  );
+};
+export default index;
 
 const styles = StyleSheet.create({
   content: {
-
-    backgroundColor: '#fff',
-    width: '90%',
+    backgroundColor: "#fff",
+    width: "90%",
     padding: 6,
     borderRadius: 25,
-    height: '70%'
-
-  }
-})
+    height: "70%",
+  },
+});
