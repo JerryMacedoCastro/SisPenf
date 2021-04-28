@@ -1,8 +1,7 @@
-// eslint-disable-next-line no-use-before-define
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-
+import { styles } from "./styles";
 interface keyValue {
   label: string;
   value: number;
@@ -38,11 +37,3 @@ const index = ({ placeholder, items }: PickerProps): JSX.Element => {
 };
 
 export default index;
-
-const styles = StyleSheet.create({
-  containerStyle: {
-    height: 50,
-    width: 150,
-    borderRadius: 25,
-  },
-});

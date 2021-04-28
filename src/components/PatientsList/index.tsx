@@ -1,9 +1,10 @@
 // eslint-disable-next-line no-use-before-define
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Fieldset from "../Fieldset";
 import { patients } from "../../data";
+import { styles } from "./styles";
 
 const index = (): JSX.Element => {
   return (
@@ -28,13 +29,3 @@ const index = (): JSX.Element => {
   );
 };
 export default index;
-
-const styles = StyleSheet.create({
-  content: {
-    backgroundColor: "#fff",
-    width: "90%",
-    padding: 6,
-    borderRadius: 25,
-    height: "70%",
-  },
-});
