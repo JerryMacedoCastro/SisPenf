@@ -1,10 +1,9 @@
-// eslint-disable-next-line no-use-before-define
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import Header from "../Header";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-
+import { styles } from "./styles";
 interface DateHeaderProps {
   title: string;
 }
@@ -20,24 +19,3 @@ const index = ({ title }: DateHeaderProps): JSX.Element => {
 };
 
 export default index;
-
-const styles = StyleSheet.create({
-  container: {
-    top: 0,
-    backgroundColor: "#27615A",
-    alignItems: "center",
-    justifyContent: "center",
-    height: 110,
-    width: "100%",
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    position: "absolute",
-  },
-  dateText: {
-    position: "absolute",
-    bottom: 0,
-    padding: 6,
-    color: "#fff",
-    fontFamily: "JosefinSans_700Bold",
-  },
-});

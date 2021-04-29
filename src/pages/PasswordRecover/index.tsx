@@ -1,10 +1,11 @@
-// eslint-disable-next-line no-use-before-define
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { RectButton, TextInput } from "react-native-gesture-handler";
-import Gradient from "../components/Gradient";
-import Header from "../components/Header";
-import { globalStyles } from "../Assets/GlobalStyles";
+
+import { styles } from "./styles";
+import Gradient from "../../components/Gradient";
+import Header from "../../components/Header";
+import { globalStyles } from "../../Assets/GlobalStyles";
 
 const PasswordRecover = (): JSX.Element => {
   return (
@@ -41,30 +42,3 @@ const PasswordRecover = (): JSX.Element => {
 };
 
 export default PasswordRecover;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#BCE0DC",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  inputContainer: {
-    flexDirection: "row",
-    borderBottomWidth: 1,
-    borderColor: "#fff",
-    paddingBottom: 10,
-    width: "80%",
-    height: 50,
-    backgroundColor: "#fff",
-    borderRadius: 4,
-    padding: 20,
-    marginBottom: 10,
-  },
-  inputStyle: {
-    flex: 1,
-    color: "#27615A",
-    fontFamily: "JosefinSans_700Bold",
-  },
-});

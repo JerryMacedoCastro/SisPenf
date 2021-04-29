@@ -1,10 +1,9 @@
-// eslint-disable-next-line no-use-before-define
 import React from "react";
 import { Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import PanelTab from "./PanelTab";
-import ResumeTab from "./ResumeTab";
+import PanelTab from "../PanelTab";
+import ResumeTab from "../ResumeTab";
 
 const TabsNavigation = (): JSX.Element => {
   const Tab = createBottomTabNavigator();

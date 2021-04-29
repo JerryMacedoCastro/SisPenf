@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-use-before-define
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { StyleSheet } from "react-native";
+import { styles } from "./styles";
 
 const index = (): JSX.Element => {
   return (
@@ -13,13 +13,3 @@ const index = (): JSX.Element => {
 };
 
 export default index;
-
-const styles = StyleSheet.create({
-  background: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    height: "100%",
-  },
-});

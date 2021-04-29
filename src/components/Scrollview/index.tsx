@@ -1,7 +1,7 @@
-// eslint-disable-next-line no-use-before-define
 import React, { useState } from "react";
-import { StyleSheet, FlatList, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import InfirmaryItem from "../InfirmaryItem";
+import { styles } from "./styles";
 
 const index = (): JSX.Element => {
   const infirmaries = [
@@ -47,42 +47,3 @@ const index = (): JSX.Element => {
 };
 
 export default index;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#34615C",
-
-    padding: 2,
-  },
-  listContainer: {
-    height: 80,
-  },
-  subtitleContainer: {
-    width: "100%",
-    backgroundColor: "#34615C",
-    alignItems: "center",
-    height: "12%",
-    justifyContent: "flex-end",
-  },
-  subtitleText: {
-    color: "#fff",
-    fontFamily: "JosefinSans_700Bold",
-    fontSize: 18,
-    padding: 6,
-    marginBottom: 4,
-  },
-  footer: {
-    display: "flex",
-    alignItems: "center",
-    backgroundColor: "#34615C",
-    width: "100%",
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-  },
-  footerText: {
-    color: "#fff",
-    fontFamily: "JosefinSans_700Bold",
-    fontSize: 10,
-    marginBottom: 10,
-  },
-});

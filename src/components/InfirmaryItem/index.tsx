@@ -1,7 +1,7 @@
-// eslint-disable-next-line no-use-before-define
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { styles } from "./styles";
 
 interface infirmaryItemProps {
   isSelected?: boolean;
@@ -24,22 +24,3 @@ const index = (props: infirmaryItemProps): JSX.Element => {
 };
 
 export default index;
-
-const styles = StyleSheet.create({
-  item: {
-    width: 150,
-    height: 30,
-    alignItems: "center",
-    marginHorizontal: 20,
-  },
-
-  seletedItem: {
-    borderBottomWidth: 4,
-    borderColor: "#BCE0DC",
-  },
-  itemText: {
-    color: "#fff",
-    fontFamily: "JosefinSans_700Bold",
-    fontSize: 18,
-  },
-});
