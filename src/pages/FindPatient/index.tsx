@@ -1,15 +1,16 @@
-// eslint-disable-next-line no-use-before-define
 import React, { useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { RectButton, TextInput } from "react-native-gesture-handler";
-import DateHeader from "../components/DateHeader";
-import Gradient from "../components/Gradient";
-import Separator from "../components/Separator";
-import useKeyboardControll from "../hooks/useKeyboardControll";
-import PickerInfirmary from "../components/Picker";
-import { globalStyles } from "../Assets/GlobalStyles";
-import { hospitalBeds, infirmaries } from "../data";
+import { styles } from "./styles";
+
+import DateHeader from "../../components/DateHeader";
+import Gradient from "../../components/Gradient";
+import Separator from "../../components/Separator";
+import useKeyboardControll from "../../hooks/useKeyboardControll";
+import PickerInfirmary from "../../components/Picker";
+import { globalStyles } from "../../Assets/GlobalStyles";
+import { hospitalBeds, infirmaries } from "../../data";
 
 const FindPatient = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
@@ -85,54 +86,3 @@ const FindPatient = (): JSX.Element => {
 };
 
 export default FindPatient;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#BCE0DC",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "absolute",
-    bottom: 0,
-    top: 0,
-    width: "100%",
-    height: "100%",
-    minHeight: "100%",
-  },
-  label: {
-    color: "#34615C",
-    alignSelf: "flex-start",
-    marginLeft: 6,
-    marginBottom: 4,
-    fontSize: 16,
-    fontFamily: "JosefinSans_700Bold",
-  },
-  inputContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "90%",
-    backgroundColor: "#fff",
-    paddingHorizontal: 1,
-    borderRadius: 25,
-    borderWidth: 2,
-    borderColor: "#34615C",
-  },
-  input: {
-    width: "80%",
-    color: "#34615C",
-  },
-  pickerButtonsContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-  },
-  buttonsContainer: {
-    position: "absolute",
-    width: "100%",
-
-    alignItems: "center",
-    bottom: 10,
-  },
-});

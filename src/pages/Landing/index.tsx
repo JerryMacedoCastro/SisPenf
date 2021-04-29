@@ -1,12 +1,13 @@
-// eslint-disable-next-line no-use-before-define
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
-import { globalStyles } from "../Assets/GlobalStyles";
-import Gradient from "../components/Gradient";
-import pregnantImg from "../../assets/gravida.png";
+
+import { styles } from "./styles";
+import { globalStyles } from "../../Assets/GlobalStyles";
+import Gradient from "../../components/Gradient";
+import pregnantImg from "../../../assets/gravida.png";
 
 const Landing = (): JSX.Element => {
   const navigation = useNavigation();
@@ -41,23 +42,5 @@ const Landing = (): JSX.Element => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#BCE0DC",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  title: {
-    fontSize: 18,
-    color: "#34615C",
-    padding: 2,
-    position: "absolute",
-    top: 20,
-    fontFamily: "JosefinSans_700Bold",
-  },
-});
 
 export default Landing;

@@ -2,22 +2,18 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    top: 0,
-    backgroundColor: "#27615A",
+    flex: 1,
+    backgroundColor: "#BCE0DC",
     alignItems: "center",
     justifyContent: "center",
-    height: 110,
-    width: "100%",
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-
-    position: "absolute",
   },
-  dateText: {
+
+  title: {
+    fontSize: 18,
+    color: "#34615C",
+    padding: 2,
     position: "absolute",
-    bottom: 0,
-    padding: 6,
-    color: "#fff",
+    top: 20,
     fontFamily: "JosefinSans_700Bold",
   },
 });

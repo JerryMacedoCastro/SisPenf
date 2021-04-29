@@ -1,13 +1,13 @@
-// eslint-disable-next-line no-use-before-define
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { RectButton, TextInput } from "react-native-gesture-handler";
-import Gradient from "../components/Gradient";
-import { globalStyles } from "../Assets/GlobalStyles";
 
-import Header from "../components/Header";
+import { styles } from "./styles";
+import Gradient from "../../components/Gradient";
+import { globalStyles } from "../../Assets/GlobalStyles";
+import Header from "../../components/Header";
 
 const Login = (): JSX.Element => {
   const [user, setUser] = useState<string>("");
@@ -73,36 +73,3 @@ const Login = (): JSX.Element => {
 };
 
 export default Login;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 2,
-    backgroundColor: "#BCE0DC",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  subTitle: {
-    fontFamily: "JosefinSans_700Bold",
-    color: "#51615F",
-    fontSize: 26,
-    padding: 20,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    borderBottomWidth: 1,
-    borderColor: "#fff",
-    paddingBottom: 10,
-    width: "80%",
-    height: 50,
-    backgroundColor: "#fff",
-    borderRadius: 4,
-    padding: 20,
-    marginBottom: 10,
-  },
-  inputStyle: {
-    flex: 1,
-    color: "#27615A",
-    fontFamily: "JosefinSans_700Bold",
-  },
-});
