@@ -13,10 +13,15 @@ export const styles = StyleSheet.create({
     height: "100%",
     minHeight: "100%",
   },
+  searchContainer: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
   label: {
     color: "#34615C",
     alignSelf: "flex-start",
-    marginLeft: 6,
+    marginLeft: 24,
     marginBottom: 4,
     fontSize: 16,
     fontFamily: "JosefinSans_700Bold",
@@ -36,6 +41,14 @@ export const styles = StyleSheet.create({
     width: "80%",
     color: "#34615C",
   },
+  listContainer: {
+    position: "relative",
+    height: "80%",
+    width: "100%",
+    alignItems: "center",
+    marginTop: 20,
+    backgroundColor: "rgba(255,255,255,0.6)",
+  },
   pickerButtonsContainer: {
     display: "flex",
     flexDirection: "row",
@@ -45,7 +58,6 @@ export const styles = StyleSheet.create({
   buttonsContainer: {
     position: "absolute",
     width: "100%",
-
     alignItems: "center",
     bottom: 10,
   },

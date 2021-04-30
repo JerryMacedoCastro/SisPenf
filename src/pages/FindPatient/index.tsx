@@ -1,14 +1,15 @@
 import React, { useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import { Text, View } from "react-native";
+import { KeyboardAvoidingView, Text, View } from "react-native";
 import { RectButton, TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
 
 import DateHeader from "../../components/DateHeader";
 import Gradient from "../../components/Gradient";
 import Separator from "../../components/Separator";
-import useKeyboardControll from "../../hooks/useKeyboardControll";
 import PickerInfirmary from "../../components/Picker";
+import PatiensList from "../../components/PatientsList";
+import useKeyboardControll from "../../hooks/useKeyboardControll";
 import { globalStyles } from "../../Assets/GlobalStyles";
 import { hospitalBeds, infirmaries } from "../../data";
 
@@ -16,13 +17,13 @@ const FindPatient = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchPatient, setSearchPatient] = useState("");
-  const handleChangeInput = () => {
-    console.log("");
+  const handleChangeInput = (value: string) => {
+    setSearchPatient(value);
   };
 
-  // <TextInput> or others dont work here
-  // forced to use <any>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //  <TextInput> or others dont work here
+  //  forced to use <any>
+  //  eslint-disable-next-line @typescript-eslint/no-explicit-any
   const searchInput = useRef<any>(null);
   const handleSearchPress = () => {
     if (searchInput && searchInput.current) {
@@ -33,8 +34,9 @@ const FindPatient = (): JSX.Element => {
   return (
     <View style={styles.container}>
       <Gradient />
+
       <DateHeader title="Buscar Paciente" />
-      <View>
+      <KeyboardAvoidingView style={styles.searchContainer}>
         <Text style={styles.label}>Buscar paciente pelo nome</Text>
         <View style={styles.inputContainer}>
           <TextInput
@@ -42,7 +44,7 @@ const FindPatient = (): JSX.Element => {
             placeholder={"Digite o nome do paciente"}
             style={styles.input}
             value={searchPatient}
-            onChange={handleChangeInput}
+            onChangeText={handleChangeInput}
           />
           <Feather
             name={"search"}
@@ -51,7 +53,9 @@ const FindPatient = (): JSX.Element => {
             onPress={handleSearchPress}
           />
         </View>
-      </View>
+        {!!searchPatient && <PatiensList />}
+      </KeyboardAvoidingView>
+
       {!isKeyboardShown && (
         <>
           <View style={{ paddingVertical: "10%" }}>

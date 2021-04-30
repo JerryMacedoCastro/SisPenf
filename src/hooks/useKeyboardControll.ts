@@ -4,6 +4,9 @@ import { Keyboard } from "react-native";
 function useKeyboardControll(): boolean {
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
 
+  const handlekeyboardShow = () => setIsKeyboardShown(true);
+  const handleKeyboardHidde = () => setIsKeyboardShown(false);
+
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", handlekeyboardShow);
     Keyboard.addListener("keyboardDidHide", handleKeyboardHidde);
@@ -12,9 +15,6 @@ function useKeyboardControll(): boolean {
       Keyboard.removeListener("keyboardDidHide", handleKeyboardHidde);
     };
   }, []);
-
-  const handlekeyboardShow = () => setIsKeyboardShown(true);
-  const handleKeyboardHidde = () => setIsKeyboardShown(false);
 
   return isKeyboardShown;
 }
