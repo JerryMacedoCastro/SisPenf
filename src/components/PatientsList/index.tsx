@@ -1,14 +1,14 @@
 // eslint-disable-next-line no-use-before-define
 import React from "react";
-import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Fieldset from "../Fieldset";
 import { patients } from "../../data";
 import { styles } from "./styles";
+import Animated from "react-native-reanimated";
 
 const index = (): JSX.Element => {
   return (
-    <View style={styles.content}>
+    <Animated.View style={[styles.content]}>
       <ScrollView
         contentContainerStyle={{
           alignItems: "center",
@@ -25,7 +25,7 @@ const index = (): JSX.Element => {
           );
         })}
       </ScrollView>
-    </View>
+    </Animated.View>
   );
 };
 export default index;
