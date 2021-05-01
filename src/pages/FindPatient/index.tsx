@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import { KeyboardAvoidingView, Text, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import { RectButton, TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
 
@@ -36,7 +36,10 @@ const FindPatient = (): JSX.Element => {
       <Gradient />
 
       <DateHeader title="Buscar Paciente" />
-      <KeyboardAvoidingView style={styles.searchContainer}>
+      <KeyboardAvoidingView
+        style={styles.searchContainer}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <Text style={styles.label}>Buscar paciente pelo nome</Text>
         <View style={styles.inputContainer}>
           <TextInput
@@ -53,10 +56,10 @@ const FindPatient = (): JSX.Element => {
             onPress={handleSearchPress}
           />
         </View>
-        {!!searchPatient && <PatiensList />}
+        {!!searchPatient && <PatiensList search={searchPatient} />}
       </KeyboardAvoidingView>
 
-      {!isKeyboardShown && (
+      {!isKeyboardShown && !searchPatient && (
         <>
           <View style={{ paddingVertical: "10%" }}>
             <Separator text="Ou" />
