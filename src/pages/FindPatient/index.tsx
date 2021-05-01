@@ -1,6 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  View,
+} from "react-native";
 import { RectButton, TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
 
@@ -15,8 +21,10 @@ import { hospitalBeds, infirmaries } from "../../data";
 
 const FindPatient = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchPatient, setSearchPatient] = useState("");
+  const [infirmary, setInfirmary] = useState({ label: "", value: 0 });
+  const [hospitalBed, setHospitalBed] = useState({ label: "", value: 0 });
+
   const handleChangeInput = (value: string) => {
     setSearchPatient(value);
   };
@@ -68,10 +76,12 @@ const FindPatient = (): JSX.Element => {
             <PickerInfirmary
               placeholder="Selecione a enfermaria"
               items={infirmaries}
+              handleChange={(item) => setInfirmary(item)}
             />
             <PickerInfirmary
               placeholder="Selecione o leito"
               items={hospitalBeds}
+              handleChange={(item) => setHospitalBed(item)}
             />
           </View>
           <View style={styles.buttonsContainer}>
