@@ -12,7 +12,7 @@ interface IPatientListProps {
 
 const index = ({ search }: IPatientListProps): JSX.Element => {
   const [filteredList, setFilteredList] = useState(patients);
-  const [hasNotFound, setHasNotFound] = useState(true);
+  const [hasNotFound, setHasNotFound] = useState(false);
 
   const handleSearch = () => {
     if (search) {
