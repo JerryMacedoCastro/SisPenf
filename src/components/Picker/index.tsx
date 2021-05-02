@@ -1,11 +1,9 @@
 import React from "react";
 import { View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+
+import { keyValue } from "../../interfaces";
 import { styles } from "./styles";
-interface keyValue {
-  label: string;
-  value: number;
-}
 
 interface PickerProps {
   items: keyValue[];
