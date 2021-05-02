@@ -13,6 +13,7 @@ import { styles } from "./styles";
 import { globalStyles } from "../../Assets/GlobalStyles";
 import CommonInput from "../../components/CommonInput";
 import DateHeader from "../../components/DateHeader";
+import Gradient from "../../components/Gradient";
 import PickerInfirmary from "../../components/Picker";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
 import { infirmaries, hospitalBeds } from "../../data";
@@ -32,7 +33,6 @@ const NewPuerperal = (): JSX.Element => {
     <>
       <View style={styles.container}>
         <DateHeader title="Admitir puérpera" />
-
         <View style={styles.buttonsContainer}>
           <PickerInfirmary
             placeholder="Selecione a enfermaria"
