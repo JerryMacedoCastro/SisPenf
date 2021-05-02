@@ -11,7 +11,6 @@ import Header from "../../components/Header";
 
 const Login = (): JSX.Element => {
   const [user, setUser] = useState<string>("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
@@ -47,6 +46,7 @@ const Login = (): JSX.Element => {
           autoCorrect={false}
           secureTextEntry
           placeholder={"Senha"}
+          value={password}
           onChangeText={handleChangePassword}
         />
         <Feather name="lock" size={18} color="#51615F" />
