@@ -1,12 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import {
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  Text,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import { RectButton, TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
 
@@ -18,12 +12,18 @@ import PatiensList from "../../components/PatientsList";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
 import { globalStyles } from "../../Assets/GlobalStyles";
 import { hospitalBeds, infirmaries } from "../../data";
+import { keyValue } from "../../interfaces/index";
+import { useNavigation } from "@react-navigation/native";
 
 const FindPatient = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
   const [searchPatient, setSearchPatient] = useState("");
-  const [infirmary, setInfirmary] = useState({ label: "", value: 0 });
-  const [hospitalBed, setHospitalBed] = useState({ label: "", value: 0 });
+  const [infirmary, setInfirmary] = useState({} as keyValue);
+  const [hospitalBed, setHospitalBed] = useState({} as keyValue);
+  const navigation = useNavigation();
+  const handleCancel = () => {
+    navigation.navigate("Home");
+  };
 
   const handleChangeInput = (value: string) => {
     setSearchPatient(value);
@@ -42,7 +42,6 @@ const FindPatient = (): JSX.Element => {
   return (
     <View style={styles.container}>
       <Gradient />
-
       <DateHeader title="Buscar Paciente" />
       <KeyboardAvoidingView
         style={styles.searchContainer}
@@ -85,13 +84,16 @@ const FindPatient = (): JSX.Element => {
             />
           </View>
           <View style={styles.buttonsContainer}>
-            <RectButton
-              style={[globalStyles.button, globalStyles.primaryButton]}
-            >
-              <Text style={globalStyles.primaryButtonText}>Buscar</Text>
-            </RectButton>
+            {!!hospitalBed.value && !!infirmary.value && (
+              <RectButton
+                style={[globalStyles.button, globalStyles.primaryButton]}
+              >
+                <Text style={globalStyles.primaryButtonText}>Buscar</Text>
+              </RectButton>
+            )}
             <RectButton
               style={[globalStyles.button, globalStyles.secondaryButton]}
+              onPress={handleCancel}
             >
               <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
             </RectButton>
