@@ -23,29 +23,32 @@ const index = ({
 
   return (
     <>
-      <View style={styles.container}>
-        <Header title={title} textColor="#fff" />
-        <Text style={styles.dateText}>{today}</Text>
+      <View style={styles.safeArea}>
+        <View style={styles.container}>
+          <Header title={title} textColor="#fff" />
+          <Text style={styles.dateText}>{today}</Text>
+        </View>
+
+        <Tabs.Navigator
+          tabBarOptions={{
+            activeTintColor: "#fff",
+            inactiveTintColor: "#999",
+            style: {
+              backgroundColor: "#27615A",
+            },
+            labelStyle: {
+              fontSize: 14,
+            },
+            allowFontScaling: false,
+            indicatorStyle: {
+              backgroundColor: "#fff",
+            },
+          }}
+        >
+          <Tabs.Screen name="Necessidades Psicologicas" component={firstTab} />
+          <Tabs.Screen name="Necessidades espirituais" component={secondTab} />
+        </Tabs.Navigator>
       </View>
-      <Tabs.Navigator
-        tabBarOptions={{
-          activeTintColor: "#fff",
-          inactiveTintColor: "#999",
-          style: {
-            backgroundColor: "#27615A",
-          },
-          labelStyle: {
-            fontSize: 14,
-          },
-          allowFontScaling: false,
-          indicatorStyle: {
-            backgroundColor: "#fff",
-          },
-        }}
-      >
-        <Tabs.Screen name="Necessidades Psicologicas" component={firstTab} />
-        <Tabs.Screen name="Necessidades espirituais" component={secondTab} />
-      </Tabs.Navigator>
     </>
   );
 };

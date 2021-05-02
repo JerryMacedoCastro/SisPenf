@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  safeArea: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
   container: {
     top: 0,
     backgroundColor: "#27615A",
