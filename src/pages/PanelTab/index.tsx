@@ -71,6 +71,7 @@ const PanelTab = (): JSX.Element => {
           icon="alert-triangle"
           color="#FFF"
           size={24}
+          handlePress={() => navigation.navigate("MaternalHistory")}
         />
         <Button
           title="Acompanhar paciente"
@@ -84,7 +85,14 @@ const PanelTab = (): JSX.Element => {
           color="#FFF"
           size={24}
         />
-        <Button title="Alta médica" icon="log-out" color="#FFF" size={24} />
+        <Button title="Alta médica" icon="user-x" color="#FFF" size={24} />
+        <Button
+          title="Sair"
+          icon="log-out"
+          color="#FFF"
+          size={24}
+          handlePress={() => navigation.navigate("Login")}
+        />
       </View>
     </View>
   );

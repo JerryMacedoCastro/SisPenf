@@ -23,13 +23,14 @@ export const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginLeft: 24,
     marginBottom: 4,
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: "JosefinSans_700Bold",
   },
   inputContainer: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
+    alignItems: "center",
     width: "90%",
     backgroundColor: "#fff",
     paddingHorizontal: 1,
@@ -40,6 +41,7 @@ export const styles = StyleSheet.create({
   },
   input: {
     width: "80%",
+    height: 40,
     color: "#34615C",
   },
   listContainer: {

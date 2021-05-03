@@ -1,18 +1,21 @@
 import React from "react";
 import { View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+
+import { keyValue } from "../../interfaces";
 import { styles } from "./styles";
-interface keyValue {
-  label: string;
-  value: number;
-}
 
 interface PickerProps {
   items: keyValue[];
   placeholder: string;
+  handleChange: (item: keyValue) => void;
 }
 
-const index = ({ placeholder, items }: PickerProps): JSX.Element => {
+const index = ({
+  placeholder,
+  items,
+  handleChange,
+}: PickerProps): JSX.Element => {
   return (
     <View>
       <DropDownPicker
@@ -31,6 +34,7 @@ const index = ({ placeholder, items }: PickerProps): JSX.Element => {
           color: "#fff",
         }}
         dropDownStyle={{ backgroundColor: "#34615C" }}
+        onChangeItem={(item: keyValue) => handleChange(item)}
       />
     </View>
   );

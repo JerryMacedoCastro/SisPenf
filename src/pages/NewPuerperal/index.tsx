@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 
@@ -12,31 +13,41 @@ import { styles } from "./styles";
 import { globalStyles } from "../../Assets/GlobalStyles";
 import CommonInput from "../../components/CommonInput";
 import DateHeader from "../../components/DateHeader";
+import Gradient from "../../components/Gradient";
 import PickerInfirmary from "../../components/Picker";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
 import { infirmaries, hospitalBeds } from "../../data";
+import { keyValue } from "../../interfaces";
+import { useNavigation } from "@react-navigation/native";
 
 const NewPuerperal = (): JSX.Element => {
+  const [infirmary, setInfirmary] = useState({} as keyValue);
+  const [hospitalBed, setHospitalBed] = useState({} as keyValue);
   const isKeyboardShown = useKeyboardControll();
+  const navigation = useNavigation();
 
+  const handleCancel = () => {
+    navigation.navigate("Home");
+  };
   return (
     <>
       <View style={styles.container}>
         <DateHeader title="Admitir puérpera" />
-
         <View style={styles.buttonsContainer}>
           <PickerInfirmary
             placeholder="Selecione a enfermaria"
             items={infirmaries}
+            handleChange={(item) => setInfirmary(item)}
           />
           <PickerInfirmary
             placeholder="Selecione o leito"
             items={hospitalBeds}
+            handleChange={(item) => setHospitalBed(item)}
           />
         </View>
         <KeyboardAvoidingView
           style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === "ios" ? "padding" : "padding"}
         >
           <ScrollView
             contentContainerStyle={{
@@ -68,8 +79,9 @@ const NewPuerperal = (): JSX.Element => {
             </RectButton>
             <RectButton
               style={[globalStyles.button, globalStyles.secondaryButton]}
+              onPress={handleCancel}
             >
-              <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
+              <Text style={globalStyles.secondaryButtonText}>Cancelar </Text>
             </RectButton>
           </View>
         )}

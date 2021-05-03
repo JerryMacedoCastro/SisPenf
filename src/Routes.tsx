@@ -9,6 +9,7 @@ import PasswordRecover from "./pages/PasswordRecover";
 import Home from "./pages/Home";
 import NewPuerperal from "./pages/NewPuerperal";
 import FindPatient from "./pages/FindPatient";
+import MaternalHistory from "./pages/MaternalHistory";
 
 const { Navigator, Screen } = createStackNavigator();
 const Routes = (): JSX.Element => {
@@ -27,6 +28,7 @@ const Routes = (): JSX.Element => {
         <Screen name="Home" component={Home} />
         <Screen name="NewPuerperal" component={NewPuerperal} />
         <Screen name="FindPatient" component={FindPatient} />
+        <Screen name="MaternalHistory" component={MaternalHistory} />
       </Navigator>
     </NavigationContainer>
   );

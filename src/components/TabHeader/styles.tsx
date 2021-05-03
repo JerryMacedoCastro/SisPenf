@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  safeArea: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
   container: {
     top: 0,
     backgroundColor: "#27615A",
@@ -8,10 +13,6 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     height: "14%",
     width: "100%",
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-
-    position: "absolute",
   },
   dateText: {
     position: "absolute",

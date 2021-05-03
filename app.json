@@ -22,9 +22,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF",
-        "softwareKeyboardLayoutMode":"pan"
+        "backgroundColor": "#FFFFFF"
       },
+      "softwareKeyboardLayoutMode":"pan",
       "package": "sis.expo.exponent"
     },
     "web": {
