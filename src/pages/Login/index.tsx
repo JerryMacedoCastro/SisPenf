@@ -21,6 +21,9 @@ const Login = (): JSX.Element => {
   const handleChangePassword = (text: string) => {
     setPassword(text);
   };
+  const handleNavigateToRegister = () => {
+    navigation.navigate("Register");
+  };
   return (
     <View style={styles.container}>
       <Gradient />
@@ -51,7 +54,14 @@ const Login = (): JSX.Element => {
         />
         <Feather name="lock" size={18} color="#51615F" />
       </View>
-
+      <RectButton style={{ height: 26, marginBottom: 20, marginTop: 20 }}>
+        <Text
+          onPress={() => navigation.navigate("PasswordRecover")}
+          style={styles.inputStyle}
+        >
+          Esqueceu a senha? Clique aqui.
+        </Text>
+      </RectButton>
       <RectButton
         onPress={() => {
           navigation.navigate("Home");
@@ -60,13 +70,11 @@ const Login = (): JSX.Element => {
       >
         <Text style={globalStyles.primaryButtonText}>Acessar</Text>
       </RectButton>
-      <RectButton style={{ height: 26, marginBottom: 20, marginTop: 20 }}>
-        <Text
-          onPress={() => navigation.navigate("PasswordRecover")}
-          style={styles.inputStyle}
-        >
-          Esqueceu a senha? Clique aqui.
-        </Text>
+      <RectButton
+        style={[globalStyles.button, globalStyles.secondaryButton]}
+        onPress={handleNavigateToRegister}
+      >
+        <Text style={globalStyles.secondaryButtonText}>Solicitar Acesso</Text>
       </RectButton>
     </View>
   );

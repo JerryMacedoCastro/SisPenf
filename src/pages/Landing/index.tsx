@@ -16,9 +16,6 @@ const Landing = (): JSX.Element => {
     navigation.navigate("Login");
   };
 
-  const handleNavigateToRegister = () => {
-    navigation.navigate("Register");
-  };
   return (
     <View style={styles.container}>
       <Gradient />
@@ -32,12 +29,7 @@ const Landing = (): JSX.Element => {
       >
         <Text style={globalStyles.primaryButtonText}>Acessar</Text>
       </RectButton>
-      <RectButton
-        style={[globalStyles.button, globalStyles.secondaryButton]}
-        onPress={handleNavigateToRegister}
-      >
-        <Text style={globalStyles.secondaryButtonText}>Solicitar Acesso</Text>
-      </RectButton>
+
       <StatusBar style="auto" />
     </View>
   );
