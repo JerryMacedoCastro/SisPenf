@@ -27,7 +27,7 @@ const Login = (): JSX.Element => {
   return (
     <View style={styles.container}>
       <Gradient />
-      <Header goBackOption={true} />
+      <Header />
 
       <Text style={styles.subTitle}>SisPenf</Text>
 
