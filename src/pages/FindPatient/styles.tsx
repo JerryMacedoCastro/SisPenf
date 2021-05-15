@@ -5,7 +5,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#BCE0DC",
     alignItems: "center",
-    justifyContent: "center",
     position: "absolute",
     bottom: 0,
     top: 0,
@@ -13,10 +12,15 @@ export const styles = StyleSheet.create({
     height: "100%",
     minHeight: "100%",
   },
+  content: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
   searchContainer: {
     width: "100%",
     alignItems: "center",
-    justifyContent: "flex-end",
   },
   label: {
     color: "#34615C",

@@ -24,11 +24,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "softwareKeyboardLayoutMode":"pan",
+
       "package": "sis.expo.exponent"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     }
-  }
+  },
+  "softwareKeyboardLayoutMode":"pan"
+
 }

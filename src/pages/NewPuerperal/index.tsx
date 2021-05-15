@@ -5,20 +5,20 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Alert,
 } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { styles } from "./styles";
 import { globalStyles } from "../../Assets/GlobalStyles";
 import CommonInput from "../../components/CommonInput";
 import DateHeader from "../../components/DateHeader";
-import Gradient from "../../components/Gradient";
 import PickerInfirmary from "../../components/Picker";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
 import { infirmaries, hospitalBeds } from "../../data";
 import { keyValue } from "../../interfaces";
 import { useNavigation } from "@react-navigation/native";
+import Gradient from "../../components/Gradient";
 
 const NewPuerperal = (): JSX.Element => {
   const [infirmary, setInfirmary] = useState({} as keyValue);
@@ -29,10 +29,14 @@ const NewPuerperal = (): JSX.Element => {
   const handleCancel = () => {
     navigation.navigate("Home");
   };
+  const handleStartProcess = () => {
+    navigation.navigate("PsycologicalNeeds");
+  };
   return (
     <>
-      <View style={styles.container}>
-        <DateHeader title="Admitir puérpera" />
+      {!isKeyboardShown && <DateHeader title="Admitir puérpera" />}
+      <SafeAreaView style={styles.container}>
+        <Gradient />
         <View style={styles.buttonsContainer}>
           <PickerInfirmary
             placeholder="Selecione a enfermaria"
@@ -45,22 +49,22 @@ const NewPuerperal = (): JSX.Element => {
             handleChange={(item) => setHospitalBed(item)}
           />
         </View>
+
         <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS === "ios" ? "padding" : "padding"}
+          style={styles.content}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={0}
         >
           <ScrollView
             contentContainerStyle={{
-              justifyContent: "center",
-              alignItems: "center",
               position: "relative",
             }}
           >
-            <View style={styles.content}>
+            <View style={styles.formContainer}>
               <CommonInput title="Diagnótico médico" returnKeyType="next" />
               <CommonInput title="Dieta prescrita" returnKeyType="next" />
               <CommonInput title="Nome" returnKeyType="next" />
-              <CommonInput title="Idade" keyboardType="numeric" />
+              <CommonInput title="Idade" keyboardType="twitter" />
               <CommonInput title="Estado civil" returnKeyType="next" />
               <CommonInput title="Escolaridade" returnKeyType="next" />
               <CommonInput title="Ocupação" returnKeyType="go" />
@@ -72,6 +76,7 @@ const NewPuerperal = (): JSX.Element => {
           <View style={styles.confirmButtonsContainer}>
             <RectButton
               style={[globalStyles.button, globalStyles.primaryButton]}
+              onPress={handleStartProcess}
             >
               <Text style={globalStyles.primaryButtonText}>
                 Iniciar processo de enfermagem
@@ -85,7 +90,7 @@ const NewPuerperal = (): JSX.Element => {
             </RectButton>
           </View>
         )}
-      </View>
+      </SafeAreaView>
     </>
   );
 };

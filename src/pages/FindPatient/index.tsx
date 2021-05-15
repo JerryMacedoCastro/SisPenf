@@ -43,63 +43,65 @@ const FindPatient = (): JSX.Element => {
     <View style={styles.container}>
       <Gradient />
       <DateHeader title="Buscar Paciente" />
-      <KeyboardAvoidingView
-        style={styles.searchContainer}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <Text style={styles.label}>Buscar paciente pelo nome</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            ref={searchInput}
-            placeholder={"Digite o nome do paciente"}
-            style={styles.input}
-            value={searchPatient}
-            onChangeText={handleChangeInput}
-          />
-          <Feather
-            name={"search"}
-            color={"#34615C"}
-            size={24}
-            onPress={handleSearchPress}
-          />
-        </View>
-        {!!searchPatient && <PatiensList search={searchPatient} />}
-      </KeyboardAvoidingView>
+      <View style={styles.content}>
+        <KeyboardAvoidingView
+          style={styles.searchContainer}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <Text style={styles.label}>Buscar paciente pelo nome</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              ref={searchInput}
+              placeholder={"Digite o nome do paciente"}
+              style={styles.input}
+              value={searchPatient}
+              onChangeText={handleChangeInput}
+            />
+            <Feather
+              name={"search"}
+              color={"#34615C"}
+              size={24}
+              onPress={handleSearchPress}
+            />
+          </View>
+          {!!searchPatient && <PatiensList search={searchPatient} />}
+        </KeyboardAvoidingView>
 
-      {!isKeyboardShown && !searchPatient && (
-        <>
-          <View style={{ paddingVertical: "10%" }}>
-            <Separator text="Ou" />
-          </View>
-          <View style={styles.pickerButtonsContainer}>
-            <PickerInfirmary
-              placeholder="Selecione a enfermaria"
-              items={infirmaries}
-              handleChange={(item) => setInfirmary(item)}
-            />
-            <PickerInfirmary
-              placeholder="Selecione o leito"
-              items={hospitalBeds}
-              handleChange={(item) => setHospitalBed(item)}
-            />
-          </View>
-          <View style={styles.buttonsContainer}>
-            {!!hospitalBed.value && !!infirmary.value && (
+        {!isKeyboardShown && !searchPatient && (
+          <>
+            <View style={{ paddingVertical: "10%" }}>
+              <Separator text="Ou" />
+            </View>
+            <View style={styles.pickerButtonsContainer}>
+              <PickerInfirmary
+                placeholder="Selecione a enfermaria"
+                items={infirmaries}
+                handleChange={(item) => setInfirmary(item)}
+              />
+              <PickerInfirmary
+                placeholder="Selecione o leito"
+                items={hospitalBeds}
+                handleChange={(item) => setHospitalBed(item)}
+              />
+            </View>
+            <View style={styles.buttonsContainer}>
+              {!!hospitalBed.value && !!infirmary.value && (
+                <RectButton
+                  style={[globalStyles.button, globalStyles.primaryButton]}
+                >
+                  <Text style={globalStyles.primaryButtonText}>Buscar</Text>
+                </RectButton>
+              )}
               <RectButton
-                style={[globalStyles.button, globalStyles.primaryButton]}
+                style={[globalStyles.button, globalStyles.secondaryButton]}
+                onPress={handleCancel}
               >
-                <Text style={globalStyles.primaryButtonText}>Buscar</Text>
+                <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
               </RectButton>
-            )}
-            <RectButton
-              style={[globalStyles.button, globalStyles.secondaryButton]}
-              onPress={handleCancel}
-            >
-              <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
-            </RectButton>
-          </View>
-        </>
-      )}
+            </View>
+          </>
+        )}
+      </View>
     </View>
   );
 };

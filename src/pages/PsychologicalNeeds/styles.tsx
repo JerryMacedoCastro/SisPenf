@@ -7,11 +7,12 @@ export const styles = StyleSheet.create({
     backgroundColor: "#BCE0DC",
   },
   content: {
-    backgroundColor: "#fff",
     width: "90%",
-    maxHeight: "85%",
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
+    height: "80%",
+  },
+  formContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
   },
   inputContainer: {
     height: "56%",

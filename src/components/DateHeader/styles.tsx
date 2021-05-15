@@ -6,12 +6,10 @@ export const styles = StyleSheet.create({
     backgroundColor: "#27615A",
     alignItems: "center",
     justifyContent: "center",
-    height: "14%",
+    height: "16%",
     width: "100%",
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-
-    position: "absolute",
   },
   dateText: {
     position: "absolute",
