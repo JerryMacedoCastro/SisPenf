@@ -10,6 +10,8 @@ import NewPuerperal from "./pages/NewPuerperal";
 import FindPatient from "./pages/FindPatient";
 import PsychologicalNeeds from "./pages/MaternalHistory/PsychologicalNeeds";
 import SpiritualNeeds from "./pages/MaternalHistory/SpiritualNeeds";
+import PsychobiologicNeeds from "./pages/MaternalHistory/PsychobiologicNeeds";
+import ChildbirthNeeds from "./pages/MaternalHistory/ ChildbirthNeeds";
 
 const { Navigator, Screen } = createStackNavigator();
 const Routes = (): JSX.Element => {
@@ -29,6 +31,8 @@ const Routes = (): JSX.Element => {
         <Screen name="FindPatient" component={FindPatient} />
         <Screen name="PsychologicalNeeds" component={PsychologicalNeeds} />
         <Screen name="SpiritualNeeds" component={SpiritualNeeds} />
+        <Screen name="PsychobiologicNeeds" component={PsychobiologicNeeds} />
+        <Screen name="ChildbirthNeeds" component={ChildbirthNeeds} />
       </Navigator>
     </NavigationContainer>
   );

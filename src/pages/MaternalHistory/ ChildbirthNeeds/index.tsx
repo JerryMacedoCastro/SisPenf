@@ -15,16 +15,13 @@ const index = (): JSX.Element => {
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
   const handleContinue = () => {
-    navigation.navigate("PsychobiologicNeeds");
+    navigation.navigate("");
   };
 
   return (
     <>
       {!isKeyboardShown && (
-        <DateHeader
-          title="Necessidades Psicoespirituais"
-          destinyBack="PsychologicalNeeds"
-        />
+        <DateHeader title="Dados do Parto" destinyBack="PsychobiologicNeeds" />
       )}
       <SafeAreaView style={styles.container}>
         <Gradient />
@@ -39,7 +36,14 @@ const index = (): JSX.Element => {
             }}
           >
             <View style={styles.formContainer}>
-              <CommonInput title="Prática religiosa" returnKeyType="next" />
+              <CommonInput title="Data" />
+              <CommonInput title="Hora" />
+              <CommonInput title="Gestação" />
+              <CommonInput title="Tipo de parto" />
+              <CommonInput title="Indicação" />
+              <CommonInput title="RPMO" />
+              <CommonInput title="Tempo de BR até o parto" />
+              <CommonInput title="Informações adcionais" returnKeyType="go" />
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
