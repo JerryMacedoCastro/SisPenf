@@ -15,7 +15,7 @@ const index = (): JSX.Element => {
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
   const handleContinue = () => {
-    navigation.navigate("ChildbirthNeeds");
+    navigation.navigate("ChildbirthData");
   };
 
   return (

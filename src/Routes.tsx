@@ -11,7 +11,9 @@ import FindPatient from "./pages/FindPatient";
 import PsychologicalNeeds from "./pages/MaternalHistory/PsychologicalNeeds";
 import SpiritualNeeds from "./pages/MaternalHistory/SpiritualNeeds";
 import PsychobiologicNeeds from "./pages/MaternalHistory/PsychobiologicNeeds";
-import ChildbirthNeeds from "./pages/MaternalHistory/ ChildbirthNeeds";
+import ChildbirthData from "./pages/MaternalHistory/ChildbirthData";
+import PartOne from "./pages/PhysicalExam/PartOne";
+import PartTwo from "./pages/PhysicalExam/PartTwo";
 
 const { Navigator, Screen } = createStackNavigator();
 const Routes = (): JSX.Element => {
@@ -32,7 +34,9 @@ const Routes = (): JSX.Element => {
         <Screen name="PsychologicalNeeds" component={PsychologicalNeeds} />
         <Screen name="SpiritualNeeds" component={SpiritualNeeds} />
         <Screen name="PsychobiologicNeeds" component={PsychobiologicNeeds} />
-        <Screen name="ChildbirthNeeds" component={ChildbirthNeeds} />
+        <Screen name="ChildbirthData" component={ChildbirthData} />
+        <Screen name="PartOne" component={PartOne} />
+        <Screen name="PartTwo" component={PartTwo} />
       </Navigator>
     </NavigationContainer>
   );
