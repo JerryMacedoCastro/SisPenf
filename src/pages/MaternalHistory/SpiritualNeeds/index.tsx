@@ -2,12 +2,12 @@ import React from "react";
 import { View, Text, Platform, KeyboardAvoidingView } from "react-native";
 
 import { styles } from "./styles";
-import CommonInput from "../../components/CommonInput";
-import DateHeader from "../../components/DateHeader";
-import Gradient from "../../components/Gradient";
+import CommonInput from "../../../components/CommonInput";
+import DateHeader from "../../../components/DateHeader";
+import Gradient from "../../../components/Gradient";
 import { RectButton, ScrollView } from "react-native-gesture-handler";
-import { globalStyles } from "../../Assets/GlobalStyles";
-import useKeyboardControll from "../../hooks/useKeyboardControll";
+import { globalStyles } from "../../../Assets/GlobalStyles";
+import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 

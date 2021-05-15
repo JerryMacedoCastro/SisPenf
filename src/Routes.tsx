@@ -8,8 +8,8 @@ import PasswordRecover from "./pages/PasswordRecover";
 import Home from "./pages/Home";
 import NewPuerperal from "./pages/NewPuerperal";
 import FindPatient from "./pages/FindPatient";
-import PsychologicalNeeds from "./pages/PsychologicalNeeds";
-import SpiritualNeeds from "./pages/SpiritualNeeds";
+import PsychologicalNeeds from "./pages/MaternalHistory/PsychologicalNeeds";
+import SpiritualNeeds from "./pages/MaternalHistory/SpiritualNeeds";
 
 const { Navigator, Screen } = createStackNavigator();
 const Routes = (): JSX.Element => {
