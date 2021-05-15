@@ -30,7 +30,7 @@ const NewPuerperal = (): JSX.Element => {
     navigation.navigate("Home");
   };
   const handleStartProcess = () => {
-    navigation.navigate("PsycologicalNeeds");
+    navigation.navigate("PsychologicalNeeds");
   };
   return (
     <>

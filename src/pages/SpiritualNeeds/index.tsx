@@ -20,7 +20,12 @@ const index = (): JSX.Element => {
 
   return (
     <>
-      {!isKeyboardShown && <DateHeader title="Necessidades Psicológicas" />}
+      {!isKeyboardShown && (
+        <DateHeader
+          title="Necessidades Psicológicas"
+          destinyBack="PsychologicalNeeds"
+        />
+      )}
       <SafeAreaView style={styles.container}>
         <Gradient />
         <KeyboardAvoidingView
