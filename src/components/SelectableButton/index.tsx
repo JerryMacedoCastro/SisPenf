@@ -1,27 +1,45 @@
 import React from "react";
 import { Feather } from "@expo/vector-icons";
-import { Text } from "react-native";
-import { RectButton } from "react-native-gesture-handler";
+import { Pressable, Text, View } from "react-native";
+
 import { styles } from "./styles";
 import { globalStyles } from "../../Assets/GlobalStyles";
+import { IExam } from "../../interfaces";
 
 interface ButtonProps {
-  title: string;
-
-  handlePress?: () => void;
+  exam: IExam;
+  handlePress: (exam: IExam) => void;
 }
 
 const index = (props: ButtonProps): JSX.Element => {
-  const { title, handlePress } = props;
-  const defaultColor = "#fff";
+  const { exam, handlePress } = props;
+  const { value, isSelected } = exam;
+
   return (
-    <RectButton
-      style={[styles.button, globalStyles.primaryButton]}
-      onPress={handlePress}
+    <View
+      style={[
+        styles.buttonContainer,
+        isSelected
+          ? { backgroundColor: "#34615C" }
+          : { backgroundColor: "#fff" },
+      ]}
     >
-      <Text style={globalStyles.primaryButtonText}>{title}</Text>
-      <Feather name={"check-square"} color={defaultColor} size={16} />
-    </RectButton>
+      <Pressable style={[styles.button]} onPress={() => handlePress(exam)}>
+        <Text
+          style={[
+            globalStyles.primaryButtonText,
+            isSelected ? { color: "#fff" } : { color: "#aaa" },
+          ]}
+        >
+          {value}
+        </Text>
+        {isSelected ? (
+          <Feather name={"check-square"} color={"#fff"} size={24} />
+        ) : (
+          <Feather name={"square"} color={"#ddd"} size={24} />
+        )}
+      </Pressable>
+    </View>
   );
 };
 
