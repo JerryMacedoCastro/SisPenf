@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Platform, KeyboardAvoidingView } from "react-native";
 
-import { styles } from "./styles";
+import { styles } from "../styles";
 import CommonInput from "../../../components/CommonInput";
 import DateHeader from "../../../components/DateHeader";
 import Gradient from "../../../components/Gradient";
@@ -31,7 +31,7 @@ const index = (): JSX.Element => {
         <KeyboardAvoidingView
           style={styles.content}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          keyboardVerticalOffset={0}
+          keyboardVerticalOffset={50}
         >
           <ScrollView
             contentContainerStyle={{

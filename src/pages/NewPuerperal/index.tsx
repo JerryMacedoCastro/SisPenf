@@ -53,7 +53,7 @@ const NewPuerperal = (): JSX.Element => {
         <KeyboardAvoidingView
           style={styles.content}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          keyboardVerticalOffset={0}
+          keyboardVerticalOffset={50}
         >
           <ScrollView
             contentContainerStyle={{
