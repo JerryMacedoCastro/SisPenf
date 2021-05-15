@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-use-before-define
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -9,7 +8,8 @@ import PasswordRecover from "./pages/PasswordRecover";
 import Home from "./pages/Home";
 import NewPuerperal from "./pages/NewPuerperal";
 import FindPatient from "./pages/FindPatient";
-import MaternalHistory from "./pages/MaternalHistory";
+import PsychologicalNeeds from "./pages/PsychologicalNeeds";
+import SpiritualNeeds from "./pages/SpiritualNeeds";
 
 const { Navigator, Screen } = createStackNavigator();
 const Routes = (): JSX.Element => {
@@ -28,7 +28,8 @@ const Routes = (): JSX.Element => {
         <Screen name="Home" component={Home} />
         <Screen name="NewPuerperal" component={NewPuerperal} />
         <Screen name="FindPatient" component={FindPatient} />
-        <Screen name="MaternalHistory" component={MaternalHistory} />
+        <Screen name="PsycologicalNeeds" component={PsychologicalNeeds} />
+        <Screen name="SpiritualNeeds" component={SpiritualNeeds} />
       </Navigator>
     </NavigationContainer>
   );
