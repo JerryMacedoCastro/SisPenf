@@ -6,13 +6,19 @@ import { ptBR } from "date-fns/locale";
 import { styles } from "./styles";
 interface DateHeaderProps {
   title: string;
+  destinyBack?: string;
 }
 
-const index = ({ title }: DateHeaderProps): JSX.Element => {
+const index = ({ title, destinyBack }: DateHeaderProps): JSX.Element => {
   const today = format(new Date(), "PPPPp", { locale: ptBR });
   return (
     <View style={styles.container}>
-      <Header title={title} destinyBack="Home" goBackOption textColor="#fff" />
+      <Header
+        title={title}
+        destinyBack={destinyBack || "Home"}
+        goBackOption
+        textColor="#fff"
+      />
       <Text style={styles.dateText}>{today}</Text>
     </View>
   );

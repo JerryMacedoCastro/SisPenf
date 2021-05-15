@@ -2,12 +2,12 @@ import React from "react";
 import { View, Text, Platform, KeyboardAvoidingView } from "react-native";
 
 import { styles } from "./styles";
-import CommonInput from "../../components/CommonInput";
-import DateHeader from "../../components/DateHeader";
-import Gradient from "../../components/Gradient";
+import CommonInput from "../../../components/CommonInput";
+import DateHeader from "../../../components/DateHeader";
+import Gradient from "../../../components/Gradient";
 import { RectButton, ScrollView } from "react-native-gesture-handler";
-import { globalStyles } from "../../Assets/GlobalStyles";
-import useKeyboardControll from "../../hooks/useKeyboardControll";
+import { globalStyles } from "../../../Assets/GlobalStyles";
+import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 
@@ -15,12 +15,17 @@ const index = (): JSX.Element => {
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
   const handleContinue = () => {
-    navigation.navigate("");
+    navigation.navigate("ChildbirthNeeds");
   };
 
   return (
     <>
-      {!isKeyboardShown && <DateHeader title="Necessidades Psicológicas" />}
+      {!isKeyboardShown && (
+        <DateHeader
+          title="Necessidades Psicobiológicas"
+          destinyBack="SpiritualNeeds"
+        />
+      )}
       <SafeAreaView style={styles.container}>
         <Gradient />
         <KeyboardAvoidingView
@@ -34,7 +39,17 @@ const index = (): JSX.Element => {
             }}
           >
             <View style={styles.formContainer}>
-              <CommonInput title="Prática religiosa" returnKeyType="next" />
+              <CommonInput title="Gesta" />
+              <CommonInput title="Para" />
+              <CommonInput title="Aborto" />
+              <CommonInput
+                title="Número de filhos"
+                keyboardType="decimal-pad"
+              />
+              <CommonInput title="Risco" />
+              <CommonInput title="Intercorrências na gestação" />
+              <CommonInput title="Doenças associadas" />
+              <CommonInput title="Alergias" returnKeyType="go" />
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
