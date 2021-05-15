@@ -15,16 +15,13 @@ const index = (): JSX.Element => {
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
   const handleContinue = () => {
-    navigation.navigate("ChildbirthData");
+    navigation.navigate("PartOne");
   };
 
   return (
     <>
       {!isKeyboardShown && (
-        <DateHeader
-          title="Necessidades Psicobiológicas"
-          destinyBack="SpiritualNeeds"
-        />
+        <DateHeader title="Dados do Parto" destinyBack="PsychobiologicNeeds" />
       )}
       <SafeAreaView style={styles.container}>
         <Gradient />
@@ -39,17 +36,14 @@ const index = (): JSX.Element => {
             }}
           >
             <View style={styles.formContainer}>
-              <CommonInput title="Gesta" />
-              <CommonInput title="Para" />
-              <CommonInput title="Aborto" />
-              <CommonInput
-                title="Número de filhos"
-                keyboardType="decimal-pad"
-              />
-              <CommonInput title="Risco" />
-              <CommonInput title="Intercorrências na gestação" />
-              <CommonInput title="Doenças associadas" />
-              <CommonInput title="Alergias" returnKeyType="go" />
+              <CommonInput title="Data" />
+              <CommonInput title="Hora" />
+              <CommonInput title="Gestação" />
+              <CommonInput title="Tipo de parto" />
+              <CommonInput title="Indicação" />
+              <CommonInput title="RPMO" />
+              <CommonInput title="Tempo de BR até o parto" />
+              <CommonInput title="Informações adcionais" returnKeyType="go" />
             </View>
           </ScrollView>
         </KeyboardAvoidingView>

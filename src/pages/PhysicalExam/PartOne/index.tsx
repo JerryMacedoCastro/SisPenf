@@ -1,29 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Platform, KeyboardAvoidingView } from "react-native";
+import { RectButton, ScrollView } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { styles } from "../styles";
-import CommonInput from "../../../components/CommonInput";
-import DateHeader from "../../../components/DateHeader";
-import Gradient from "../../../components/Gradient";
-import { RectButton, ScrollView } from "react-native-gesture-handler";
-import { globalStyles } from "../../../Assets/GlobalStyles";
+
 import useKeyboardControll from "../../../hooks/useKeyboardControll";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import DateHeader from "../../../components/DateHeader";
+import SelectableButton from "../../../components/SelectableButton";
+import Gradient from "../../../components/Gradient";
+import { globalStyles } from "../../../Assets/GlobalStyles";
+import { IExam } from "../../../interfaces";
+import { physicalExam } from "../../../data";
 
 const index = (): JSX.Element => {
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
+  const examsPartOne = physicalExam.filter((exam) => exam.part === 1);
+  const [exams, setExams] = useState(examsPartOne);
   const handleContinue = () => {
-    navigation.navigate("ChildbirthData");
+    navigation.navigate("PartTwo");
+  };
+
+  const handleSelectExam = (exam: IExam) => {
+    const oldExam = exams.find((item) => item.value === exam.value);
+
+    if (oldExam) {
+      const newExam: IExam = {
+        id: oldExam.id,
+        value: oldExam.value,
+        isSelected: !oldExam.isSelected,
+        part: oldExam.part,
+      };
+
+      const newExams = exams.map((item) => {
+        if (item === oldExam) return newExam;
+        else return item;
+      });
+
+      setExams(newExams);
+    }
   };
 
   return (
     <>
       {!isKeyboardShown && (
         <DateHeader
-          title="Necessidades Psicobiológicas"
-          destinyBack="SpiritualNeeds"
+          title="Exame físico parte 1"
+          destinyBack=" ChildbirthData"
         />
       )}
       <SafeAreaView style={styles.container}>
@@ -39,17 +64,14 @@ const index = (): JSX.Element => {
             }}
           >
             <View style={styles.formContainer}>
-              <CommonInput title="Gesta" />
-              <CommonInput title="Para" />
-              <CommonInput title="Aborto" />
-              <CommonInput
-                title="Número de filhos"
-                keyboardType="decimal-pad"
-              />
-              <CommonInput title="Risco" />
-              <CommonInput title="Intercorrências na gestação" />
-              <CommonInput title="Doenças associadas" />
-              <CommonInput title="Alergias" returnKeyType="go" />
+              {exams.map((exam) => {
+                return (
+                  <SelectableButton
+                    exam={exam}
+                    handlePress={(exam) => handleSelectExam(exam)}
+                  />
+                );
+              })}
             </View>
           </ScrollView>
         </KeyboardAvoidingView>

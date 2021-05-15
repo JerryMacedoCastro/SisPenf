@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Platform, KeyboardAvoidingView } from "react-native";
 
 import { styles } from "../styles";
-import CommonInput from "../../../components/CommonInput";
+
 import DateHeader from "../../../components/DateHeader";
 import Gradient from "../../../components/Gradient";
 import { RectButton, ScrollView } from "react-native-gesture-handler";
@@ -21,7 +21,7 @@ const index = (): JSX.Element => {
   return (
     <>
       {!isKeyboardShown && (
-        <DateHeader title="Dados do Parto" destinyBack="PsychobiologicNeeds" />
+        <DateHeader title="Exame físico parte 2" destinyBack="PartOne" />
       )}
       <SafeAreaView style={styles.container}>
         <Gradient />
@@ -35,16 +35,7 @@ const index = (): JSX.Element => {
               position: "relative",
             }}
           >
-            <View style={styles.formContainer}>
-              <CommonInput title="Data" />
-              <CommonInput title="Hora" />
-              <CommonInput title="Gestação" />
-              <CommonInput title="Tipo de parto" />
-              <CommonInput title="Indicação" />
-              <CommonInput title="RPMO" />
-              <CommonInput title="Tempo de BR até o parto" />
-              <CommonInput title="Informações adcionais" returnKeyType="go" />
-            </View>
+            <View style={styles.formContainer}></View>
           </ScrollView>
         </KeyboardAvoidingView>
 

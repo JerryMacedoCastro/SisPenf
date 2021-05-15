@@ -71,7 +71,7 @@ const PanelTab = (): JSX.Element => {
           icon="alert-triangle"
           color="#FFF"
           size={24}
-          handlePress={() => navigation.navigate("PsychologicalNeeds")}
+          handlePress={() => navigation.navigate("PartOne")}
         />
         <Button
           title="Acompanhar paciente"
