@@ -46,10 +46,7 @@ const index = (): JSX.Element => {
   return (
     <>
       {!isKeyboardShown && (
-        <DateHeader
-          title="Exame físico parte 1"
-          destinyBack=" ChildbirthData"
-        />
+        <DateHeader title="Exame físico parte 1" destinyBack="ChildbirthData" />
       )}
       <SafeAreaView style={styles.container}>
         <Gradient />
