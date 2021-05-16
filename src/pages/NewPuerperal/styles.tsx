@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#BCE0DC",
+    backgroundColor: colors.lightGreen,
     alignItems: "center",
   },
   button: {
@@ -23,7 +24,7 @@ export const styles = StyleSheet.create({
     height: "80%",
   },
   formContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     borderRadius: 20,
   },
   buttonsContainer: {

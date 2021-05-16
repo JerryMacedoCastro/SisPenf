@@ -3,7 +3,7 @@ import { Feather } from "@expo/vector-icons";
 import { Pressable, Text, View } from "react-native";
 
 import { styles } from "./styles";
-import { globalStyles } from "../../Assets/GlobalStyles";
+import { colors, globalStyles } from "../../Assets/GlobalStyles";
 import { IExam } from "../../interfaces";
 
 interface ButtonProps {
@@ -20,23 +20,23 @@ const index = (props: ButtonProps): JSX.Element => {
       style={[
         styles.buttonContainer,
         isSelected
-          ? { backgroundColor: "#34615C" }
-          : { backgroundColor: "#fff" },
+          ? { backgroundColor: colors.darkGreen }
+          : { backgroundColor: colors.white },
       ]}
     >
       <Pressable style={[styles.button]} onPress={() => handlePress(exam)}>
         <Text
           style={[
             globalStyles.primaryButtonText,
-            isSelected ? { color: "#fff" } : { color: "#aaa" },
+            isSelected ? { color: colors.white } : { color: colors.gray },
           ]}
         >
           {value}
         </Text>
         {isSelected ? (
-          <Feather name={"check-square"} color={"#fff"} size={24} />
+          <Feather name={"check-square"} color={colors.white} size={24} />
         ) : (
-          <Feather name={"square"} color={"#ddd"} size={24} />
+          <Feather name={"square"} color={colors.gray} size={24} />
         )}
       </Pressable>
     </View>

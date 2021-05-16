@@ -1,8 +1,9 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#34615C",
+    backgroundColor: colors.darkGreen,
 
     padding: 2,
   },
@@ -11,13 +12,13 @@ export const styles = StyleSheet.create({
   },
   subtitleContainer: {
     width: "100%",
-    backgroundColor: "#34615C",
+    backgroundColor: colors.darkGreen,
     alignItems: "center",
     height: "12%",
     justifyContent: "flex-end",
   },
   subtitleText: {
-    color: "#fff",
+    color: colors.white,
     fontFamily: "JosefinSans_700Bold",
     fontSize: 18,
     padding: 6,
@@ -26,13 +27,13 @@ export const styles = StyleSheet.create({
   footer: {
     display: "flex",
     alignItems: "center",
-    backgroundColor: "#34615C",
+    backgroundColor: colors.darkGreen,
     width: "100%",
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
   footerText: {
-    color: "#fff",
+    color: colors.white,
     fontFamily: "JosefinSans_700Bold",
     fontSize: 10,
     marginBottom: 10,

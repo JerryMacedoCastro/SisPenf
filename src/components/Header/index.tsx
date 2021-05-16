@@ -5,6 +5,7 @@ import { BorderlessButton } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./styles";
+import { colors } from "../../Assets/GlobalStyles";
 
 interface HeaderProps {
   title?: string;
@@ -32,7 +33,7 @@ const index = (props: HeaderProps): JSX.Element => {
           <Feather
             name="arrow-left"
             size={18}
-            color={textColor || "#51615F"}
+            color={textColor || colors.ashenGreen}
             onPress={navigation.goBack}
           />
           <Text

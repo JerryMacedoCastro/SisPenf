@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   inputContainer: {
@@ -11,11 +12,11 @@ export const styles = StyleSheet.create({
     elevation: 0,
     padding: 4,
     margin: 10,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
   },
 
   inputText: {
     padding: 6,
-    color: "#34615C",
+    color: colors.darkGreen,
   },
 });

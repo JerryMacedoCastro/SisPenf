@@ -2,11 +2,12 @@
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
+import { colors } from "../../Assets/GlobalStyles";
 
 const index = (): JSX.Element => {
   return (
     <LinearGradient
-      colors={["#fff", "transparent"]}
+      colors={[colors.white, "transparent"]}
       style={styles.background}
     />
   );

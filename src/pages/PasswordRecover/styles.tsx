@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#BCE0DC",
+    backgroundColor: colors.lightGreen,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -11,18 +12,18 @@ export const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     borderBottomWidth: 1,
-    borderColor: "#fff",
+    borderColor: colors.white,
     paddingBottom: 10,
     width: "80%",
     height: 50,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     borderRadius: 4,
     padding: 20,
     marginBottom: 10,
   },
   inputStyle: {
     flex: 1,
-    color: "#27615A",
+    color: colors.darkGreen,
     fontFamily: "JosefinSans_700Bold",
   },
 });

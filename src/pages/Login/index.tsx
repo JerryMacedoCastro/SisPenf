@@ -6,7 +6,7 @@ import { RectButton, TextInput } from "react-native-gesture-handler";
 
 import { styles } from "./styles";
 import Gradient from "../../components/Gradient";
-import { globalStyles } from "../../Assets/GlobalStyles";
+import { colors, globalStyles } from "../../Assets/GlobalStyles";
 import Header from "../../components/Header";
 
 const Login = (): JSX.Element => {
@@ -40,7 +40,7 @@ const Login = (): JSX.Element => {
           onChangeText={handleChangeUser}
           autoFocus
         />
-        <Feather name="user" size={18} color="#51615F" />
+        <Feather name="user" size={18} color={colors.ashenGreen} />
       </View>
 
       <View style={styles.inputContainer}>
@@ -52,7 +52,7 @@ const Login = (): JSX.Element => {
           value={password}
           onChangeText={handleChangePassword}
         />
-        <Feather name="lock" size={18} color="#51615F" />
+        <Feather name="lock" size={18} color={colors.ashenGreen} />
       </View>
       <RectButton style={{ height: 26, marginBottom: 20, marginTop: 20 }}>
         <Text

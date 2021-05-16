@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   safeArea: {
@@ -8,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   container: {
     top: 0,
-    backgroundColor: "#27615A",
+    backgroundColor: colors.darkGreen,
     alignItems: "center",
     justifyContent: "center",
     height: "14%",
@@ -18,7 +19,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     padding: 6,
-    color: "#fff",
+    color: colors.white,
     fontFamily: "JosefinSans_700Bold",
   },
 });

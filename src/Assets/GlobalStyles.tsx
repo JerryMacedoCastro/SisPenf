@@ -1,4 +1,14 @@
 import { StyleSheet } from "react-native";
+export const colors = {
+  darkGreen: "#34615C",
+  shinyGreen: "#5DB5AB",
+  lightGreen: "#BCE0DC",
+  ashenGreen: "#51615F",
+  gray: "#AAA",
+  lightGray: "#DDD",
+  white: "#FFF",
+  black: "#000",
+};
 
 export const globalStyles = StyleSheet.create({
   button: {
@@ -13,24 +23,24 @@ export const globalStyles = StyleSheet.create({
   },
 
   primaryButton: {
-    backgroundColor: "#34615C",
+    backgroundColor: colors.darkGreen,
   },
 
   secondaryButton: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     borderWidth: 3,
-    borderColor: "#34615C",
+    borderColor: colors.darkGreen,
   },
 
   primaryButtonText: {
-    color: "#FFF",
+    color: colors.white,
     fontSize: 16,
     marginLeft: 16,
     fontWeight: "700",
   },
 
   secondaryButtonText: {
-    color: "#34615C",
+    color: colors.darkGreen,
     fontSize: 16,
     marginLeft: 16,
     fontWeight: "700",

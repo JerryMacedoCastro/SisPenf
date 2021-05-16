@@ -1,15 +1,16 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#BCE0DC",
+    backgroundColor: colors.lightGreen,
     alignItems: "center",
     justifyContent: "center",
   },
 
   content: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     width: "90%",
     padding: 8,
     position: "relative",
@@ -18,7 +19,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   panelContent: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     width: "80%",
     padding: 8,
     position: "relative",
@@ -29,7 +30,7 @@ export const styles = StyleSheet.create({
     height: 112,
     marginBottom: 25,
     borderWidth: 2,
-    borderColor: "#27615A",
+    borderColor: colors.darkGreen,
   },
 
   circle: {
@@ -37,17 +38,17 @@ export const styles = StyleSheet.create({
     height: 120,
     borderRadius: 100,
     position: "absolute",
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     top: -6,
     left: -20,
     borderWidth: 2,
-    borderColor: "#27615A",
+    borderColor: colors.darkGreen,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
   },
   percentage: {
-    color: "#27615A",
+    color: colors.darkGreen,
     fontSize: 40,
     fontWeight: "700",
     fontFamily: "JosefinSans_700Bold",

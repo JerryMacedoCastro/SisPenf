@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#BCE0DC",
+    backgroundColor: colors.lightGreen,
     alignItems: "center",
     position: "absolute",
     bottom: 0,
@@ -23,7 +24,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    color: "#34615C",
+    color: colors.darkGreen,
     alignSelf: "flex-start",
     marginLeft: 24,
     marginBottom: 4,
@@ -36,17 +37,17 @@ export const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     width: "90%",
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     paddingHorizontal: 1,
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: "#34615C",
+    borderColor: colors.darkGreen,
     marginBottom: 4,
   },
   input: {
     width: "80%",
     height: 40,
-    color: "#34615C",
+    color: colors.darkGreen,
   },
   listContainer: {
     position: "relative",
@@ -54,7 +55,7 @@ export const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     marginTop: 20,
-    backgroundColor: "rgba(255,255,255,0.6)",
+    backgroundColor: colors.white,
   },
   pickerButtonsContainer: {
     display: "flex",

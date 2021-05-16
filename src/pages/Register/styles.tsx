@@ -1,21 +1,22 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#BCE0DC",
+    backgroundColor: colors.lightGreen,
     alignItems: "center",
     justifyContent: "center",
   },
 
   subTitle: {
     fontFamily: "JosefinSans_700Bold",
-    color: "#51615F",
+    color: colors.ashenGreen,
     fontSize: 26,
     padding: 20,
   },
   input: {
-    backgroundColor: "#ffF",
+    backgroundColor: colors.white,
     width: "80%",
     marginBottom: 10,
     height: 50,
@@ -34,10 +35,10 @@ export const styles = StyleSheet.create({
     fontFamily: "JosefinSans_700Bold",
   },
   primaryButton: {
-    backgroundColor: "#34615C",
+    backgroundColor: colors.darkGreen,
   },
   primaryButtonText: {
-    color: "#FFF",
+    color: colors.white,
     fontSize: 16,
     marginLeft: 16,
     fontWeight: "700",

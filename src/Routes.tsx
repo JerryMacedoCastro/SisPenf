@@ -14,6 +14,7 @@ import PsychobiologicNeeds from "./pages/MaternalHistory/PsychobiologicNeeds";
 import ChildbirthData from "./pages/MaternalHistory/ChildbirthData";
 import PartOne from "./pages/PhysicalExam/PartOne";
 import PartTwo from "./pages/PhysicalExam/PartTwo";
+import { colors } from "./Assets/GlobalStyles";
 
 const { Navigator, Screen } = createStackNavigator();
 const Routes = (): JSX.Element => {
@@ -22,7 +23,7 @@ const Routes = (): JSX.Element => {
       <Navigator
         screenOptions={{
           headerShown: false,
-          cardStyle: { backgroundColor: "#f2f3f5" },
+          cardStyle: { backgroundColor: colors.white },
         }}
       >
         <Screen name="Login" component={Login} />

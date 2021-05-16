@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   item: {
@@ -10,10 +11,10 @@ export const styles = StyleSheet.create({
 
   seletedItem: {
     borderBottomWidth: 4,
-    borderColor: "#BCE0DC",
+    borderColor: colors.lightGreen,
   },
   itemText: {
-    color: "#fff",
+    color: colors.white,
     fontFamily: "JosefinSans_700Bold",
     fontSize: 18,
   },
