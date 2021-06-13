@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import PanelTab from "../PanelTab";
 import ResumeTab from "../ResumeTab";
+import { colors } from "../../Assets/GlobalStyles";
 
 const TabsNavigation = (): JSX.Element => {
   const Tab = createBottomTabNavigator();
@@ -19,11 +20,11 @@ const TabsNavigation = (): JSX.Element => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: "#233f3c",
-        inactiveTintColor: "#999",
+        activeTintColor: colors.darkGreen,
+        inactiveTintColor: colors.gray,
         style: {
           height: 64,
-          backgroundColor: "#BCE0DC",
+          backgroundColor: colors.lightGreen,
         },
         labelStyle: {
           fontSize: 14,

@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   fieldSet: {
@@ -8,7 +9,7 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
     borderWidth: 1,
     alignItems: "center",
-    borderColor: "#27615A",
+    borderColor: colors.darkGreen,
     paddingVertical: 10,
     marginBottom: 10,
     width: "100%",
@@ -20,14 +21,14 @@ export const styles = StyleSheet.create({
     top: -10,
     left: 10,
     fontWeight: "bold",
-    backgroundColor: "#fff",
-    color: "#27615A",
+    backgroundColor: colors.white,
+    color: colors.darkGreen,
     fontFamily: "JosefinSans_700Bold",
     fontSize: 12,
     padding: 2,
   },
   value: {
-    color: "#27615A",
+    color: colors.darkGreen,
     fontFamily: "JosefinSans_700Bold",
     fontSize: 12,
     width: "50%",

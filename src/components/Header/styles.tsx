@@ -1,7 +1,9 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   container: {
+    flex: 1,
     marginBottom: 1,
   },
   goBack: {
@@ -17,13 +19,13 @@ export const styles = StyleSheet.create({
     fontFamily: "JosefinSans_700Bold",
     fontSize: 14,
     marginLeft: 4,
-    color: "#51615F",
+    color: colors.ashenGreen,
   },
 
   title: {
     fontFamily: "JosefinSans_700Bold",
     fontSize: 14,
-    color: "#51615F",
+    color: colors.ashenGreen,
     position: "absolute",
     top: 50,
   },

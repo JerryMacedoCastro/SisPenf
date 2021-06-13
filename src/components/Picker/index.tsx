@@ -1,6 +1,8 @@
 import React from "react";
 import { View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import { color } from "react-native-reanimated";
+import { colors } from "../../Assets/GlobalStyles";
 
 import { keyValue } from "../../interfaces";
 import { styles } from "./styles";
@@ -22,18 +24,18 @@ const index = ({
         items={items}
         multiple={false}
         containerStyle={styles.containerStyle}
-        style={{ backgroundColor: "#34615C", borderRadius: 100 }}
+        style={{ backgroundColor: colors.darkGreen, borderRadius: 100 }}
         placeholder={placeholder}
         itemStyle={{
           justifyContent: "flex-start",
-          backgroundColor: "#34615C",
+          backgroundColor: colors.darkGreen,
         }}
         labelStyle={{
           fontSize: 16,
           textAlign: "left",
-          color: "#fff",
+          color: colors.white,
         }}
-        dropDownStyle={{ backgroundColor: "#34615C" }}
+        dropDownStyle={{ backgroundColor: colors.darkGreen }}
         onChangeItem={(item: keyValue) => handleChange(item)}
       />
     </View>

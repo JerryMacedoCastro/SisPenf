@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 import { styles } from "./styles";
+import { colors } from "../../Assets/GlobalStyles";
 
 interface ITabHeaderProps {
   firstTab: FunctionComponent;
@@ -25,23 +26,23 @@ const index = ({
     <>
       <View style={styles.safeArea}>
         <View style={styles.container}>
-          <Header title={title} textColor="#fff" />
+          <Header title={title} textColor={colors.white} />
           <Text style={styles.dateText}>{today}</Text>
         </View>
 
         <Tabs.Navigator
           tabBarOptions={{
-            activeTintColor: "#fff",
-            inactiveTintColor: "#999",
+            activeTintColor: colors.white,
+            inactiveTintColor: colors.gray,
             style: {
-              backgroundColor: "#27615A",
+              backgroundColor: colors.darkGreen,
             },
             labelStyle: {
               fontSize: 14,
             },
             allowFontScaling: false,
             indicatorStyle: {
-              backgroundColor: "#fff",
+              backgroundColor: colors.white,
             },
           }}
         >

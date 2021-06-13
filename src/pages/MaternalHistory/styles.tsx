@@ -1,17 +1,18 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#BCE0DC",
+    backgroundColor: colors.lightGreen,
   },
   content: {
     width: "90%",
     height: "80%",
   },
   formContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     borderRadius: 20,
   },
   inputContainer: {

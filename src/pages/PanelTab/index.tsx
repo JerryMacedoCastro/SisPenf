@@ -8,6 +8,7 @@ import Header from "../../components/Header";
 import Button from "../../components/Button";
 import PanelInfo from "../../components/PanelInfo";
 import CustomModal from "../../components/CustomModal";
+import { colors } from "../../Assets/GlobalStyles";
 
 const PanelTab = (): JSX.Element => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -24,7 +25,7 @@ const PanelTab = (): JSX.Element => {
       <Header />
       <Text
         style={{
-          color: "#27615A",
+          color: colors.darkGreen,
           fontFamily: "JosefinSans_700Bold",
           right: -20,
           fontSize: 18,
@@ -55,41 +56,46 @@ const PanelTab = (): JSX.Element => {
         <Button
           title="Admitir paciente"
           icon="log-in"
-          color="#FFF"
+          color={colors.white}
           size={24}
           handlePress={handleNewPatientClick}
         />
         <Button
           title="Processo de Enfermagem"
           icon="user-check"
-          color="#FFF"
+          color={colors.white}
           size={24}
           handlePress={() => handleNavigate("FindPatient")}
         />
         <Button
           title="Pendências"
           icon="alert-triangle"
-          color="#FFF"
+          color={colors.white}
           size={24}
           handlePress={() => navigation.navigate("PartOne")}
         />
         <Button
           title="Acompanhar paciente"
           icon="file-text"
-          color="#FFF"
+          color={colors.white}
           size={24}
         />
         <Button
           title="Intercorrências"
           icon="file-plus"
-          color="#FFF"
+          color={colors.white}
           size={24}
         />
-        <Button title="Alta médica" icon="user-x" color="#FFF" size={24} />
+        <Button
+          title="Alta médica"
+          icon="user-x"
+          color={colors.white}
+          size={24}
+        />
         <Button
           title="Sair"
           icon="log-out"
-          color="#FFF"
+          color={colors.white}
           size={24}
           handlePress={() => navigation.navigate("Login")}
         />

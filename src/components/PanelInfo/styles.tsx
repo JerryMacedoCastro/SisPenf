@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   block: {
@@ -9,13 +10,13 @@ export const styles = StyleSheet.create({
   },
 
   value: {
-    color: "#27615A",
+    color: colors.darkGreen,
     textAlign: "center",
     fontSize: 20,
     fontFamily: "JosefinSans_700Bold",
   },
   label: {
-    color: "#27615A",
+    color: colors.darkGreen,
     textAlign: "center",
     fontSize: 16,
     fontFamily: "JosefinSans_700Bold",

@@ -10,7 +10,7 @@ import Separator from "../../components/Separator";
 import PickerInfirmary from "../../components/Picker";
 import PatiensList from "../../components/PatientsList";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
-import { globalStyles } from "../../Assets/GlobalStyles";
+import { colors, globalStyles } from "../../Assets/GlobalStyles";
 import { hospitalBeds, infirmaries } from "../../data";
 import { keyValue } from "../../interfaces/index";
 import { useNavigation } from "@react-navigation/native";
@@ -59,7 +59,7 @@ const FindPatient = (): JSX.Element => {
             />
             <Feather
               name={"search"}
-              color={"#34615C"}
+              color={colors.darkGreen}
               size={24}
               onPress={handleSearchPress}
             />

@@ -1,34 +1,33 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 2,
-    backgroundColor: "#BCE0DC",
+    backgroundColor: colors.lightGreen,
     alignItems: "center",
     justifyContent: "center",
   },
 
   subTitle: {
     fontFamily: "JosefinSans_700Bold",
-    color: "#51615F",
+    color: colors.darkGreen,
     fontSize: 26,
     padding: 20,
   },
   inputContainer: {
     flexDirection: "row",
-    borderBottomWidth: 1,
-    borderColor: "#fff",
     paddingBottom: 10,
     width: "80%",
     height: 50,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     borderRadius: 4,
     padding: 20,
     marginBottom: 10,
   },
   inputStyle: {
     flex: 1,
-    color: "#27615A",
+    color: colors.darkGreen,
     fontFamily: "JosefinSans_700Bold",
   },
 });
