@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-    paddingBottom: 4,
+    paddingBottom: 12,
   },
   confirmButtonsContainer: {
     flex: 0,

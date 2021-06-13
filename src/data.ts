@@ -35,7 +35,19 @@ export const patients = [
 ];
 
 export const physicalExam = [
-  { id: 1, value: "Condições gerais", isSelected: false, part: 1 },
+  {
+    id: 1,
+    value: "Condições gerais",
+    isSelected: false,
+    part: 1,
+    options: [
+      { id: "Bom", description: "Bom" },
+      { id: "Regular", description: "Regular" },
+      { id: "Grave", description: "Grave" },
+      { id: "Muito grave", description: "Muito grave" },
+    ],
+    comment: "",
+  },
   { id: 2, value: "Estado mental", isSelected: false, part: 1 },
   { id: 3, value: "Pele", isSelected: false, part: 1 },
   { id: 4, value: "Cabelo", isSelected: false, part: 1 },

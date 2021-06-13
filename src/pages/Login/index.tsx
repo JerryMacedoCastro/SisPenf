@@ -1,75 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Text, View } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { RectButton, TextInput } from "react-native-gesture-handler";
+import { RectButton } from "react-native-gesture-handler";
+import { Form } from "@unform/mobile";
+import { SubmitHandler, FormHandles } from "@unform/core";
+import axios from "axios";
+import api from "../../services/api";
 
 import { styles } from "./styles";
 import Gradient from "../../components/Gradient";
-import { colors, globalStyles } from "../../Assets/GlobalStyles";
+import { globalStyles } from "../../Assets/GlobalStyles";
 import Header from "../../components/Header";
+import SquareInput from "../../components/SquareInput";
 
 const Login = (): JSX.Element => {
-  const [user, setUser] = useState<string>("");
-  const [password, setPassword] = useState("");
   const navigation = useNavigation();
+  const formRef = useRef<FormHandles>(null);
 
-  const handleChangeUser = (text: string) => {
-    setUser(text);
+  const handleFormSubmit: SubmitHandler<FormData> = (data) => {
+    alert(JSON.stringify(data));
   };
 
-  const handleChangePassword = (text: string) => {
-    setPassword(text);
-  };
   const handleNavigateToRegister = () => {
     navigation.navigate("Register");
   };
+
+  useEffect(() => {
+    api
+      .get("")
+      .then((response) => {
+        alert(response);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  }, []);
   return (
     <View style={styles.container}>
       <Gradient />
       <Header />
-
       <Text style={styles.subTitle}>SisPenf</Text>
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.inputStyle}
-          autoCorrect={false}
-          placeholder={"Usuário"}
-          value={user}
-          onChangeText={handleChangeUser}
-          autoFocus
-        />
-        <Feather name="user" size={18} color={colors.ashenGreen} />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.inputStyle}
+      <Form
+        ref={formRef}
+        onSubmit={handleFormSubmit}
+        style={{ display: "flex", width: "100%", alignItems: "center" }}
+      >
+        <SquareInput name="user" icon="user" autoCorrect={false} />
+        <SquareInput
+          name="password"
+          icon="lock"
           autoCorrect={false}
           secureTextEntry
-          placeholder={"Senha"}
-          value={password}
-          onChangeText={handleChangePassword}
         />
-        <Feather name="lock" size={18} color={colors.ashenGreen} />
-      </View>
-      <RectButton style={{ height: 26, marginBottom: 20, marginTop: 20 }}>
-        <Text
-          onPress={() => navigation.navigate("PasswordRecover")}
-          style={styles.inputStyle}
+        <RectButton style={{ height: 26, marginBottom: 20, marginTop: 20 }}>
+          <Text
+            onPress={() => navigation.navigate("PasswordRecover")}
+            style={styles.inputStyle}
+          >
+            Esqueceu a senha? Clique aqui.
+          </Text>
+        </RectButton>
+        <RectButton
+          onPress={() => formRef?.current?.submitForm()}
+          style={[globalStyles.button, globalStyles.primaryButton]}
         >
-          Esqueceu a senha? Clique aqui.
-        </Text>
-      </RectButton>
-      <RectButton
-        onPress={() => {
-          navigation.navigate("Home");
-        }}
-        style={[globalStyles.button, globalStyles.primaryButton]}
-      >
-        <Text style={globalStyles.primaryButtonText}>Acessar</Text>
-      </RectButton>
+          <Text style={globalStyles.primaryButtonText}>Acessar</Text>
+        </RectButton>
+      </Form>
       <RectButton
         style={[globalStyles.button, globalStyles.secondaryButton]}
         onPress={handleNavigateToRegister}
