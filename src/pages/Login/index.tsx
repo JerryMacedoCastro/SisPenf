@@ -1,40 +1,35 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { RectButton } from "react-native-gesture-handler";
 import { Form } from "@unform/mobile";
 import { SubmitHandler, FormHandles } from "@unform/core";
-import axios from "axios";
-import api from "../../services/api";
+// import api from "../../services/api";
 
 import { styles } from "./styles";
 import Gradient from "../../components/Gradient";
 import { globalStyles } from "../../Assets/GlobalStyles";
 import Header from "../../components/Header";
 import SquareInput from "../../components/SquareInput";
+import { useAuth } from "../../contexts/auth";
 
 const Login = (): JSX.Element => {
+  const { user, signed, signIn } = useAuth();
+  console.log(signed);
+  console.log(user);
+
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
 
-  const handleFormSubmit: SubmitHandler<FormData> = (data) => {
-    alert(JSON.stringify(data));
+  const handleFormSubmit: SubmitHandler<FormData> = async (info) => {
+    console.log(info);
+    await signIn();
   };
 
   const handleNavigateToRegister = () => {
     navigation.navigate("Register");
   };
 
-  useEffect(() => {
-    api
-      .get("")
-      .then((response) => {
-        alert(response);
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  }, []);
   return (
     <View style={styles.container}>
       <Gradient />

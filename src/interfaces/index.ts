@@ -9,3 +9,16 @@ export interface IExam {
   isSelected: boolean;
   part: number;
 }
+
+export interface IAuthContextData {
+  signed: boolean;
+  loading: boolean;
+  user: IUser | null;
+  signIn(): Promise<void>;
+  signOut(): void;
+}
+
+export interface IUser {
+  name: string;
+  email: string;
+}
