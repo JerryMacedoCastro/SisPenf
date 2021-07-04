@@ -9,15 +9,20 @@ import Button from "../../components/Button";
 import PanelInfo from "../../components/PanelInfo";
 import CustomModal from "../../components/CustomModal";
 import { colors } from "../../Assets/GlobalStyles";
+import { useAuth } from "../../contexts/auth";
 
 const PanelTab = (): JSX.Element => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const { signOut } = useAuth();
   const handleNewPatientClick = () => {
     setModalIsVisible(!modalIsVisible);
   };
   const navigation = useNavigation();
   const handleNavigate = (to: string) => {
     navigation.navigate(to);
+  };
+  const handleLogout = () => {
+    signOut();
   };
   return (
     <View style={styles.container}>
@@ -97,7 +102,7 @@ const PanelTab = (): JSX.Element => {
           icon="log-out"
           color={colors.white}
           size={24}
-          handlePress={() => navigation.navigate("Login")}
+          handlePress={handleLogout}
         />
       </View>
     </View>
