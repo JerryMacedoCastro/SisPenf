@@ -14,7 +14,7 @@ export interface IAuthContextData {
   signed: boolean;
   loading: boolean;
   user: IUser | null;
-  signIn(): Promise<void>;
+  signIn(email: string, password: string): Promise<void>;
   signOut(): void;
 }
 

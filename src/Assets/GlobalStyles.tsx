@@ -8,6 +8,8 @@ export const colors = {
   lightGray: "#DDD",
   white: "#FFF",
   black: "#000",
+  darkRed: "#961511",
+  lightRed: "#FFCCCC",
 };
 
 export const globalStyles = StyleSheet.create({
