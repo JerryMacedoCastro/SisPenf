@@ -1,11 +1,19 @@
 import { IUser } from "../interfaces/index";
+import api from "./api";
 
 interface IResponse {
   token: string;
   user: IUser;
 }
 
-export function signIn(): Promise<IResponse> {
+export async function signIn(
+  email: string,
+  password: string
+): Promise<IResponse> {
+  const data = { email: email, password: password };
+  const response = await api.post("/login", data);
+  console.log(response.data);
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({

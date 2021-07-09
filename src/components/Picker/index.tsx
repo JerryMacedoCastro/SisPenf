@@ -1,9 +1,8 @@
 import React from "react";
 import { View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { color } from "react-native-reanimated";
-import { colors } from "../../Assets/GlobalStyles";
 
+import { colors } from "../../Assets/GlobalStyles";
 import { keyValue } from "../../interfaces";
 import { styles } from "./styles";
 
@@ -11,12 +10,14 @@ interface PickerProps {
   items: keyValue[];
   placeholder: string;
   handleChange: (item: keyValue) => void;
+  disabled?: boolean;
 }
 
 const index = ({
   placeholder,
   items,
   handleChange,
+  disabled,
 }: PickerProps): JSX.Element => {
   return (
     <View>
@@ -37,6 +38,7 @@ const index = ({
         }}
         dropDownStyle={{ backgroundColor: colors.darkGreen }}
         onChangeItem={(item: keyValue) => handleChange(item)}
+        disabled={disabled}
       />
     </View>
   );

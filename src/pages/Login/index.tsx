@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { RectButton } from "react-native-gesture-handler";
 import { Form } from "@unform/mobile";
@@ -13,17 +13,24 @@ import Header from "../../components/Header";
 import SquareInput from "../../components/SquareInput";
 import { useAuth } from "../../contexts/auth";
 
+interface FormData {
+  user: string;
+  password: string;
+}
+
 const Login = (): JSX.Element => {
-  const { user, signed, signIn } = useAuth();
-  console.log(signed);
-  console.log(user);
+  const { signIn } = useAuth();
 
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
 
   const handleFormSubmit: SubmitHandler<FormData> = async (info) => {
-    console.log(info);
-    await signIn();
+    try {
+      const { user, password } = info;
+      await signIn(user, password);
+    } catch (error) {
+      Alert.alert("Dados incorretos", "Verifique seu e-mail e senha");
+    }
   };
 
   const handleNavigateToRegister = () => {
@@ -47,6 +54,7 @@ const Login = (): JSX.Element => {
           autoCorrect={false}
           secureTextEntry
         />
+        {/* {error !== "" && <TextInput style={styles.error}>{error}</TextInput>} */}
         <RectButton style={{ height: 26, marginBottom: 20, marginTop: 20 }}>
           <Text
             onPress={() => navigation.navigate("PasswordRecover")}

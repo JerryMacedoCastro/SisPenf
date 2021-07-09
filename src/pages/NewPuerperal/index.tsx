@@ -1,36 +1,95 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { styles } from "./styles";
-import { globalStyles } from "../../Assets/GlobalStyles";
+import { colors, globalStyles } from "../../Assets/GlobalStyles";
 import CommonInput from "../../components/CommonInput";
 import DateHeader from "../../components/DateHeader";
-import PickerInfirmary from "../../components/Picker";
+import Picker from "../../components/Picker";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
-import { infirmaries, hospitalBeds } from "../../data";
-import { keyValue } from "../../interfaces";
+
+import {
+  keyValue,
+  IInfirmariesResponse,
+  IHospitalBedResponse,
+} from "../../interfaces";
 import { useNavigation } from "@react-navigation/native";
 import Gradient from "../../components/Gradient";
+import api from "../../services/api";
 
 const NewPuerperal = (): JSX.Element => {
-  const [infirmary, setInfirmary] = useState({} as keyValue);
-  const [hospitalBed, setHospitalBed] = useState({} as keyValue);
+  const [infirmary, setInfirmary] = useState<number>(0);
+
+  const [bedsPickerDisabled, setBedPickerDisabled] = useState(true);
+  const [hospitalBed, setHospitalBed] = useState(0);
+  const [infirmaries, setInfirmaries] = useState<keyValue[]>([]);
+  const [beds, setBeds] = useState<keyValue[]>([]);
   const isKeyboardShown = useKeyboardControll();
   const navigation = useNavigation();
+
+  useEffect(() => {
+    let keyValueInfirmaries: keyValue[] = [];
+
+    async function fetchData() {
+      try {
+        const { data } = await api.get("/infirmary");
+        const infirmariesResponse: IInfirmariesResponse[] = data;
+        infirmariesResponse.forEach((infirmary: IInfirmariesResponse) => {
+          const keyValueInfirmary: keyValue = {
+            label: infirmary.description,
+            value: infirmary.id,
+          };
+          keyValueInfirmaries = [...keyValueInfirmaries, keyValueInfirmary];
+        });
+        setInfirmaries(keyValueInfirmaries);
+      } catch (error) {
+        Alert.alert("Problema de conexão!", error.message);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const handleChangeInfirmary = async (item: keyValue) => {
+    const { value } = item;
+    setBedPickerDisabled(true);
+    setBeds([]);
+    setHospitalBed(0);
+    setInfirmary(value);
+
+    let keyValueBeds: keyValue[] = [];
+    try {
+      const { data } = await api.get(`/hospitalbed/${value}`);
+      const bedsResponse: IHospitalBedResponse[] = data;
+      bedsResponse.forEach((bed: IHospitalBedResponse) => {
+        const keyValueBed: keyValue = {
+          label: bed.description,
+          value: bed.id,
+        };
+        keyValueBeds = [...keyValueBeds, keyValueBed];
+      });
+      setBeds(keyValueBeds);
+      setBedPickerDisabled(false);
+    } catch (error) {
+      Alert.alert("Problema de conexão!", error.message);
+    }
+  };
 
   const handleCancel = () => {
     navigation.navigate("Home");
   };
   const handleStartProcess = () => {
-    navigation.navigate("PsychologicalNeeds");
+    Alert.alert(infirmary + " " + hospitalBed);
+    // navigation.navigate("PsychologicalNeeds");
   };
   return (
     <>
@@ -38,16 +97,25 @@ const NewPuerperal = (): JSX.Element => {
       <SafeAreaView style={styles.container}>
         <Gradient />
         <View style={styles.buttonsContainer}>
-          <PickerInfirmary
-            placeholder="Selecione a enfermaria"
-            items={infirmaries}
-            handleChange={(item) => setInfirmary(item)}
-          />
-          <PickerInfirmary
-            placeholder="Selecione o leito"
-            items={hospitalBeds}
-            handleChange={(item) => setHospitalBed(item)}
-          />
+          {infirmaries.length > 0 ? (
+            <Picker
+              placeholder="Selecione a enfermaria"
+              items={infirmaries}
+              handleChange={async (item) => await handleChangeInfirmary(item)}
+            />
+          ) : (
+            <ActivityIndicator size="small" color={colors.darkGreen} />
+          )}
+          {infirmary !== 0 && bedsPickerDisabled && beds.length === 0 ? (
+            <ActivityIndicator size="small" color={colors.darkGreen} />
+          ) : (
+            <Picker
+              placeholder="Selecione o leito"
+              items={beds}
+              handleChange={(item) => setHospitalBed(item.value)}
+              disabled={bedsPickerDisabled}
+            />
+          )}
         </View>
 
         <KeyboardAvoidingView

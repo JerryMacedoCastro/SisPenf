@@ -30,4 +30,13 @@ export const styles = StyleSheet.create({
     color: colors.darkGreen,
     fontFamily: "JosefinSans_700Bold",
   },
+  error: {
+    color: colors.darkRed,
+    fontSize: 14,
+    borderWidth: 1,
+    borderColor: colors.darkRed,
+    padding: 2,
+    width: "80%",
+    backgroundColor: colors.lightRed,
+  },
 });

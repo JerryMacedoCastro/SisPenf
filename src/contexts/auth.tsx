@@ -34,8 +34,8 @@ const AuthProvider = ({
 
     loadStorageData();
   });
-  async function signIn() {
-    const response = await auth.signIn();
+  async function signIn(email: string, password: string) {
+    const response = await auth.signIn(email, password);
     setUser(response.user);
 
     api.defaults.headers.Authorization = `Baerer ${response.token}`;
@@ -43,6 +43,7 @@ const AuthProvider = ({
     await AsyncStorage.setItem("@RNAuth:user", JSON.stringify(response.user));
     await AsyncStorage.setItem("@RNAuth:token", response.token);
   }
+
   async function signOut() {
     await AsyncStorage.clear();
     setUser(null);
