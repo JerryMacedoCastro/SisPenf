@@ -19,9 +19,7 @@ interface FormData {
 }
 
 const Login = (): JSX.Element => {
-  const { user, signed, signIn } = useAuth();
-  console.log(signed);
-  console.log(user);
+  const { signIn } = useAuth();
 
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);

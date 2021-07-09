@@ -22,3 +22,26 @@ export interface IUser {
   name: string;
   email: string;
 }
+
+export interface IInfirmariesResponse {
+  id: number;
+  description: string;
+  isActive: true;
+  hospital: {
+    id: number;
+    name: string;
+    isActive: true;
+    createdAt: Date;
+  };
+}
+
+export interface IHospitalBedResponse {
+  id: number;
+  description: string;
+  isFilled: boolean;
+  infirmary: {
+    id: number;
+    description: string;
+    isActive: boolean;
+  };
+}
