@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { View, TextInput, TextInputProps } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useField } from "@unform/core";
 
 import { colors } from "../../Assets/GlobalStyles";
 import { styles } from "./styles";
 import { IconName } from "../../@types";
-import { useField } from "@unform/core";
 
 interface squareInputProps extends TextInputProps {
   name: string;
@@ -36,7 +36,7 @@ const index = ({
         if (inputRef.current) return inputRef.current.value;
         return "";
       },
-      setValue(ref, value) {
+      setValue(_ref, value) {
         if (inputRef.current) {
           inputRef.current.setNativeProps({ text: value });
           inputRef.current.value = value;

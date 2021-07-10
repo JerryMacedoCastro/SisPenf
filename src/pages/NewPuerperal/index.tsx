@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Text,
   View,
@@ -10,6 +10,9 @@ import {
 } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Form } from '@unform/mobile';
+import { useNavigation } from "@react-navigation/native";
+import { FormHandles, SubmitHandler } from "@unform/core";
 
 import { styles } from "./styles";
 import { colors, globalStyles } from "../../Assets/GlobalStyles";
@@ -17,13 +20,11 @@ import CommonInput from "../../components/CommonInput";
 import DateHeader from "../../components/DateHeader";
 import Picker from "../../components/Picker";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
-
 import {
   keyValue,
   IInfirmariesResponse,
   IHospitalBedResponse,
 } from "../../interfaces";
-import { useNavigation } from "@react-navigation/native";
 import Gradient from "../../components/Gradient";
 import api from "../../services/api";
 
@@ -91,6 +92,13 @@ const NewPuerperal = (): JSX.Element => {
     Alert.alert(infirmary + " " + hospitalBed);
     navigation.navigate("PsychologicalNeeds", { infirmary, hospitalBed });
   };
+
+  const formRef = useRef<FormHandles>(null);
+  const handleSubmit: SubmitHandler<FormData> = (data) => {
+    console.log(data);
+    // { email: 'test@example.com', password: '123456' }
+  }
+
   return (
     <>
       {!isKeyboardShown && <DateHeader title="Admitir puérpera" />}
@@ -104,18 +112,18 @@ const NewPuerperal = (): JSX.Element => {
               handleChange={async (item) => await handleChangeInfirmary(item)}
             />
           ) : (
-            <ActivityIndicator size="small" color={colors.darkGreen} />
-          )}
+              <ActivityIndicator size="small" color={colors.darkGreen} />
+            )}
           {infirmary !== 0 && bedsPickerDisabled && beds.length === 0 ? (
             <ActivityIndicator size="small" color={colors.darkGreen} />
           ) : (
-            <Picker
-              placeholder="Selecione o leito"
-              items={beds}
-              handleChange={(item) => setHospitalBed(item.value)}
-              disabled={bedsPickerDisabled}
-            />
-          )}
+              <Picker
+                placeholder="Selecione o leito"
+                items={beds}
+                handleChange={(item) => setHospitalBed(item.value)}
+                disabled={bedsPickerDisabled}
+              />
+            )}
         </View>
 
         <KeyboardAvoidingView
@@ -129,17 +137,20 @@ const NewPuerperal = (): JSX.Element => {
             }}
           >
             <View style={styles.formContainer}>
-              <CommonInput title="Diagnótico médico" returnKeyType="next" />
-              <CommonInput title="Dieta prescrita" returnKeyType="next" />
-              <CommonInput title="Nome" returnKeyType="next" />
-              <CommonInput
-                title="Idade"
-                keyboardType="decimal-pad"
-                returnKeyType="next"
-              />
-              <CommonInput title="Estado civil" returnKeyType="next" />
-              <CommonInput title="Escolaridade" returnKeyType="next" />
-              <CommonInput title="Ocupação" returnKeyType="go" />
+              <Form ref={formRef} onSubmit={handleSubmit} >
+
+                <CommonInput name="Diagnótico médico" returnKeyType="next" />
+                <CommonInput name="Dieta prescrita" returnKeyType="next" />
+                <CommonInput name="Nome" returnKeyType="next" />
+                <CommonInput
+                  name="Idade"
+                  keyboardType="decimal-pad"
+                  returnKeyType="next"
+                />
+                <CommonInput name="Estado civil" returnKeyType="next" />
+                <CommonInput name="Escolaridade" returnKeyType="next" />
+                <CommonInput name="Ocupação" returnKeyType="go" />
+              </Form>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -148,7 +159,7 @@ const NewPuerperal = (): JSX.Element => {
           <View style={styles.confirmButtonsContainer}>
             <RectButton
               style={[globalStyles.button, globalStyles.primaryButton]}
-              onPress={handleStartProcess}
+              onPress={() => formRef?.current?.submitForm()}
             >
               <Text style={globalStyles.primaryButtonText}>
                 Iniciar processo de enfermagem
@@ -158,7 +169,7 @@ const NewPuerperal = (): JSX.Element => {
               style={[globalStyles.button, globalStyles.secondaryButton]}
               onPress={handleCancel}
             >
-              <Text style={globalStyles.secondaryButtonText}>Cancelar </Text>
+              <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
             </RectButton>
           </View>
         )}
