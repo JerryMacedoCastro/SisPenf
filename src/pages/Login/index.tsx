@@ -29,7 +29,7 @@ const Login = (): JSX.Element => {
       const { user, password } = info;
       await signIn(user, password);
     } catch (error) {
-      Alert.alert("Dados incorretos", "Verifique seu e-mail e senha");
+      Alert.alert(error.message);
     }
   };
 

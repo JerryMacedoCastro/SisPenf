@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, Platform, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  Text,
+  Platform,
+  KeyboardAvoidingView,
+  Alert,
+} from "react-native";
 
 import { styles } from "../styles";
 import CommonInput from "../../../components/CommonInput";
@@ -10,8 +16,14 @@ import { globalStyles } from "../../../Assets/GlobalStyles";
 import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../Routes/app.routes";
 
-const index = (): JSX.Element => {
+type Props = StackScreenProps<RootStackParamList, "PsychologicalNeeds">;
+const index = ({ route }: Props): JSX.Element => {
+  const { infirmary, hospitalBed } = route.params;
+
+  Alert.alert("Enfermaria " + infirmary + " Bed: " + hospitalBed);
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
   const handleContinue = () => {

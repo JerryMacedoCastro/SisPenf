@@ -89,7 +89,7 @@ const NewPuerperal = (): JSX.Element => {
   };
   const handleStartProcess = () => {
     Alert.alert(infirmary + " " + hospitalBed);
-    // navigation.navigate("PsychologicalNeeds");
+    navigation.navigate("PsychologicalNeeds", { infirmary, hospitalBed });
   };
   return (
     <>
@@ -132,7 +132,11 @@ const NewPuerperal = (): JSX.Element => {
               <CommonInput title="Diagnótico médico" returnKeyType="next" />
               <CommonInput title="Dieta prescrita" returnKeyType="next" />
               <CommonInput title="Nome" returnKeyType="next" />
-              <CommonInput title="Idade" keyboardType="twitter" />
+              <CommonInput
+                title="Idade"
+                keyboardType="decimal-pad"
+                returnKeyType="next"
+              />
               <CommonInput title="Estado civil" returnKeyType="next" />
               <CommonInput title="Escolaridade" returnKeyType="next" />
               <CommonInput title="Ocupação" returnKeyType="go" />
