@@ -16,6 +16,7 @@ export async function signIn(
     const response: IResponse = {
       token: data.token,
       user: {
+        id: data.id,
         name: data.name,
         email: data.email,
       },

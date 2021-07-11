@@ -19,6 +19,7 @@ export interface IAuthContextData {
 }
 
 export interface IUser {
+  id: number;
   name: string;
   email: string;
 }
@@ -44,4 +45,22 @@ export interface IHospitalBedResponse {
     description: string;
     isActive: boolean;
   };
+}
+
+export interface IPatientResponse {
+  id: number;
+  name: string;
+  birthDate: Date;
+  admissionDate: Date;
+  isActive: boolean;
+  hospitalBed: {
+    id: number;
+    description: string;
+    isFilled: boolean;
+    infirmary: {
+      id: number,
+      description: string;
+      isActive: boolean;
+    }
+  }
 }

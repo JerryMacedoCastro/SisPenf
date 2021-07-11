@@ -11,8 +11,8 @@ import {
 import { RectButton } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Form } from '@unform/mobile';
-import { useNavigation } from "@react-navigation/native";
 import { FormHandles, SubmitHandler } from "@unform/core";
+import { useNavigation } from "@react-navigation/native";
 
 import { styles } from "./styles";
 import { colors, globalStyles } from "../../Assets/GlobalStyles";
@@ -27,16 +27,25 @@ import {
 } from "../../interfaces";
 import Gradient from "../../components/Gradient";
 import api from "../../services/api";
+import { useAuth } from "../../contexts/auth";
+
+
+interface IFormPatient {
+  name: string;
+  birthdate: string;
+  diagnostic: string;
+}
 
 const NewPuerperal = (): JSX.Element => {
   const [infirmary, setInfirmary] = useState<number>(0);
-
   const [bedsPickerDisabled, setBedPickerDisabled] = useState(true);
   const [hospitalBed, setHospitalBed] = useState(0);
   const [infirmaries, setInfirmaries] = useState<keyValue[]>([]);
   const [beds, setBeds] = useState<keyValue[]>([]);
   const isKeyboardShown = useKeyboardControll();
   const navigation = useNavigation();
+  const formRef = useRef<FormHandles>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     let keyValueInfirmaries: keyValue[] = [];
@@ -88,15 +97,41 @@ const NewPuerperal = (): JSX.Element => {
   const handleCancel = () => {
     navigation.navigate("Home");
   };
-  const handleStartProcess = () => {
-    Alert.alert(infirmary + " " + hospitalBed);
-    navigation.navigate("PsychologicalNeeds", { infirmary, hospitalBed });
-  };
 
-  const formRef = useRef<FormHandles>(null);
-  const handleSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
-    // { email: 'test@example.com', password: '123456' }
+
+  const handleSubmit: SubmitHandler<IFormPatient> = async (formData) => {
+    const { name, birthdate, diagnostic } = formData;
+    const data = {
+      name,
+      birthdate,
+      bed: hospitalBed,
+    }
+    if (hospitalBed === 0) {
+      Alert.alert("Dados inválidos", "Seleciona e enfermaria e o leito");
+      return;
+    }
+    try {
+      const response = await api.post("/patient", data);
+      console.log(response);
+      if (response.status === 200) {
+        const answerData = {
+          userId: user?.id,
+          patientId: response.data.id,
+          questionId: 1,
+          options: [],
+          comment: diagnostic,
+        }
+
+
+
+        navigation.navigate("PsychologicalNeeds", { infirmary, hospitalBed });
+      }
+      else {
+        Alert.alert("Problema de conexão", "Verifique a conexão com a internet");
+      }
+    } catch (error) {
+      Alert.alert("Erro", error.message)
+    }
   }
 
   return (
@@ -139,17 +174,17 @@ const NewPuerperal = (): JSX.Element => {
             <View style={styles.formContainer}>
               <Form ref={formRef} onSubmit={handleSubmit} >
 
-                <CommonInput name="Diagnótico médico" returnKeyType="next" />
-                <CommonInput name="Dieta prescrita" returnKeyType="next" />
-                <CommonInput name="Nome" returnKeyType="next" />
+                <CommonInput name="name" placeholder="Nome" returnKeyType="next" />
+                <CommonInput name="diagnostic" placeholder="Diagnótico médico" returnKeyType="next" />
+                <CommonInput name="diet" placeholder="Dieta prescrita" returnKeyType="next" />
                 <CommonInput
-                  name="Idade"
-                  keyboardType="decimal-pad"
+                  name="birthdate"
+                  placeholder="Data de nascimento"
                   returnKeyType="next"
                 />
-                <CommonInput name="Estado civil" returnKeyType="next" />
-                <CommonInput name="Escolaridade" returnKeyType="next" />
-                <CommonInput name="Ocupação" returnKeyType="go" />
+                <CommonInput name="maritalStatus" placeholder="Estado civil" returnKeyType="next" />
+                <CommonInput name="education" placeholder="Escolaridade" returnKeyType="next" />
+                <CommonInput name="ocupation" placeholder="Ocupação" returnKeyType="go" />
               </Form>
             </View>
           </ScrollView>

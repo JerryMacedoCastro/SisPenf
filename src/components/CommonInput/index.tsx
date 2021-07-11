@@ -57,7 +57,8 @@ const index = ({ name, onChangeText, ...rest }: commonInputProps): JSX.Element =
         onChangeText={handleChangeText}
         style={styles.inputText}
         {...rest}
-      ></TextInput>
+
+      />
     </View>
   );
 };
