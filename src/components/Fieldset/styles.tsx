@@ -2,6 +2,12 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
+  button: {
+    width: "100%",
+    height: 24,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   fieldSet: {
     margin: 10,
     paddingHorizontal: 10,
@@ -13,12 +19,10 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     marginBottom: 10,
     width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
   legend: {
     position: "absolute",
-    top: -10,
+    top: -18,
     left: 10,
     fontWeight: "bold",
     backgroundColor: colors.white,
@@ -30,7 +34,7 @@ export const styles = StyleSheet.create({
   value: {
     color: colors.darkGreen,
     fontFamily: "JosefinSans_700Bold",
-    fontSize: 12,
-    width: "50%",
+    fontSize: 14,
+    width: "90%",
   },
 });

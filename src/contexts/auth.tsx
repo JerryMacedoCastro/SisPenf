@@ -33,7 +33,7 @@ const AuthProvider = ({
     }
 
     loadStorageData();
-  });
+  }, []);
   async function signIn(email: string, password: string) {
     const response = await auth.signIn(email, password);
     setUser(response.user);

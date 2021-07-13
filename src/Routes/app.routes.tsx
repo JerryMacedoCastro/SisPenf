@@ -12,25 +12,43 @@ import PartOne from "../pages/PhysicalExam/PartOne";
 import PartTwo from "../pages/PhysicalExam/PartTwo";
 import { colors } from "../Assets/GlobalStyles";
 
-const { Navigator, Screen } = createStackNavigator();
+export type RootStackParamList = {
+  Home: undefined;
+  NewPuerperal: undefined;
+  FindPatient: undefined;
+  PsychologicalNeeds: { patientId: number };
+  SpiritualNeeds: { patientId: number };
+  PsychobiologicNeeds: { patientId: number };
+  ChildbirthData: { patientId: number };
+  PartOne: undefined;
+  PartTwo: undefined;
+};
+
 const AppRoutes = (): JSX.Element => {
+  const RootStack = createStackNavigator<RootStackParamList>();
   return (
-    <Navigator
+    <RootStack.Navigator
       screenOptions={{
         headerShown: false,
         cardStyle: { backgroundColor: colors.white },
       }}
     >
-      <Screen name="Home" component={Home} />
-      <Screen name="NewPuerperal" component={NewPuerperal} />
-      <Screen name="FindPatient" component={FindPatient} />
-      <Screen name="PsychologicalNeeds" component={PsychologicalNeeds} />
-      <Screen name="SpiritualNeeds" component={SpiritualNeeds} />
-      <Screen name="PsychobiologicNeeds" component={PsychobiologicNeeds} />
-      <Screen name="ChildbirthData" component={ChildbirthData} />
-      <Screen name="PartOne" component={PartOne} />
-      <Screen name="PartTwo" component={PartTwo} />
-    </Navigator>
+      <RootStack.Screen name="Home" component={Home} />
+      <RootStack.Screen name="NewPuerperal" component={NewPuerperal} />
+      <RootStack.Screen name="FindPatient" component={FindPatient} />
+      <RootStack.Screen
+        name="PsychologicalNeeds"
+        component={PsychologicalNeeds}
+      />
+      <RootStack.Screen name="SpiritualNeeds" component={SpiritualNeeds} />
+      <RootStack.Screen
+        name="PsychobiologicNeeds"
+        component={PsychobiologicNeeds}
+      />
+      <RootStack.Screen name="ChildbirthData" component={ChildbirthData} />
+      <RootStack.Screen name="PartOne" component={PartOne} />
+      <RootStack.Screen name="PartTwo" component={PartTwo} />
+    </RootStack.Navigator>
   );
 };
 

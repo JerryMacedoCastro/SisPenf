@@ -45,9 +45,9 @@ const PanelTab = (): JSX.Element => {
 
         <View style={styles.blockContainer}>
           <PanelInfo value={8} label="Puérperas" />
-          <PanelInfo value={8} label="Recém nascidos" />
-          <PanelInfo value={8} label="Enfermarias" />
-          <PanelInfo value={8} label="Alessandra" />
+          <PanelInfo value={9} label="Recém nascidos" />
+          <PanelInfo value={10} label="Enfermarias" />
+          <PanelInfo value={12} label="Leitos" />
         </View>
       </View>
       <CustomModal

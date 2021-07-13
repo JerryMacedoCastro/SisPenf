@@ -67,7 +67,8 @@ const FindPatient = (): JSX.Element => {
           {!!searchPatient && <PatiensList search={searchPatient} />}
         </KeyboardAvoidingView>
 
-        {!isKeyboardShown && !searchPatient && (
+        {/* {!isKeyboardShown && !searchPatient && ( */}
+        {false && (
           <>
             <View style={{ paddingVertical: "10%" }}>
               <Separator text="Ou" />
