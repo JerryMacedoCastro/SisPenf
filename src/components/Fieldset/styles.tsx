@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
     height: 24,
     flexDirection: "row",
     justifyContent: "space-between",
-
   },
   fieldSet: {
     margin: 10,
@@ -20,7 +19,6 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     marginBottom: 10,
     width: "100%",
-
   },
   legend: {
     position: "absolute",
@@ -36,7 +34,7 @@ export const styles = StyleSheet.create({
   value: {
     color: colors.darkGreen,
     fontFamily: "JosefinSans_700Bold",
-    fontSize: 12,
-    width: "50%",
+    fontSize: 14,
+    width: "90%",
   },
 });

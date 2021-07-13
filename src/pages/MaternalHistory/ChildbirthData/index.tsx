@@ -1,21 +1,79 @@
-import React from "react";
-import { View, Text, Platform, KeyboardAvoidingView } from "react-native";
+import React, { useRef } from "react";
+import {
+  View,
+  Text,
+  Platform,
+  KeyboardAvoidingView,
+  Alert,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RectButton, ScrollView } from "react-native-gesture-handler";
+import { Form } from "@unform/mobile";
+import { FormHandles, SubmitHandler } from "@unform/core";
 
+import { IQuestionAnswer } from "../../../interfaces";
+import useAnswerPost from "../../../hooks/useAnswerPost";
+import { useAuth } from "../../../contexts/auth";
 import { styles } from "../styles";
 import CommonInput from "../../../components/CommonInput";
 import DateHeader from "../../../components/DateHeader";
 import Gradient from "../../../components/Gradient";
-import { RectButton, ScrollView } from "react-native-gesture-handler";
 import { globalStyles } from "../../../Assets/GlobalStyles";
 import useKeyboardControll from "../../../hooks/useKeyboardControll";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../../Routes/app.routes";
 
-const index = (): JSX.Element => {
+type Props = StackScreenProps<RootStackParamList, "ChildbirthData">;
+
+interface IChildbirthData {
+  gestate: string;
+  type: string;
+  indication: string;
+  rpmo: string;
+
+  information: string;
+}
+
+const index = ({ route }: Props): JSX.Element => {
+  const { patientId } = route.params;
+  const { user } = useAuth();
+  const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
-  const handleContinue = () => {
-    navigation.navigate("PartOne");
+
+  const handleSubmit: SubmitHandler<IChildbirthData> = async (formData) => {
+    try {
+      const { gestate, type, indication, rpmo } = formData;
+      const questions: IQuestionAnswer[] = [
+        {
+          question: "Gestação",
+          answer: gestate,
+        },
+        {
+          question: "Tipo de parto",
+          answer: type,
+        },
+        {
+          question: "Indicação",
+          answer: indication,
+        },
+        {
+          question: "RPMO",
+          answer: rpmo,
+        },
+      ];
+      if (user) {
+        const isCreatedAnswer = await useAnswerPost(
+          user.id,
+          patientId,
+          questions
+        );
+        if (isCreatedAnswer) navigation.navigate("PartOne");
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
   };
 
   return (
@@ -36,14 +94,20 @@ const index = (): JSX.Element => {
             }}
           >
             <View style={styles.formContainer}>
-              <CommonInput title="Data" />
-              <CommonInput title="Hora" />
-              <CommonInput title="Gestação" />
-              <CommonInput title="Tipo de parto" />
-              <CommonInput title="Indicação" />
-              <CommonInput title="RPMO" />
-              <CommonInput title="Tempo de BR até o parto" />
-              <CommonInput title="Informações adcionais" returnKeyType="go" />
+              {/* <CommonInput name="date" placeholder="Data" />
+              <CommonInput name="time" placeholder="Hora" /> */}
+              {/* <CommonInput name="" placeholder="Tempo de BR até o parto" /> */}
+              <Form ref={formRef} onSubmit={handleSubmit}>
+                <CommonInput name="gestate" placeholder="Gestação" />
+                <CommonInput name="type" placeholder="Tipo de parto" />
+                <CommonInput name="indication" placeholder="Indicação" />
+                <CommonInput name="rpmo" placeholder="RPMO" />
+                <CommonInput
+                  name="information"
+                  placeholder="Informações adcionais"
+                  returnKeyType="go"
+                />
+              </Form>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -52,7 +116,7 @@ const index = (): JSX.Element => {
           <View style={styles.confirmButtonsContainer}>
             <RectButton
               style={[globalStyles.button, globalStyles.primaryButton]}
-              onPress={handleContinue}
+              onPress={() => formRef?.current?.submitForm()}
             >
               <Text style={globalStyles.primaryButtonText}>Continuar</Text>
             </RectButton>

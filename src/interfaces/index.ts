@@ -58,9 +58,30 @@ export interface IPatientResponse {
     description: string;
     isFilled: boolean;
     infirmary: {
-      id: number,
+      id: number;
       description: string;
       isActive: boolean;
+    };
+  };
+}
+
+export interface IAnswerResponse {
+  id: number;
+  description: string;
+  allowComment: boolean;
+  type: {
+    id: number;
+    label: string;
+    isActive: boolean;
+  };
+  options: [
+    {
+      option: number;
     }
-  }
+  ];
+}
+
+export interface IQuestionAnswer {
+  question: string;
+  answer: string;
 }

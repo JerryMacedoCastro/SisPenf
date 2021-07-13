@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Form } from '@unform/mobile';
+import { Form } from "@unform/mobile";
 import { FormHandles, SubmitHandler } from "@unform/core";
 import { useNavigation } from "@react-navigation/native";
 
@@ -24,16 +24,22 @@ import {
   keyValue,
   IInfirmariesResponse,
   IHospitalBedResponse,
+  IPatientResponse,
+  IQuestionAnswer,
 } from "../../interfaces";
 import Gradient from "../../components/Gradient";
 import api from "../../services/api";
+import useAnswerPost from "../../hooks/useAnswerPost";
 import { useAuth } from "../../contexts/auth";
-
 
 interface IFormPatient {
   name: string;
   birthdate: string;
   diagnostic: string;
+  diet: string;
+  maritalStatus: string;
+  education: string;
+  ocupation: string;
 }
 
 const NewPuerperal = (): JSX.Element => {
@@ -85,9 +91,10 @@ const NewPuerperal = (): JSX.Element => {
           label: bed.description,
           value: bed.id,
         };
-        keyValueBeds = [...keyValueBeds, keyValueBed];
+        if (!bed.isFilled) keyValueBeds = [...keyValueBeds, keyValueBed];
       });
       setBeds(keyValueBeds);
+
       setBedPickerDisabled(false);
     } catch (error) {
       Alert.alert("Problema de conexão!", error.message);
@@ -95,44 +102,80 @@ const NewPuerperal = (): JSX.Element => {
   };
 
   const handleCancel = () => {
-    navigation.navigate("Home");
+    navigation.navigate("PsychologicalNeeds", { patientId: 29 });
   };
 
-
   const handleSubmit: SubmitHandler<IFormPatient> = async (formData) => {
-    const { name, birthdate, diagnostic } = formData;
+    const {
+      name,
+      birthdate,
+      diagnostic,
+      diet,
+      maritalStatus,
+      education,
+      ocupation,
+    } = formData;
     const data = {
       name,
       birthdate,
       bed: hospitalBed,
-    }
+    };
+
     if (hospitalBed === 0) {
-      Alert.alert("Dados inválidos", "Seleciona e enfermaria e o leito");
+      Alert.alert("Dados inválidos", "Selecione e enfermaria e o leito");
       return;
     }
     try {
       const response = await api.post("/patient", data);
-      console.log(response);
+      const patientCreated: IPatientResponse = response.data;
+
       if (response.status === 200) {
-        const answerData = {
-          userId: user?.id,
-          patientId: response.data.id,
-          questionId: 1,
-          options: [],
-          comment: diagnostic,
+        const questions: IQuestionAnswer[] = [
+          {
+            question: "Diagnostico Médico",
+            answer: diagnostic,
+          },
+          {
+            question: "Dieta Prescrita",
+            answer: diet,
+          },
+          {
+            question: "Estado Civil",
+            answer: maritalStatus,
+          },
+          {
+            question: "Escolaridade",
+            answer: education,
+          },
+          {
+            question: "Ocupação",
+            answer: ocupation,
+          },
+        ];
+
+        if (user) {
+          let isAnswerCreated = false;
+          isAnswerCreated = await useAnswerPost(
+            user.id,
+            patientCreated.id,
+            questions
+          );
+          if (isAnswerCreated) {
+            navigation.navigate("PsychologicalNeeds", {
+              patienId: patientCreated.id,
+            });
+          }
         }
-
-
-
-        navigation.navigate("PsychologicalNeeds", { infirmary, hospitalBed });
-      }
-      else {
-        Alert.alert("Problema de conexão", "Verifique a conexão com a internet");
+      } else {
+        Alert.alert(
+          "Problema de conexão",
+          "Verifique a conexão com a internet"
+        );
       }
     } catch (error) {
-      Alert.alert("Erro", error.message)
+      Alert.alert("Erro", error.message);
     }
-  }
+  };
 
   return (
     <>
@@ -147,18 +190,18 @@ const NewPuerperal = (): JSX.Element => {
               handleChange={async (item) => await handleChangeInfirmary(item)}
             />
           ) : (
-              <ActivityIndicator size="small" color={colors.darkGreen} />
-            )}
+            <ActivityIndicator size="small" color={colors.darkGreen} />
+          )}
           {infirmary !== 0 && bedsPickerDisabled && beds.length === 0 ? (
             <ActivityIndicator size="small" color={colors.darkGreen} />
           ) : (
-              <Picker
-                placeholder="Selecione o leito"
-                items={beds}
-                handleChange={(item) => setHospitalBed(item.value)}
-                disabled={bedsPickerDisabled}
-              />
-            )}
+            <Picker
+              placeholder="Selecione o leito"
+              items={beds}
+              handleChange={(item) => setHospitalBed(item.value)}
+              disabled={bedsPickerDisabled || beds.length === 0}
+            />
+          )}
         </View>
 
         <KeyboardAvoidingView
@@ -172,19 +215,43 @@ const NewPuerperal = (): JSX.Element => {
             }}
           >
             <View style={styles.formContainer}>
-              <Form ref={formRef} onSubmit={handleSubmit} >
-
-                <CommonInput name="name" placeholder="Nome" returnKeyType="next" />
-                <CommonInput name="diagnostic" placeholder="Diagnótico médico" returnKeyType="next" />
-                <CommonInput name="diet" placeholder="Dieta prescrita" returnKeyType="next" />
+              <Form ref={formRef} onSubmit={handleSubmit}>
+                <CommonInput
+                  name="name"
+                  placeholder="Nome"
+                  returnKeyType="next"
+                />
                 <CommonInput
                   name="birthdate"
                   placeholder="Data de nascimento"
                   returnKeyType="next"
                 />
-                <CommonInput name="maritalStatus" placeholder="Estado civil" returnKeyType="next" />
-                <CommonInput name="education" placeholder="Escolaridade" returnKeyType="next" />
-                <CommonInput name="ocupation" placeholder="Ocupação" returnKeyType="go" />
+                <CommonInput
+                  name="diagnostic"
+                  placeholder="Diagnótico médico"
+                  returnKeyType="next"
+                />
+                <CommonInput
+                  name="diet"
+                  placeholder="Dieta prescrita"
+                  returnKeyType="next"
+                />
+
+                <CommonInput
+                  name="maritalStatus"
+                  placeholder="Estado civil"
+                  returnKeyType="next"
+                />
+                <CommonInput
+                  name="education"
+                  placeholder="Escolaridade"
+                  returnKeyType="next"
+                />
+                <CommonInput
+                  name="ocupation"
+                  placeholder="Ocupação"
+                  returnKeyType="go"
+                />
               </Form>
             </View>
           </ScrollView>

@@ -10,19 +10,16 @@ import { IPatientResponse } from "../../interfaces";
 
 interface IPatientListProps {
   search?: string;
+  infirmary?: number;
 }
 
 const index = ({ search }: IPatientListProps): JSX.Element => {
   const [filteredList, setFilteredList] = useState<IPatientResponse[]>([]);
   const [hasNotFound, setHasNotFound] = useState(false);
 
-  useEffect(() => {
-    handleSearch();
-  }, [search]);
-
   const handleSearch = async () => {
     if (search) {
-      const { data } = await api.get('patient');
+      const { data } = await api.get("patient");
       const patients: IPatientResponse[] = data;
       const list = patients.filter((patient) => {
         return patient.name
@@ -35,6 +32,10 @@ const index = ({ search }: IPatientListProps): JSX.Element => {
       setFilteredList([]);
     }
   };
+
+  useEffect(() => {
+    handleSearch();
+  }, [search]);
 
   return (
     <Animated.View style={[styles.content]}>

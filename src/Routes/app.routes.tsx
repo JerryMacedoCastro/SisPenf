@@ -16,10 +16,10 @@ export type RootStackParamList = {
   Home: undefined;
   NewPuerperal: undefined;
   FindPatient: undefined;
-  PsychologicalNeeds: { infirmary: number; hospitalBed: number };
-  SpiritualNeeds: undefined;
-  PsychobiologicNeeds: undefined;
-  ChildbirthData: undefined;
+  PsychologicalNeeds: { patientId: number };
+  SpiritualNeeds: { patientId: number };
+  PsychobiologicNeeds: { patientId: number };
+  ChildbirthData: { patientId: number };
   PartOne: undefined;
   PartTwo: undefined;
 };
