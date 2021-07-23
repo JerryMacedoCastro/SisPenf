@@ -85,3 +85,20 @@ export interface IQuestionAnswer {
   question: string;
   answer: string;
 }
+export interface IOption {
+  id: number;
+  description: string;
+}
+export interface IQuesttionType {
+  id: number;
+  label: string;
+  isActive: boolean;
+}
+
+export interface IQuestionResponse {
+  id: number;
+  description: string;
+  allowComment: boolean;
+  type: IQuesttionType;
+  options: IOption[];
+}

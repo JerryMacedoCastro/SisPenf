@@ -60,6 +60,7 @@ const index = (): JSX.Element => {
               {exams.map((exam) => {
                 return (
                   <SelectableButton
+                    key={exam.id}
                     exam={exam}
                     handlePress={(exam) => handleSelectExam(exam)}
                   />

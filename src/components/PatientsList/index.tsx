@@ -22,6 +22,7 @@ const index = ({ search }: IPatientListProps): JSX.Element => {
       const { data } = await api.get("patient");
       const patients: IPatientResponse[] = data;
       const list = patients.filter((patient) => {
+        if (!patient.isActive) return false;
         return patient.name
           .toLocaleLowerCase()
           .includes(search.toLocaleLowerCase());
@@ -52,6 +53,7 @@ const index = ({ search }: IPatientListProps): JSX.Element => {
               key={index}
               value={patient.name}
               label={`${patient.hospitalBed.infirmary.description} - ${patient.hospitalBed.description}`}
+              hospitalBed={patient.hospitalBed.id}
             />
           );
         })}

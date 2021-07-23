@@ -64,11 +64,11 @@ const index = ({ route }: Props): JSX.Element => {
         },
       ];
       if (user) {
-        const isCreatedAnswer = await useAnswerPost(
+        const isCreatedAnswer = useAnswerPost(
           user.id,
           patientId,
           questions
-        );
+        ).then((value) => value);
         if (isCreatedAnswer) navigation.navigate("PartOne");
       }
     } catch (error) {
