@@ -26,11 +26,13 @@ import {
   IHospitalBedResponse,
   IPatientResponse,
   IQuestionAnswer,
+  IQuestionResponse,
 } from "../../interfaces";
 import Gradient from "../../components/Gradient";
 import api from "../../services/api";
 import useAnswerPost from "../../hooks/useAnswerPost";
 import { useAuth } from "../../contexts/auth";
+import RNPickerSelect from "../../components/PickerSelect";
 
 interface IFormPatient {
   name: string;
@@ -46,12 +48,14 @@ const NewPuerperal = (): JSX.Element => {
   const [infirmary, setInfirmary] = useState<number>(0);
   const [bedsPickerDisabled, setBedPickerDisabled] = useState(true);
   const [hospitalBed, setHospitalBed] = useState(0);
+  const [questions, setQuestions] = useState<IQuestionResponse[]>([]);
   const [infirmaries, setInfirmaries] = useState<keyValue[]>([]);
   const [beds, setBeds] = useState<keyValue[]>([]);
   const isKeyboardShown = useKeyboardControll();
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const { user } = useAuth();
+  const questionsType = 1;
 
   useEffect(() => {
     let keyValueInfirmaries: keyValue[] = [];
@@ -68,6 +72,17 @@ const NewPuerperal = (): JSX.Element => {
           keyValueInfirmaries = [...keyValueInfirmaries, keyValueInfirmary];
         });
         setInfirmaries(keyValueInfirmaries);
+      } catch (error) {
+        Alert.alert("Problema de conexão!", error.message);
+      }
+    }
+    fetchData();
+  }, []);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const questionsForm = await api.get(`question/${questionsType}`);
+        setQuestions(questionsForm.data);
       } catch (error) {
         Alert.alert("Problema de conexão!", error.message);
       }
@@ -106,75 +121,10 @@ const NewPuerperal = (): JSX.Element => {
   };
 
   const handleSubmit: SubmitHandler<IFormPatient> = async (formData) => {
-    const {
-      name,
-      birthdate,
-      diagnostic,
-      diet,
-      maritalStatus,
-      education,
-      ocupation,
-    } = formData;
-    const data = {
-      name,
-      birthdate,
-      bed: hospitalBed,
-    };
-
-    if (hospitalBed === 0) {
-      Alert.alert("Dados inválidos", "Selecione e enfermaria e o leito");
-      return;
-    }
-    try {
-      const response = await api.post("/patient", data);
-      const patientCreated: IPatientResponse = response.data;
-
-      if (response.status === 200) {
-        const questions: IQuestionAnswer[] = [
-          {
-            question: "Diagnostico Médico",
-            answer: diagnostic,
-          },
-          {
-            question: "Dieta Prescrita",
-            answer: diet,
-          },
-          {
-            question: "Estado Civil",
-            answer: maritalStatus,
-          },
-          {
-            question: "Escolaridade",
-            answer: education,
-          },
-          {
-            question: "Ocupação",
-            answer: ocupation,
-          },
-        ];
-
-        if (user) {
-          let isAnswerCreated = false;
-          isAnswerCreated = await useAnswerPost(
-            user.id,
-            patientCreated.id,
-            questions
-          );
-          if (isAnswerCreated) {
-            navigation.navigate("PsychologicalNeeds", {
-              patienId: patientCreated.id,
-            });
-          }
-        }
-      } else {
-        Alert.alert(
-          "Problema de conexão",
-          "Verifique a conexão com a internet"
-        );
-      }
-    } catch (error) {
-      Alert.alert("Erro", error.message);
-    }
+    console.log(formData);
+    console.log("usuario: " + user?.id);
+    console.log("Enfermaria " + infirmary);
+    console.log("Leito " + hospitalBed);
   };
 
   return (
@@ -215,43 +165,36 @@ const NewPuerperal = (): JSX.Element => {
             }}
           >
             <View style={styles.formContainer}>
-              <Form ref={formRef} onSubmit={handleSubmit}>
-                <CommonInput
-                  name="name"
-                  placeholder="Nome"
-                  returnKeyType="next"
-                />
-                <CommonInput
-                  name="birthdate"
-                  placeholder="Data de nascimento"
-                  returnKeyType="next"
-                />
-                <CommonInput
-                  name="diagnostic"
-                  placeholder="Diagnótico médico"
-                  returnKeyType="next"
-                />
-                <CommonInput
-                  name="diet"
-                  placeholder="Dieta prescrita"
-                  returnKeyType="next"
-                />
-
-                <CommonInput
-                  name="maritalStatus"
-                  placeholder="Estado civil"
-                  returnKeyType="next"
-                />
-                <CommonInput
-                  name="education"
-                  placeholder="Escolaridade"
-                  returnKeyType="next"
-                />
-                <CommonInput
-                  name="ocupation"
-                  placeholder="Ocupação"
-                  returnKeyType="go"
-                />
+              <Form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                initialData={{ user: "Nome" }}
+              >
+                {!questions ? (
+                  <ActivityIndicator size="small" color={colors.darkGreen} />
+                ) : (
+                  questions.map((question): JSX.Element => {
+                    return question.options.length === 0 ? (
+                      <CommonInput
+                        key={question.id}
+                        name={question.description}
+                        placeholder={question.description}
+                        returnKeyType="next"
+                      />
+                    ) : (
+                      <RNPickerSelect
+                        key={question.id}
+                        name={question.description}
+                        items={question.options.map((option) => {
+                          return {
+                            value: option.id,
+                            label: option.description,
+                          };
+                        })}
+                      />
+                    );
+                  })
+                )}
               </Form>
             </View>
           </ScrollView>

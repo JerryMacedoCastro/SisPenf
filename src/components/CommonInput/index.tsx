@@ -5,20 +5,22 @@ import { useField } from "@unform/core";
 import { styles } from "./styles";
 interface commonInputProps extends TextInputProps {
   name: string;
-
 }
 
 interface InputReference extends TextInput {
-  value: string
+  value: string;
 }
 
-const index = ({ name, onChangeText, ...rest }: commonInputProps): JSX.Element => {
-  const inputRef = useRef<InputReference>(null)
-  const { fieldName, registerField, defaultValue = '', error } = useField(name)
+const index = ({
+  name,
+  onChangeText,
+  ...rest
+}: commonInputProps): JSX.Element => {
+  const inputRef = useRef<InputReference>(null);
+  const { fieldName, registerField, defaultValue = "", error } = useField(name);
   useEffect(() => {
-    if (inputRef.current) inputRef.current.value = defaultValue
-  }, [defaultValue])
-
+    if (inputRef.current) inputRef.current.value = defaultValue;
+  }, [defaultValue]);
 
   useEffect(() => {
     registerField<string>({
@@ -45,11 +47,11 @@ const index = ({ name, onChangeText, ...rest }: commonInputProps): JSX.Element =
 
   const handleChangeText = useCallback(
     (value: string) => {
-      if (inputRef.current) inputRef.current.value = value
-      if (onChangeText) onChangeText(value)
+      if (inputRef.current) inputRef.current.value = value;
+      if (onChangeText) onChangeText(value);
     },
     [onChangeText]
-  )
+  );
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -57,7 +59,6 @@ const index = ({ name, onChangeText, ...rest }: commonInputProps): JSX.Element =
         onChangeText={handleChangeText}
         style={styles.inputText}
         {...rest}
-
       />
     </View>
   );

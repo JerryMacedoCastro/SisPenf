@@ -6,18 +6,25 @@ import { styles } from "./styles";
 import { colors } from "../../Assets/GlobalStyles";
 import { RectButton } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import api from "../../services/api";
 
 interface FieldsetProps {
   label: string;
   value: string;
+  hospitalBed: number;
 }
 
 const index = (props: FieldsetProps): JSX.Element => {
   const navigation = useNavigation();
 
-  const handlePress = () => {
-    Alert.alert("Alta Médica", "Paciente liberada");
-    navigation.navigate("Home");
+  const handlePress = async () => {
+    try {
+      await api.put(`/hospitalbed/${props.hospitalBed}`);
+      Alert.alert("Alta Médica", "Paciente liberada");
+      navigation.navigate("Home");
+    } catch (error) {
+      Alert.alert("Erro de conexão", "Verifique sua conexão com a internet");
+    }
   };
 
   const { label, value } = props;

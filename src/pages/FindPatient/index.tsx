@@ -42,7 +42,7 @@ const FindPatient = (): JSX.Element => {
   return (
     <View style={styles.container}>
       <Gradient />
-      <DateHeader title="Buscar Paciente" />
+      {!isKeyboardShown && <DateHeader title="Buscar Paciente" />}
       <View style={styles.content}>
         <KeyboardAvoidingView
           style={styles.searchContainer}

@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
+    marginTop: 10,
     color: colors.darkGreen,
     alignSelf: "flex-start",
     marginLeft: 24,

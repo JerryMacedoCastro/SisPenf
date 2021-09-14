@@ -26,11 +26,11 @@ async function useAnswerPost(
         comment: question.answer,
       };
 
-      const answerResponse = await api.post("/answer", data);
-      console.log(answerResponse.data);
+      return api
+        .post("/answer", data)
+        .then((response) => response.status === 200);
     });
-
-    return true;
+    return false;
   } catch (error) {
     Alert.alert("Erro", error.message);
     return false;

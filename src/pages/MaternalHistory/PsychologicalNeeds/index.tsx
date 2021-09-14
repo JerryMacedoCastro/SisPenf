@@ -1,5 +1,11 @@
 import React, { useRef } from "react";
-import { View, Text, Platform, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  Text,
+  Platform,
+  KeyboardAvoidingView,
+  Alert,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -41,33 +47,37 @@ const index = ({ route }: Props): JSX.Element => {
       famillySuport,
       domesticAbuse,
     } = formData;
-    const questions: IQuestionAnswer[] = [
-      {
-        question: "Situação Financeira",
-        answer: financialSituation,
-      },
-      {
-        question: "Dificuldade de Comunicação",
-        answer: comunicationProblem,
-      },
-      {
-        question: "Apoio Familiar",
-        answer: famillySuport,
-      },
-      {
-        question: "Violência Domestica",
-        answer: domesticAbuse,
-      },
-    ];
-    if (user) {
-      const isAnswersCreated = useAnswerPost(
-        user.id,
-        patientId || 0,
-        questions
-      );
-
-      if (isAnswersCreated)
-        navigation.navigate("SpiritualNeeds", { patientId });
+    try {
+      const questions: IQuestionAnswer[] = [
+        {
+          question: "Situação Financeira",
+          answer: financialSituation,
+        },
+        {
+          question: "Dificuldade de Comunicação",
+          answer: comunicationProblem,
+        },
+        {
+          question: "Apoio Familiar",
+          answer: famillySuport,
+        },
+        {
+          question: "Violência Domestica",
+          answer: domesticAbuse,
+        },
+      ];
+      if (user) {
+        const isAnswersCreated = useAnswerPost(
+          user.id,
+          patientId,
+          questions
+        ).then((value) => value);
+        if (isAnswersCreated)
+          navigation.navigate("SpiritualNeeds", { patientId });
+        else throw new Error("Problema interno");
+      }
+    } catch (error) {
+      Alert.alert("Erro interno", error.message);
     }
   };
 
@@ -104,7 +114,7 @@ const index = ({ route }: Props): JSX.Element => {
                   returnKeyType="go"
                 />
                 <CommonInput
-                  name="familySuport"
+                  name="famillySuport"
                   placeholder="Apoio familiar"
                   returnKeyType="go"
                 />

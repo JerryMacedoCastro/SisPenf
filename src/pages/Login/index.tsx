@@ -29,7 +29,10 @@ const Login = (): JSX.Element => {
       const { user, password } = info;
       await signIn(user, password);
     } catch (error) {
-      Alert.alert(error.message);
+      Alert.alert(
+        "Dados inválidos",
+        "Verifique e-mail e senha e tente novamente"
+      );
     }
   };
 
@@ -47,9 +50,15 @@ const Login = (): JSX.Element => {
         onSubmit={handleFormSubmit}
         style={{ display: "flex", width: "100%", alignItems: "center" }}
       >
-        <SquareInput name="user" icon="user" autoCorrect={false} />
+        <SquareInput
+          name="user"
+          placeholder="E-mail"
+          icon="user"
+          autoCorrect={false}
+        />
         <SquareInput
           name="password"
+          placeholder="Senha"
           icon="lock"
           autoCorrect={false}
           secureTextEntry
