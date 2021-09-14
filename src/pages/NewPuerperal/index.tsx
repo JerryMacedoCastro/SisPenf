@@ -90,10 +90,6 @@ const NewPuerperal = (): JSX.Element => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log(questions);
-  }, [questions]);
-
   const handleChangeInfirmary = async (item: keyValue) => {
     const { value } = item;
     setBedPickerDisabled(true);
@@ -124,87 +120,12 @@ const NewPuerperal = (): JSX.Element => {
     navigation.navigate("PsychologicalNeeds", { patientId: 29 });
   };
 
-  // const handleSubmit: SubmitHandler<IFormPatient> = async (formData) => {
-  //   const {
-  //     name,
-  //     birthdate,
-  //     diagnostic,
-  //     diet,
-  //     maritalStatus,
-  //     education,
-  //     ocupation,
-  //   } = formData;
-  //   const data = {
-  //     name,
-  //     birthdate,
-  //     bed: hospitalBed,
-  //   };
-
-  //   if (hospitalBed === 0) {
-  //     Alert.alert("Dados inválidos", "Selecione e enfermaria e o leito");
-  //     return;
-  //   }
-  //   try {
-  //     const response = await api.post("/patient", data);
-  //     const patientCreated: IPatientResponse = response.data;
-
-  //     if (response.status === 200) {
-  //       const questions: IQuestionAnswer[] = [
-  //         {
-  //           question: "Diagnostico Médico",
-  //           answer: diagnostic,
-  //         },
-  //         {
-  //           question: "Dieta Prescrita",
-  //           answer: diet,
-  //         },
-  //         {
-  //           question: "Estado Civil",
-  //           answer: maritalStatus,
-  //         },
-  //         {
-  //           question: "Escolaridade",
-  //           answer: education,
-  //         },
-  //         {
-  //           question: "Ocupação",
-  //           answer: ocupation,
-  //         },
-  //       ];
-
-  //       if (user) {
-  //         const isAnswerCreated = useAnswerPost(
-  //           user.id,
-  //           patientCreated.id,
-  //           questions
-  //         ).then((value) => value);
-  //         if (isAnswerCreated) {
-  //           navigation.navigate("PsychologicalNeeds", {
-  //             patienId: patientCreated.id,
-  //           });
-  //         } else {
-  //           throw new Error("Problema interno");
-  //         }
-  //       }
-  //     } else {
-  //       Alert.alert(
-  //         "Problema de conexão",
-  //         "Verifique a conexão com a internet"
-  //       );
-  //     }
-  //   } catch (error) {
-  //     Alert.alert("Erro", error.message);
-  //   }
-  // };
-
   const handleSubmit: SubmitHandler<IFormPatient> = async (formData) => {
     console.log(formData);
+    console.log("usuario: " + user?.id);
+    console.log("Enfermaria " + infirmary);
+    console.log("Leito " + hospitalBed);
   };
-
-  const pickerOptions = [
-    { value: "1", label: "Solteira" },
-    { value: "2", label: "Casada" },
-  ];
 
   return (
     <>
@@ -249,43 +170,31 @@ const NewPuerperal = (): JSX.Element => {
                 onSubmit={handleSubmit}
                 initialData={{ user: "Nome" }}
               >
-                <CommonInput
-                  name="name"
-                  placeholder="Nome"
-                  returnKeyType="next"
-                />
-                <CommonInput
-                  name="birthdate"
-                  placeholder="Data de nascimento"
-                  returnKeyType="next"
-                />
-                <CommonInput
-                  name="diagnostic"
-                  placeholder="Diagnótico médico"
-                  returnKeyType="next"
-                />
-                <CommonInput
-                  name="diet"
-                  placeholder="Dieta prescrita"
-                  returnKeyType="next"
-                />
-
-                <CommonInput
-                  name="maritalStatus"
-                  placeholder="Estado civil"
-                  returnKeyType="next"
-                />
-                <RNPickerSelect name="user" items={pickerOptions} />
-                <CommonInput
-                  name="education"
-                  placeholder="Escolaridade"
-                  returnKeyType="next"
-                />
-                <CommonInput
-                  name="ocupation"
-                  placeholder="Ocupação"
-                  returnKeyType="go"
-                />
+                {!questions ? (
+                  <ActivityIndicator size="small" color={colors.darkGreen} />
+                ) : (
+                  questions.map((question): JSX.Element => {
+                    return question.options.length === 0 ? (
+                      <CommonInput
+                        key={question.id}
+                        name={question.description}
+                        placeholder={question.description}
+                        returnKeyType="next"
+                      />
+                    ) : (
+                      <RNPickerSelect
+                        key={question.id}
+                        name={question.description}
+                        items={question.options.map((option) => {
+                          return {
+                            value: option.id,
+                            label: option.description,
+                          };
+                        })}
+                      />
+                    );
+                  })
+                )}
               </Form>
             </View>
           </ScrollView>

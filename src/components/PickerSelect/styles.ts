@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     borderColor: "rgba(196, 196, 196, 0.7)",
     borderTopWidth: 0,
     elevation: 0,
-    padding: 16,
+    padding: 20,
     margin: 10,
     backgroundColor: Colors.white,
   },
@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
   inputAndroid: {
     fontSize: 16,
     paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingVertical: 10,
     borderWidth: 0.5,
     borderRadius: 8,
     color: colors.darkGreen,

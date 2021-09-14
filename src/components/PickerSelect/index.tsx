@@ -34,7 +34,7 @@ export default function RNPickerSelect({
     <View style={styles.inputContainer}>
       <Picker
         placeholder={{
-          label: "Estado Civil",
+          label: name,
           value: null,
           color: colors.gray,
         }}
