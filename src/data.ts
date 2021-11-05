@@ -16,6 +16,8 @@ export const hospitalBeds = [
   { label: "Leito 34344", value: 8 },
   { label: "Leito 4444", value: 9 },
   { label: "Leito 00", value: 10 },
+  { label: "Leito 01", value: 11 },
+  { label: "Leito 02", value: 12 },
 ];
 
 export const patients = [
