@@ -79,6 +79,7 @@ const NewPuerperal = (): JSX.Element => {
     fetchData();
   }, []);
   useEffect(() => {
+    console.log("jerry");
     async function fetchData() {
       try {
         const questionsForm = await api.get(`question/${questionsType}`);
