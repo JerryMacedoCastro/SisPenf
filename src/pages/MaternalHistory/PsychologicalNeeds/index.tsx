@@ -13,7 +13,7 @@ import { Form } from "@unform/mobile";
 import { FormHandles, SubmitHandler } from "@unform/core";
 
 import { styles } from "../styles";
-import CommonInput from "../../../components/CommonInput";
+import CommonInput from "../../../components/Input/CommonInput";
 import DateHeader from "../../../components/DateHeader";
 import Gradient from "../../../components/Gradient";
 import { RectButton, ScrollView } from "react-native-gesture-handler";

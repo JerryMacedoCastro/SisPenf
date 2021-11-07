@@ -13,7 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { RectButton, ScrollView } from "react-native-gesture-handler";
 
 import { styles } from "../styles";
-import CommonInput from "../../../components/CommonInput";
+import CommonInput from "../../../components/Input/CommonInput";
 import DateHeader from "../../../components/DateHeader";
 import Gradient from "../../../components/Gradient";
 import { globalStyles } from "../../../Assets/GlobalStyles";

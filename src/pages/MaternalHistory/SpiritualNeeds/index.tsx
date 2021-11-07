@@ -16,7 +16,7 @@ import { IQuestionAnswer } from "../../../interfaces";
 import useAnswerPost from "../../../hooks/useAnswerPost";
 import { useAuth } from "../../../contexts/auth";
 import { styles } from "../styles";
-import CommonInput from "../../../components/CommonInput";
+import CommonInput from "../../../components/Input/CommonInput";
 import DateHeader from "../../../components/DateHeader";
 import Gradient from "../../../components/Gradient";
 import { RectButton, ScrollView } from "react-native-gesture-handler";
