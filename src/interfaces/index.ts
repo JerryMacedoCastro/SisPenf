@@ -85,10 +85,12 @@ export interface IQuestionAnswer {
   question: string;
   answer: string;
 }
+
 export interface IOption {
   id: number;
   description: string;
 }
+
 export interface IQuesttionType {
   id: number;
   label: string;

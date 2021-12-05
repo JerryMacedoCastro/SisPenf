@@ -10,13 +10,13 @@ export const styles = StyleSheet.create({
     borderColor: "rgba(196, 196, 196, 0.7)",
     borderTopWidth: 0,
     elevation: 0,
-    padding: 4,
+    padding: 8,
     margin: 10,
     backgroundColor: colors.white,
   },
 
   inputText: {
-    padding: 6,
+    padding: 8,
     color: colors.darkGreen,
   },
 });

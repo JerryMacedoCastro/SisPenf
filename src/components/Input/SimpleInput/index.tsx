@@ -4,12 +4,12 @@ import { View, TextInput, TextInputProps } from "react-native";
 import { styles } from "./styles";
 interface simpleInputProps extends TextInputProps {
   label: string;
-  onChange: () => void;
+  onChangeText?: (text: string) => void;
 }
 
 const index = ({
   label,
-  onChange,
+  onChangeText,
   value,
   ...rest
 }: simpleInputProps): JSX.Element => {
@@ -17,7 +17,7 @@ const index = ({
     <View style={styles.inputContainer}>
       <TextInput
         placeholder={label}
-        onChangeText={onChange}
+        onChangeText={onChangeText}
         style={styles.inputText}
         value={value}
         {...rest}
