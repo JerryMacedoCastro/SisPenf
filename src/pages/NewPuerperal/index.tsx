@@ -7,14 +7,17 @@ import {
   Platform,
   Alert,
   ActivityIndicator,
-  Button,
 } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Form } from "@unform/mobile";
 import { FormHandles, SubmitHandler } from "@unform/core";
 import { useNavigation } from "@react-navigation/native";
-import DatePicker from "react-native-date-picker";
+import DateTimePicker, {
+  AndroidEvent,
+  Event,
+} from "@react-native-community/datetimepicker";
+import { format } from "date-fns";
 
 import { styles } from "./styles";
 import { colors, globalStyles } from "../../Assets/GlobalStyles";
@@ -45,11 +48,19 @@ interface IFormPatient {
   ocupation: string;
 }
 
+interface IFormattedDate {
+  date: Date;
+  formattedDate: string;
+}
+
 const NewPuerperal = (): JSX.Element => {
   const [infirmary, setInfirmary] = useState<number>(0);
   const [name, setName] = useState<string>("");
-  const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState<IFormattedDate>({
+    date: new Date(),
+    formattedDate: "",
+  });
+  const [showDateModal, setShowDateModal] = useState(false);
   const [bedsPickerDisabled, setBedPickerDisabled] = useState(true);
   const [hospitalBed, setHospitalBed] = useState(0);
   const [questions, setQuestions] = useState<IQuestionResponse[]>([]);
@@ -82,6 +93,7 @@ const NewPuerperal = (): JSX.Element => {
     }
     fetchData();
   }, []);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -129,6 +141,7 @@ const NewPuerperal = (): JSX.Element => {
     console.log("usuario: " + user?.id);
     console.log("Enfermaria " + infirmary);
     console.log("Leito " + hospitalBed);
+    console.log("Data " + date.formattedDate);
     return;
     if (infirmary === 0 || hospitalBed === 0) {
       Alert.alert(
@@ -160,6 +173,13 @@ const NewPuerperal = (): JSX.Element => {
     } catch (error) {
       Alert.alert("Problema de conexão!", error.message);
     }
+  };
+
+  const onChangeDate = (selectedDate: Date) => {
+    const currentDate = selectedDate || date;
+    setShowDateModal(Platform.OS === "ios");
+    const formatted = format(currentDate, "dd/MM/yyyy");
+    setDate({ date: selectedDate, formattedDate: formatted });
   };
 
   return (
@@ -209,22 +229,26 @@ const NewPuerperal = (): JSX.Element => {
                       label={"Nome"}
                       value={name}
                       returnKeyType="next"
-                      onChange={() => console.log("")}
+                      onChangeText={(text) => setName(text)}
                     />
-                    {/* TODO: DatePicker needs Expo SDK 42. */}
-                    {/* <Button title="Open" onPress={() => setOpen(true)} />
-                    <DatePicker
-                      modal
-                      open={open}
-                      date={date}
-                      onConfirm={(date) => {
-                        setOpen(false);
-                        setDate(date);
-                      }}
-                      onCancel={() => {
-                        setOpen(false);
-                      }}
-                    /> */}
+                    <SimpleInput
+                      label={"Data de nascimento"}
+                      value={date.formattedDate}
+                      returnKeyType="next"
+                      onFocus={() => setShowDateModal(true)}
+                      showSoftInputOnFocus={false}
+                    />
+                    {showDateModal && (
+                      <DateTimePicker
+                        value={date.date}
+                        mode={"date"}
+                        display="default"
+                        onChange={(_event: Event | AndroidEvent, date?: Date) =>
+                          date ? onChangeDate(date) : null
+                        }
+                        dateFormat="day month year"
+                      />
+                    )}
                     {questions.map((question): JSX.Element => {
                       return question.options.length === 0 ? (
                         <CommonInput
