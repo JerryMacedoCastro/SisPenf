@@ -11,9 +11,9 @@ export const styles = StyleSheet.create({
     borderColor: "rgba(196, 196, 196, 0.7)",
     borderTopWidth: 0,
     elevation: 0,
-    padding: 20,
+    padding: 8,
     margin: 10,
-    backgroundColor: Colors.white,
+    backgroundColor: colors.white,
   },
   inputIOS: {
     fontSize: 16,

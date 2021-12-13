@@ -5,25 +5,25 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.lightGreen,
-    alignItems: "center",
     justifyContent: "center",
-  },
-
-  content: {
-    backgroundColor: colors.white,
-    width: "90%",
-    padding: 8,
-    position: "relative",
-    borderRadius: 25,
-    display: "flex",
     alignItems: "center",
+  },
+  content: {
+    backgroundColor: colors.lightGreen,
+    width: "90%",
+    height: 100,
+    padding: 8,
+    borderRadius: 25,
   },
   panelContent: {
     backgroundColor: colors.white,
     width: "80%",
-    padding: 8,
-    position: "relative",
+    padding: 6,
     borderRadius: 25,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 
   info: {
@@ -47,6 +47,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+
   percentage: {
     color: colors.darkGreen,
     fontSize: 40,
@@ -55,11 +56,15 @@ export const styles = StyleSheet.create({
   },
 
   blockContainer: {
-    width: 250,
+    width: "90%",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    right: -110,
-    top: -12,
+    position: "relative",
+
+    alignSelf: "flex-end",
+    justifyContent: "flex-end",
+    marginStart: 40,
+    marginTop: 65,
   },
 });

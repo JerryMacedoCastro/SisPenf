@@ -13,10 +13,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Form } from "@unform/mobile";
 import { FormHandles, SubmitHandler } from "@unform/core";
 import { useNavigation } from "@react-navigation/native";
+import DateTimePicker, {
+  AndroidEvent,
+  Event,
+} from "@react-native-community/datetimepicker";
+import { format } from "date-fns";
 
 import { styles } from "./styles";
 import { colors, globalStyles } from "../../Assets/GlobalStyles";
-import CommonInput from "../../components/CommonInput";
+import CommonInput from "../../components/Input/CommonInput";
+import SimpleInput from "../../components/Input/SimpleInput";
 import DateHeader from "../../components/DateHeader";
 import Picker from "../../components/Picker";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
@@ -25,27 +31,34 @@ import {
   IInfirmariesResponse,
   IHospitalBedResponse,
   IPatientResponse,
-  IQuestionAnswer,
   IQuestionResponse,
 } from "../../interfaces";
 import Gradient from "../../components/Gradient";
 import api from "../../services/api";
-import useAnswerPost from "../../hooks/useAnswerPost";
 import { useAuth } from "../../contexts/auth";
 import RNPickerSelect from "../../components/PickerSelect";
 
 interface IFormPatient {
-  name: string;
-  birthdate: string;
-  diagnostic: string;
-  diet: string;
-  maritalStatus: string;
-  education: string;
-  ocupation: string;
+  "Diagnostico Médico": string;
+  "Dieta Prescrita": string;
+  "Estado civil": string;
+  Escolaridade: string;
+  Ocupação: string;
+}
+
+interface IFormattedDate {
+  date: Date;
+  formattedDate: string;
 }
 
 const NewPuerperal = (): JSX.Element => {
   const [infirmary, setInfirmary] = useState<number>(0);
+  const [name, setName] = useState<string>("");
+  const [date, setDate] = useState<IFormattedDate>({
+    date: new Date(1999, 1, 1),
+    formattedDate: "",
+  });
+  const [showDateModal, setShowDateModal] = useState(false);
   const [bedsPickerDisabled, setBedPickerDisabled] = useState(true);
   const [hospitalBed, setHospitalBed] = useState(0);
   const [questions, setQuestions] = useState<IQuestionResponse[]>([]);
@@ -73,19 +86,19 @@ const NewPuerperal = (): JSX.Element => {
         });
         setInfirmaries(keyValueInfirmaries);
       } catch (error) {
-        Alert.alert("Problema de conexão!", error.message);
+        Alert.alert("Problema de conexão! fetch DAta", error.message);
       }
     }
     fetchData();
   }, []);
+
   useEffect(() => {
-    console.log("jerry");
     async function fetchData() {
       try {
         const questionsForm = await api.get(`question/${questionsType}`);
         setQuestions(questionsForm.data);
       } catch (error) {
-        Alert.alert("Problema de conexão!", error.message);
+        Alert.alert("Problema de conexão! AQUIII", error.message);
       }
     }
     fetchData();
@@ -122,10 +135,60 @@ const NewPuerperal = (): JSX.Element => {
   };
 
   const handleSubmit: SubmitHandler<IFormPatient> = async (formData) => {
-    console.log(formData);
-    console.log("usuario: " + user?.id);
-    console.log("Enfermaria " + infirmary);
-    console.log("Leito " + hospitalBed);
+    const test = formData;
+    const answeredQuestions = [
+      { question: "Diagnostico Médico", option: test["Diagnostico Médico"] },
+      { question: "Dieta Prescrita", option: test["Dieta Prescrita"] },
+      { question: "Escolaridade", option: test.Escolaridade },
+      { question: "Estado Civil", option: test["Estado civil"] },
+      { question: "Ocupação", comment: test.Ocupação },
+    ];
+    console.log(answeredQuestions);
+    return;
+
+    if (infirmary === 0 || hospitalBed === 0) {
+      Alert.alert(
+        "Preencha todos os campos",
+        "Selecione o leito e a enfermaria!"
+      );
+      return;
+    }
+    try {
+      const { data } = await api.post("/patient", {
+        name: name,
+        birthdate: date.date,
+        bed: hospitalBed,
+      });
+      console.log(data);
+      const patient: IPatientResponse = data;
+
+      console.log(answeredQuestions);
+      if (patient.id) {
+        const { data } = await api.post("/answers", {
+          patientId: patient.id,
+          userId: user?.id,
+          questions: answeredQuestions,
+        });
+        console.log(data);
+        if (data.status === 200) {
+          navigation.navigate("PsychologicalNeeds", {
+            patientId: patient.id,
+            infirmaryId: infirmary,
+          });
+        } else {
+          Alert.alert("Problema de conexão!", data.message);
+        }
+      }
+    } catch (error) {
+      Alert.alert("Problema de conexão   !", error.message);
+    }
+  };
+
+  const onChangeDate = (selectedDate: Date) => {
+    const currentDate = selectedDate || date;
+    setShowDateModal(Platform.OS === "ios");
+    const formatted = format(currentDate, "dd/MM/yyyy");
+    setDate({ date: selectedDate, formattedDate: formatted });
   };
 
   return (
@@ -166,35 +229,59 @@ const NewPuerperal = (): JSX.Element => {
             }}
           >
             <View style={styles.formContainer}>
-              <Form
-                ref={formRef}
-                onSubmit={handleSubmit}
-                initialData={{ user: "Nome" }}
-              >
+              <Form ref={formRef} onSubmit={handleSubmit}>
                 {!questions ? (
                   <ActivityIndicator size="small" color={colors.darkGreen} />
                 ) : (
-                  questions.map((question): JSX.Element => {
-                    return question.options.length === 0 ? (
-                      <CommonInput
-                        key={question.id}
-                        name={question.description}
-                        placeholder={question.description}
-                        returnKeyType="next"
+                  <>
+                    <SimpleInput
+                      label={"Nome"}
+                      value={name}
+                      returnKeyType="next"
+                      onChangeText={(text) => setName(text)}
+                    />
+                    <SimpleInput
+                      label={"Data de nascimento"}
+                      value={date.formattedDate}
+                      returnKeyType="next"
+                      onFocus={() => setShowDateModal(true)}
+                      showSoftInputOnFocus={false}
+                    />
+                    {showDateModal && (
+                      <DateTimePicker
+                        value={date.date}
+                        placeholderText="Data de nascimento"
+                        mode={"date"}
+                        display="default"
+                        onChange={(_event: Event | AndroidEvent, date?: Date) =>
+                          date ? onChangeDate(date) : null
+                        }
+                        dateFormat="day month year"
                       />
-                    ) : (
-                      <RNPickerSelect
-                        key={question.id}
-                        name={question.description}
-                        items={question.options.map((option) => {
-                          return {
-                            value: option.id,
-                            label: option.description,
-                          };
-                        })}
-                      />
-                    );
-                  })
+                    )}
+                    {questions.map((question): JSX.Element => {
+                      return question.options.length === 0 ? (
+                        <CommonInput
+                          key={question.id}
+                          name={question.description}
+                          placeholder={question.description}
+                          returnKeyType="next"
+                        />
+                      ) : (
+                        <RNPickerSelect
+                          key={question.id}
+                          name={question.description}
+                          items={question.options.map((option) => {
+                            return {
+                              key: option.id,
+                              value: option.id,
+                              label: option.description,
+                            };
+                          })}
+                        />
+                      );
+                    })}
+                  </>
                 )}
               </Form>
             </View>

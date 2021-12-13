@@ -10,6 +10,8 @@ import PanelInfo from "../../components/PanelInfo";
 import CustomModal from "../../components/CustomModal";
 import { colors } from "../../Assets/GlobalStyles";
 import { useAuth } from "../../contexts/auth";
+import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const PanelTab = (): JSX.Element => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -25,9 +27,10 @@ const PanelTab = (): JSX.Element => {
     signOut();
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Gradient />
       <Header />
+
       <Text
         style={{
           color: colors.darkGreen,
@@ -57,7 +60,14 @@ const PanelTab = (): JSX.Element => {
         secondButtonText="Admitir recém-nascido"
       />
 
-      <View style={styles.content}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={{
+          alignItems: "center",
+          justifyContent: "space-between",
+          alignContent: "center",
+        }}
+      >
         <Button
           title="Admitir paciente"
           icon="log-in"
@@ -103,8 +113,8 @@ const PanelTab = (): JSX.Element => {
           size={24}
           handlePress={handleLogout}
         />
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

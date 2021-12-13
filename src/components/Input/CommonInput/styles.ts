@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../../Assets/GlobalStyles";
+import { colors } from "../../../Assets/GlobalStyles";
 
 export const styles = StyleSheet.create({
   inputContainer: {
