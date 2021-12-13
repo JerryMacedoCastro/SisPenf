@@ -5,19 +5,15 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.lightGreen,
-    height: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
-
   content: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.lightGreen,
     width: "90%",
+    height: 100,
     padding: 8,
-    position: "relative",
     borderRadius: 25,
-    display: "flex",
-    alignItems: "center",
   },
   panelContent: {
     backgroundColor: colors.white,

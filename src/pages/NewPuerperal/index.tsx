@@ -39,13 +39,11 @@ import { useAuth } from "../../contexts/auth";
 import RNPickerSelect from "../../components/PickerSelect";
 
 interface IFormPatient {
-  name: string;
-  birthdate: string;
-  diagnostic: string;
-  diet: string;
-  maritalStatus: string;
-  education: string;
-  ocupation: string;
+  "Diagnostico Médico": string;
+  "Dieta Prescrita": string;
+  "Estado civil": string;
+  Escolaridade: string;
+  Ocupação: string;
 }
 
 interface IFormattedDate {
@@ -57,7 +55,7 @@ const NewPuerperal = (): JSX.Element => {
   const [infirmary, setInfirmary] = useState<number>(0);
   const [name, setName] = useState<string>("");
   const [date, setDate] = useState<IFormattedDate>({
-    date: new Date(),
+    date: new Date(1999, 1, 1),
     formattedDate: "",
   });
   const [showDateModal, setShowDateModal] = useState(false);
@@ -88,7 +86,7 @@ const NewPuerperal = (): JSX.Element => {
         });
         setInfirmaries(keyValueInfirmaries);
       } catch (error) {
-        Alert.alert("Problema de conexão!", error.message);
+        Alert.alert("Problema de conexão! fetch DAta", error.message);
       }
     }
     fetchData();
@@ -100,7 +98,7 @@ const NewPuerperal = (): JSX.Element => {
         const questionsForm = await api.get(`question/${questionsType}`);
         setQuestions(questionsForm.data);
       } catch (error) {
-        Alert.alert("Problema de conexão!", error.message);
+        Alert.alert("Problema de conexão! AQUIII", error.message);
       }
     }
     fetchData();
@@ -137,12 +135,17 @@ const NewPuerperal = (): JSX.Element => {
   };
 
   const handleSubmit: SubmitHandler<IFormPatient> = async (formData) => {
-    console.log(formData);
-    console.log("usuario: " + user?.id);
-    console.log("Enfermaria " + infirmary);
-    console.log("Leito " + hospitalBed);
-    console.log("Data " + date.formattedDate);
+    const test = formData;
+    const answeredQuestions = [
+      { question: "Diagnostico Médico", option: test["Diagnostico Médico"] },
+      { question: "Dieta Prescrita", option: test["Dieta Prescrita"] },
+      { question: "Escolaridade", option: test.Escolaridade },
+      { question: "Estado Civil", option: test["Estado civil"] },
+      { question: "Ocupação", comment: test.Ocupação },
+    ];
+    console.log(answeredQuestions);
     return;
+
     if (infirmary === 0 || hospitalBed === 0) {
       Alert.alert(
         "Preencha todos os campos",
@@ -152,26 +155,32 @@ const NewPuerperal = (): JSX.Element => {
     }
     try {
       const { data } = await api.post("/patient", {
-        name: formData.name,
-        birthdate: formData.birthdate,
+        name: name,
+        birthdate: date.date,
         bed: hospitalBed,
       });
+      console.log(data);
       const patient: IPatientResponse = data;
-      if (data.id) {
+
+      console.log(answeredQuestions);
+      if (patient.id) {
         const { data } = await api.post("/answers", {
           patientId: patient.id,
           userId: user?.id,
-          questions: {},
+          questions: answeredQuestions,
         });
+        console.log(data);
+        if (data.status === 200) {
+          navigation.navigate("PsychologicalNeeds", {
+            patientId: patient.id,
+            infirmaryId: infirmary,
+          });
+        } else {
+          Alert.alert("Problema de conexão!", data.message);
+        }
       }
-      navigation.navigate("PsychologicalNeeds", {
-        patientId: patient.id,
-        infirmaryId: infirmary,
-      });
-
-      navigation.navigate("PsychologicalNeeds", { patientId: patient.id });
     } catch (error) {
-      Alert.alert("Problema de conexão!", error.message);
+      Alert.alert("Problema de conexão   !", error.message);
     }
   };
 
@@ -241,6 +250,7 @@ const NewPuerperal = (): JSX.Element => {
                     {showDateModal && (
                       <DateTimePicker
                         value={date.date}
+                        placeholderText="Data de nascimento"
                         mode={"date"}
                         display="default"
                         onChange={(_event: Event | AndroidEvent, date?: Date) =>
@@ -263,6 +273,7 @@ const NewPuerperal = (): JSX.Element => {
                           name={question.description}
                           items={question.options.map((option) => {
                             return {
+                              key: option.id,
                               value: option.id,
                               label: option.description,
                             };
