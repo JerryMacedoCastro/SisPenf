@@ -11,6 +11,7 @@ export async function signIn(
   password: string
 ): Promise<IResponse> {
   try {
+    console.log("entrou");
     const loginData = { email: email, password: password };
     const { data } = await api.post("/login", loginData);
     const response: IResponse = {
@@ -23,6 +24,7 @@ export async function signIn(
     };
     return response;
   } catch (error) {
+    console.log("Erro auth service: ", JSON.stringify(error.message));
     throw new Error("Erro: " + error.message);
   }
 }

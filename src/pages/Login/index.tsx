@@ -19,16 +19,18 @@ interface FormData {
 }
 
 const Login = (): JSX.Element => {
-  const { signIn } = useAuth();
+  const { signIn, loading } = useAuth();
 
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
 
   const handleFormSubmit: SubmitHandler<FormData> = async (info) => {
+    console.log(JSON.stringify(info));
     try {
       const { user, password } = info;
       await signIn(user, password);
     } catch (error) {
+      console.log(error.message);
       Alert.alert(
         "Dados inválidos",
         "Verifique e-mail e senha e tente novamente"
@@ -45,40 +47,42 @@ const Login = (): JSX.Element => {
       <Gradient />
       <Header />
       <Text style={styles.subTitle}>SisPenf</Text>
-      <Form
-        ref={formRef}
-        onSubmit={handleFormSubmit}
-        style={{ display: "flex", width: "100%", alignItems: "center" }}
-      >
-        <SquareInput
-          name="user"
-          placeholder="E-mail"
-          icon="user"
-          autoCorrect={false}
-        />
-        <SquareInput
-          name="password"
-          placeholder="Senha"
-          icon="lock"
-          autoCorrect={false}
-          secureTextEntry
-        />
-        {/* {error !== "" && <TextInput style={styles.error}>{error}</TextInput>} */}
-        <RectButton style={{ height: 26, marginBottom: 20, marginTop: 20 }}>
-          <Text
-            onPress={() => navigation.navigate("PasswordRecover")}
-            style={styles.inputStyle}
-          >
-            Esqueceu a senha? Clique aqui.
-          </Text>
-        </RectButton>
-        <RectButton
-          onPress={() => formRef?.current?.submitForm()}
-          style={[globalStyles.button, globalStyles.primaryButton]}
+      {!loading && (
+        <Form
+          ref={formRef}
+          onSubmit={handleFormSubmit}
+          style={{ display: "flex", width: "100%", alignItems: "center" }}
         >
-          <Text style={globalStyles.primaryButtonText}>Acessar</Text>
-        </RectButton>
-      </Form>
+          <SquareInput
+            name="user"
+            placeholder="E-mail"
+            icon="user"
+            autoCorrect={false}
+          />
+          <SquareInput
+            name="password"
+            placeholder="Senha"
+            icon="lock"
+            autoCorrect={false}
+            secureTextEntry
+          />
+          {/* {error !== "" && <TextInput style={styles.error}>{error}</TextInput>} */}
+          <RectButton style={{ height: 26, marginBottom: 20, marginTop: 20 }}>
+            <Text
+              onPress={() => navigation.navigate("PasswordRecover")}
+              style={styles.inputStyle}
+            >
+              Esqueceu a senha? Clique aqui.
+            </Text>
+          </RectButton>
+          <RectButton
+            onPress={() => formRef?.current?.submitForm()}
+            style={[globalStyles.button, globalStyles.primaryButton]}
+          >
+            <Text style={globalStyles.primaryButtonText}>Acessar</Text>
+          </RectButton>
+        </Form>
+      )}
       <RectButton
         style={[globalStyles.button, globalStyles.secondaryButton]}
         onPress={handleNavigateToRegister}
