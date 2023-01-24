@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Fieldset from "../Fieldset";
 // import { patients } from "../../data";
 import { styles } from "./styles";
-import Animated from "react-native-reanimated";
 import api from "../../services/api";
 import { IPatientResponse } from "../../interfaces";
 
@@ -39,7 +38,7 @@ const index = ({ search }: IPatientListProps): JSX.Element => {
   }, [search]);
 
   return (
-    <Animated.View style={[styles.content]}>
+    <View style={[styles.content]}>
       <ScrollView
         contentContainerStyle={{
           alignItems: "center",
@@ -58,7 +57,7 @@ const index = ({ search }: IPatientListProps): JSX.Element => {
           );
         })}
       </ScrollView>
-    </Animated.View>
+    </View>
   );
 };
 export default index;

@@ -3,7 +3,9 @@ import { IAuthContextData, IUser } from "../interfaces";
 import * as auth from "../services/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../services/api";
-
+interface Props {
+  children: React.ReactNode;
+}
 const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 function useAuth(): IAuthContextData {
@@ -15,9 +17,8 @@ function useAuth(): IAuthContextData {
 
   return context;
 }
-const AuthProvider = ({
-  children,
-}: JSX.ElementChildrenAttribute): JSX.Element => {
+
+const AuthProvider = ({ children }: Props): JSX.Element => {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -34,14 +35,20 @@ const AuthProvider = ({
 
     loadStorageData();
   }, []);
+
   async function signIn(email: string, password: string) {
-    const response = await auth.signIn(email, password);
-    setUser(response.user);
+    try {
+      const response = await auth.signIn(email, password);
+      console.log("response: ", response);
+      setUser(response.user);
 
-    api.defaults.headers.Authorization = `Baerer ${response.token}`;
+      api.defaults.headers.Authorization = `Baerer ${response.token}`;
 
-    await AsyncStorage.setItem("@RNAuth:user", JSON.stringify(response.user));
-    await AsyncStorage.setItem("@RNAuth:token", response.token);
+      await AsyncStorage.setItem("@RNAuth:user", JSON.stringify(response.user));
+      await AsyncStorage.setItem("@RNAuth:token", response.token);
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   async function signOut() {
