@@ -14,7 +14,8 @@ import { Form } from "@unform/mobile";
 import { FormHandles, SubmitHandler } from "@unform/core";
 
 import { IQuestionAnswer } from "../../../interfaces";
-import useAnswerPost from "../../../hooks/useAnswerPost";
+import { addAnswers } from "../../../helpers/createAnswers";
+
 import { useAuth } from "../../../contexts/auth";
 import { styles } from "../styles";
 import CommonInput from "../../../components/Input/CommonInput";
@@ -31,11 +32,10 @@ interface IChildbirthData {
   type: string;
   indication: string;
   rpmo: string;
-
   information: string;
 }
 
-const index = ({ route }: Props): JSX.Element => {
+const ChildbirthData = ({ route }: Props): JSX.Element => {
   const { patientId } = route.params;
   const { user } = useAuth();
   const formRef = useRef<FormHandles>(null);
@@ -64,15 +64,15 @@ const index = ({ route }: Props): JSX.Element => {
         },
       ];
       if (user) {
-        const isCreatedAnswer = useAnswerPost(
-          user.id,
-          patientId,
-          questions
-        ).then((value) => value);
-        if (isCreatedAnswer) navigation.navigate("PartOne");
+        const isCreatedAnswer = await addAnswers(user.id, patientId, questions);
+        if (isCreatedAnswer) {
+          navigation.navigate("PartOne");
+        } else {
+          throw new Error("Tivemos um problema para salvar as respostas.");
+        }
       }
     } catch (error) {
-      Alert.alert(error.message);
+      Alert.alert("Ops...", error.message);
     }
   };
 
@@ -127,4 +127,4 @@ const index = ({ route }: Props): JSX.Element => {
   );
 };
 
-export default index;
+export default ChildbirthData;

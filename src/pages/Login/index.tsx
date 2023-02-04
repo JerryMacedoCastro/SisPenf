@@ -25,7 +25,6 @@ const Login = (): JSX.Element => {
   const formRef = useRef<FormHandles>(null);
 
   const handleFormSubmit: SubmitHandler<FormData> = async (info) => {
-    console.log(JSON.stringify(info));
     try {
       const { user, password } = info;
       await signIn(user, password);

@@ -21,7 +21,7 @@ import { globalStyles } from "../../../Assets/GlobalStyles";
 import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import { RootStackParamList } from "../../../Routes/app.routes";
 import { IQuestionAnswer } from "../../../interfaces";
-import useAnswerPost from "../../../hooks/useAnswerPost";
+import { addAnswers } from "../../../helpers/createAnswers";
 import { useAuth } from "../../../contexts/auth";
 
 type Props = StackScreenProps<RootStackParamList, "PsychologicalNeeds">;
@@ -67,17 +67,15 @@ const index = ({ route }: Props): JSX.Element => {
         },
       ];
       if (user) {
-        const isAnswersCreated = useAnswerPost(
-          user.id,
-          patientId,
-          questions
-        ).then((value) => value);
-        if (isAnswersCreated)
+        const isCreatedAnswer = await addAnswers(user.id, patientId, questions);
+        if (isCreatedAnswer) {
           navigation.navigate("SpiritualNeeds", { patientId });
-        else throw new Error("Problema interno");
+        } else {
+          throw new Error("Tivemos um problema para salvar as respotas.");
+        }
       }
     } catch (error) {
-      Alert.alert("Erro interno", error.message);
+      Alert.alert(error.message);
     }
   };
 

@@ -14,8 +14,7 @@ import { Form } from "@unform/mobile";
 import { FormHandles, SubmitHandler } from "@unform/core";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePicker, {
-  AndroidEvent,
-  Event,
+  DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { format } from "date-fns";
 
@@ -37,6 +36,11 @@ import Gradient from "../../components/Gradient";
 import api from "../../services/api";
 import { useAuth } from "../../contexts/auth";
 import RNPickerSelect from "../../components/PickerSelect";
+import { createPatient } from "../../services/patient.service";
+import { getInfirmaries } from "../../services/infirmary.service";
+import { getQuestionsByType } from "../../services/question.service";
+import { getHospitalbedByNumber } from "../../services/hospitalBed.service";
+import { addAnswers } from "../../services/answer.service";
 
 interface IFormPatient {
   "Diagnostico Médico": string;
@@ -75,8 +79,8 @@ const NewPuerperal = (): JSX.Element => {
 
     async function fetchData() {
       try {
-        const { data } = await api.get("/infirmary");
-        const infirmariesResponse: IInfirmariesResponse[] = data;
+        const infirmariesResponse: IInfirmariesResponse[] =
+          await getInfirmaries();
         infirmariesResponse.forEach((infirmary: IInfirmariesResponse) => {
           const keyValueInfirmary: keyValue = {
             label: infirmary.description,
@@ -86,7 +90,7 @@ const NewPuerperal = (): JSX.Element => {
         });
         setInfirmaries(keyValueInfirmaries);
       } catch (error) {
-        Alert.alert("Problema de conexão! fetch DAta", error.message);
+        Alert.alert("Problema de conexão! fetch Data", error.message);
       }
     }
     fetchData();
@@ -95,10 +99,10 @@ const NewPuerperal = (): JSX.Element => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const questionsForm = await api.get(`question/${questionsType}`);
-        setQuestions(questionsForm.data);
+        const questionsForm = await getQuestionsByType(questionsType);
+        setQuestions(questionsForm);
       } catch (error) {
-        Alert.alert("Problema de conexão! AQUIII", error.message);
+        Alert.alert("Problema de conexão!", error.message);
       }
     }
     fetchData();
@@ -113,8 +117,9 @@ const NewPuerperal = (): JSX.Element => {
 
     let keyValueBeds: keyValue[] = [];
     try {
-      const { data } = await api.get(`/hospitalbed/${value}`);
-      const bedsResponse: IHospitalBedResponse[] = data;
+      const bedsResponse: IHospitalBedResponse[] = await getHospitalbedByNumber(
+        value
+      );
       bedsResponse.forEach((bed: IHospitalBedResponse) => {
         const keyValueBed: keyValue = {
           label: bed.description,
@@ -154,30 +159,20 @@ const NewPuerperal = (): JSX.Element => {
       return;
     }
     try {
-      const { data } = await api.post("/patient", {
-        name: name,
-        birthdate: date.date,
-        bed: hospitalBed,
-      });
-      console.log(data);
-      const patient: IPatientResponse = data;
+      const patient: IPatientResponse = await createPatient(
+        name,
+        date.date,
+        hospitalBed
+      );
 
       console.log(answeredQuestions);
       if (patient.id) {
-        const { data } = await api.post("/answers", {
+        await addAnswers(patient.id, user?.id || 1, answeredQuestions);
+
+        navigation.navigate("PsychologicalNeeds", {
           patientId: patient.id,
-          userId: user?.id,
-          questions: answeredQuestions,
+          infirmaryId: infirmary,
         });
-        console.log(data);
-        if (data.status === 200) {
-          navigation.navigate("PsychologicalNeeds", {
-            patientId: patient.id,
-            infirmaryId: infirmary,
-          });
-        } else {
-          Alert.alert("Problema de conexão!", data.message);
-        }
       }
     } catch (error) {
       Alert.alert("Problema de conexão   !", error.message);
@@ -253,7 +248,7 @@ const NewPuerperal = (): JSX.Element => {
                         placeholderText="Data de nascimento"
                         mode={"date"}
                         display="default"
-                        onChange={(_event: Event | AndroidEvent, date?: Date) =>
+                        onChange={(_event: DateTimePickerEvent, date?: Date) =>
                           date ? onChangeDate(date) : null
                         }
                         dateFormat="day month year"
