@@ -33,7 +33,6 @@ import {
   IQuestionResponse,
 } from "../../interfaces";
 import Gradient from "../../components/Gradient";
-import api from "../../services/api";
 import { useAuth } from "../../contexts/auth";
 import RNPickerSelect from "../../components/PickerSelect";
 import { createPatient } from "../../services/patient.service";

@@ -1,9 +1,10 @@
-import { IUser } from "../interfaces";
 import api from "./api";
 
 interface IResponse {
   token: string;
-  user: IUser;
+  id: number;
+  name: string;
+  email: string;
 }
 
 const headers = {
@@ -28,7 +29,7 @@ export async function signIn(
       const message = await response.json();
       throw new Error(message);
     }
-    const result = await response.json();
+    const result: IResponse = await response.json();
 
     return result;
   } catch (error) {

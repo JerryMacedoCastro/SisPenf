@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Alert, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { RectButton } from "react-native-gesture-handler";
@@ -19,16 +19,21 @@ interface FormData {
 }
 
 const Login = (): JSX.Element => {
-  const { signIn, loading } = useAuth();
+  const { signIn, signed } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
 
   const handleFormSubmit: SubmitHandler<FormData> = async (info) => {
     try {
+      setLoading(true);
       const { user, password } = info;
-      await signIn(user, password);
+      await signIn(user, password).finally(() => {
+        setLoading(false);
+      });
     } catch (error) {
+      setLoading(false);
       console.log(error.message);
       Alert.alert(
         "Dados inválidos",
@@ -46,6 +51,7 @@ const Login = (): JSX.Element => {
       <Gradient />
       <Header />
       <Text style={styles.subTitle}>SisPenf</Text>
+      {loading && <Text>Carregando...</Text>}
       {!loading && (
         <Form
           ref={formRef}
@@ -80,14 +86,16 @@ const Login = (): JSX.Element => {
           >
             <Text style={globalStyles.primaryButtonText}>Acessar</Text>
           </RectButton>
+          <RectButton
+            style={[globalStyles.button, globalStyles.secondaryButton]}
+            onPress={handleNavigateToRegister}
+          >
+            <Text style={globalStyles.secondaryButtonText}>
+              Solicitar Acesso
+            </Text>
+          </RectButton>
         </Form>
       )}
-      <RectButton
-        style={[globalStyles.button, globalStyles.secondaryButton]}
-        onPress={handleNavigateToRegister}
-      >
-        <Text style={globalStyles.secondaryButtonText}>Solicitar Acesso</Text>
-      </RectButton>
     </View>
   );
 };
