@@ -87,7 +87,6 @@ export interface IQuestionAnswer {
 }
 
 export interface IOption {
-  id: number;
   description: string;
 }
 
@@ -103,4 +102,19 @@ export interface IQuestionResponse {
   allowComment: boolean;
   type: IQuesttionType;
   options: IOption[];
+}
+
+export interface INewPuerperalForm {
+  Nome: string;
+  "Data de nascimento": string;
+  "Data de admissão": string;
+  "Diagnóstico médico": string;
+  "Dieta prescrita": string;
+}
+
+export interface IPsycologicalNeedsForm {
+  "Situação Financeira": string;
+  "Problema de Comunicação": string;
+  "Suporte Familiar": string;
+  "Abuso Doméstico": string;
 }

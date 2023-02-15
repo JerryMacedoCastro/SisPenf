@@ -13,7 +13,7 @@ import { Form } from "@unform/mobile";
 import { FormHandles, SubmitHandler } from "@unform/core";
 
 import { IQuestionAnswer } from "../../../interfaces";
-import { addAnswers } from "../../../helpers/createAnswers";
+import { addAnswers } from "../../../services/answer.service";
 import { useAuth } from "../../../contexts/auth";
 import { styles } from "../styles";
 import CommonInput from "../../../components/Input/CommonInput";
@@ -46,12 +46,9 @@ const index = ({ route }: Props): JSX.Element => {
         },
       ];
       if (user) {
-        const isCreatedAnswer = await addAnswers(user.id, patientId, questions);
-        if (isCreatedAnswer) {
-          navigation.navigate("PsychobiologicNeeds", { patientId });
-        } else {
-          throw new Error("Tivemos um problema para salvar as respostas.");
-        }
+        await addAnswers(user.id, patientId, questions);
+
+        navigation.navigate("PsychobiologicNeeds", { patientId });
       }
     } catch (error) {
       Alert.alert("Ops...", error.message);

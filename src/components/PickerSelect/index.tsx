@@ -1,50 +1,43 @@
-import React, { useEffect, useRef, useState } from "react";
-import Picker, { PickerSelectProps } from "react-native-picker-select";
-import { useField } from "@unform/core";
-import { styles } from "./styles";
-import { Platform, View } from "react-native";
-import { colors } from "../../Assets/GlobalStyles";
-interface Props extends Omit<PickerSelectProps, "onValueChange"> {
-  name: string;
-}
-export default function RNPickerSelect({
-  name,
-  items,
-  ...rest
-}: Props): JSX.Element {
-  const pickerRef = useRef(null);
-  const { fieldName, registerField, defaultValue = "" } = useField(name);
-  const [selectedValue, setSelectedValue] = useState(defaultValue);
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: pickerRef.current,
-      getValue: (ref) => {
-        return ref.props.value || "";
-      },
-      clearValue: (ref) => {
-        ref.props.onValueChange(ref.props.placeholder.value);
-      },
-      setValue: (_, value: string) => {
-        setSelectedValue(value);
-      },
-    });
-  }, [fieldName, registerField]);
+import {
+  CheckIcon,
+  FormControl,
+  Select,
+  WarningOutlineIcon,
+  ISelectProps,
+} from "native-base";
+import { IOption } from "../../interfaces";
+
+type Props = ISelectProps & {
+  options: IOption[];
+};
+
+export default function CustomSelect({ options, ...rest }: Props): JSX.Element {
   return (
-    <View style={styles.inputContainer}>
-      <Picker
-        placeholder={{
-          label: name,
-          value: null,
-          color: colors.gray,
+    <FormControl>
+      <Select
+        _selectedItem={{
+          bg: "teal.600",
+          endIcon: <CheckIcon size={5} />,
         }}
-        style={styles}
-        ref={pickerRef}
-        value={selectedValue}
-        onValueChange={setSelectedValue}
-        items={items}
+        variant={"rounded"}
+        size={"lg"}
+        mb={6}
+        width="full"
         {...rest}
-      />
-    </View>
+      >
+        {options.map((op) => {
+          return (
+            <Select.Item
+              key={op.description}
+              label={op.description}
+              value={op.description}
+            />
+          );
+        })}
+      </Select>
+      <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+        Valor inválido
+      </FormControl.ErrorMessage>
+    </FormControl>
   );
 }

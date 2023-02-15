@@ -1,9 +1,10 @@
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
+import { NativeBaseProvider, Text } from "native-base";
 import { useAuth } from "../contexts/auth";
 import AppRoutes from "./app.routes";
-
 import AuthRoutes from "./auth.routes";
+
 // import AppRoutes from '../routes/app.routes';
 
 const Routes = (): JSX.Element => {
@@ -15,7 +16,11 @@ const Routes = (): JSX.Element => {
       </View>
     );
   }
-  return signed ? <AppRoutes /> : <AuthRoutes />;
+  return (
+    <NativeBaseProvider>
+      {signed ? <AppRoutes /> : <AuthRoutes />}
+    </NativeBaseProvider>
+  );
 };
 
 export default Routes;

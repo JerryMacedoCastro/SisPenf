@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,73 +9,81 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { Form } from "@unform/mobile";
-import { FormHandles, SubmitHandler } from "@unform/core";
 
 import { styles } from "../styles";
 import CommonInput from "../../../components/Input/CommonInput";
 import DateHeader from "../../../components/DateHeader";
 import Gradient from "../../../components/Gradient";
-import { RectButton, ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import { globalStyles } from "../../../Assets/GlobalStyles";
 import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import { RootStackParamList } from "../../../Routes/app.routes";
-import { IQuestionAnswer } from "../../../interfaces";
-import { addAnswers } from "../../../helpers/createAnswers";
+import { IPsycologicalNeedsForm, IQuestionResponse } from "../../../interfaces";
+
 import { useAuth } from "../../../contexts/auth";
+import { getQuestionsByType } from "../../../services/question.service";
+import { Controller, useForm } from "react-hook-form";
+import PickerSelect from "../../../components/PickerSelect";
+import { Button } from "native-base";
+import { addAnswers } from "../../../services/answer.service";
 
 type Props = StackScreenProps<RootStackParamList, "PsychologicalNeeds">;
-
-interface IPsycologicalNeeds {
-  financialSituation: string;
-  comunicationProblem: string;
-  famillySuport: string;
-  domesticAbuse: string;
-}
 
 const index = ({ route }: Props): JSX.Element => {
   const { user } = useAuth();
   const { patientId } = route.params;
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
-  const formRef = useRef<FormHandles>(null);
+  const [questions, setQuestions] = useState<IQuestionResponse[]>([]);
+  const [loading, setLoading] = useState(false);
+  const { control, handleSubmit } = useForm<IPsycologicalNeedsForm>();
+  const questionsType = 2;
 
-  const handleSubmit: SubmitHandler<IPsycologicalNeeds> = async (formData) => {
-    const {
-      comunicationProblem,
-      financialSituation,
-      famillySuport,
-      domesticAbuse,
-    } = formData;
+  async function fetchQuestionsData() {
     try {
-      const questions: IQuestionAnswer[] = [
+      const questionsForm = await getQuestionsByType(questionsType);
+      setQuestions(questionsForm);
+    } catch (error) {
+      throw new Error("Erro ao buscar dados", error.message);
+    }
+  }
+
+  useEffect(() => {
+    try {
+      fetchQuestionsData();
+    } catch (error) {
+      Alert.alert("Ops", error.message);
+    }
+  }, []);
+
+  const submitForm = async (data: IPsycologicalNeedsForm) => {
+    try {
+      setLoading(true);
+      const answeredQuestions = [
         {
           question: "Situação Financeira",
-          answer: financialSituation,
+          comment: data["Situação Financeira"],
         },
         {
           question: "Dificuldade de Comunicação",
-          answer: comunicationProblem,
+          comment: data["Problema de Comunicação"],
         },
         {
           question: "Apoio Familiar",
-          answer: famillySuport,
+          comment: data["Suporte Familiar"],
         },
         {
           question: "Violência Domestica",
-          answer: domesticAbuse,
+          comment: data["Abuso Doméstico"],
         },
       ];
+
       if (user) {
-        const isCreatedAnswer = await addAnswers(user.id, patientId, questions);
-        if (isCreatedAnswer) {
-          navigation.navigate("SpiritualNeeds", { patientId });
-        } else {
-          throw new Error("Tivemos um problema para salvar as respotas.");
-        }
+        await addAnswers(user.id, patientId, answeredQuestions);
+        navigation.navigate("SpiritualNeeds", { patientId });
       }
     } catch (error) {
-      Alert.alert(error.message);
+      Alert.alert("Ops", error.message);
     }
   };
 
@@ -100,40 +108,52 @@ const index = ({ route }: Props): JSX.Element => {
             }}
           >
             <View style={styles.formContainer}>
-              <Form ref={formRef} onSubmit={handleSubmit}>
-                <CommonInput
-                  name="financialSituation"
-                  placeholder="Situação Financeira"
-                  returnKeyType="next"
-                />
-                <CommonInput
-                  name="comunicationProblem"
-                  placeholder="Dificuldade de comunicação"
-                  returnKeyType="go"
-                />
-                <CommonInput
-                  name="famillySuport"
-                  placeholder="Apoio familiar"
-                  returnKeyType="go"
-                />
-                <CommonInput
-                  name="domesticAbuse"
-                  placeholder="Violência doméstica"
-                  returnKeyType="go"
-                />
-              </Form>
+              {questions.map((question): JSX.Element => {
+                return question.options.length === 0 ? (
+                  <Controller
+                    key={question.id}
+                    control={control}
+                    name={question.description as keyof IPsycologicalNeedsForm}
+                    render={({ field: { onChange } }) => (
+                      <CommonInput
+                        key={question.id}
+                        placeholder={question.description}
+                        returnKeyType="next"
+                        onChangeText={onChange}
+                      />
+                    )}
+                  />
+                ) : (
+                  <Controller
+                    key={question.id}
+                    control={control}
+                    name={question.description as keyof IPsycologicalNeedsForm}
+                    render={({ field: { onChange } }) => (
+                      <PickerSelect
+                        key={question.id}
+                        options={question.options}
+                        placeholder={question.description}
+                        onValueChange={onChange}
+                      />
+                    )}
+                  />
+                );
+              })}
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
 
         {!isKeyboardShown && (
           <View style={styles.confirmButtonsContainer}>
-            <RectButton
-              style={[globalStyles.button, globalStyles.primaryButton]}
-              onPress={() => formRef?.current?.submitForm()}
+            <Button
+              bgColor={"green.900"}
+              style={globalStyles.button}
+              onPress={handleSubmit(submitForm)}
+              isLoading={loading}
+              isLoadingText="Carregando"
             >
               <Text style={globalStyles.primaryButtonText}>Continuar</Text>
-            </RectButton>
+            </Button>
           </View>
         )}
       </SafeAreaView>

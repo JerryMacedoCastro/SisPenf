@@ -21,7 +21,7 @@ import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../Routes/app.routes";
 import { IQuestionAnswer } from "../../../interfaces";
-import { addAnswers } from "../../../helpers/createAnswers";
+import { addAnswers } from "../../../services/answer.service";
 import { useAuth } from "../../../contexts/auth";
 
 type Props = StackScreenProps<RootStackParamList, "PsychologicalNeeds">;
@@ -68,12 +68,9 @@ const index = ({ route }: Props): JSX.Element => {
         { question: "Alergias", answer: allergies },
       ];
       if (user) {
-        const isCreatedAnswer = await addAnswers(user.id, patientId, questions);
-        if (isCreatedAnswer) {
-          navigation.navigate("ChildbirthData", { patientId });
-        } else {
-          throw new Error("Tivemos um problema para salvar as respotas.");
-        }
+        await addAnswers(user.id, patientId, questions);
+
+        navigation.navigate("ChildbirthData", { patientId });
       }
     } catch (error) {
       Alert.alert(error.message);

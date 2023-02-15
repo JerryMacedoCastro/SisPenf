@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 export const colors = {
-  darkGreen: "#34615C",
+  darkGreen: "#14532D",
   shinyGreen: "#5DB5AB",
   lightGreen: "#BCE0DC",
   ashenGreen: "#51615F",

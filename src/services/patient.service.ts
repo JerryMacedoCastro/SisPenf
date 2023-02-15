@@ -8,17 +8,25 @@ const headers = {
 export async function createPatient(
   name: string,
   birthdate: Date,
+  admissionDate: Date,
   hospitalBed: number
 ): Promise<IPatientResponse> {
   try {
-    const data = { name: name, birthdate: birthdate, bed: hospitalBed };
+    const data = {
+      name: name,
+      birthdate: birthdate,
+      admissionDate: admissionDate,
+      bed: hospitalBed,
+    };
+    const json = JSON.stringify(data);
     const { baseURL } = api;
     const response = await fetch(`${baseURL}/patient`, {
       method: "POST",
       headers: headers,
       mode: "cors",
-      body: JSON.stringify(data),
+      body: json,
     });
+    console.log("chegou aqui 2");
 
     if (!response.ok) {
       const message = await response.json();
