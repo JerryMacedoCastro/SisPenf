@@ -1,46 +1,40 @@
 import React from "react";
-import { View } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
 
-import { colors } from "../../Assets/GlobalStyles";
 import { keyValue } from "../../interfaces";
-import { styles } from "./styles";
 
-interface PickerProps {
+import { CheckIcon, FormControl, Select, ISelectProps } from "native-base";
+type PickerProps = ISelectProps & {
   items: keyValue[];
   placeholder: string;
-  handleChange: (item: keyValue) => void;
-  disabled?: boolean;
-}
+};
 
-const index = ({
-  placeholder,
-  items,
-  handleChange,
-  disabled,
-}: PickerProps): JSX.Element => {
+const index = ({ placeholder, items, ...rest }: PickerProps): JSX.Element => {
   return (
-    <View>
-      <DropDownPicker
-        items={items}
-        multiple={false}
-        containerStyle={styles.containerStyle}
-        style={{ backgroundColor: colors.darkGreen, borderRadius: 100 }}
+    <FormControl width={"2/4"} padding={"0.5"} marginTop={4} marginBottom={4}>
+      <Select
         placeholder={placeholder}
-        itemStyle={{
-          justifyContent: "flex-start",
-          backgroundColor: colors.darkGreen,
+        placeholderTextColor="green.900"
+        _selectedItem={{
+          bg: "white",
+          bgColor: "white",
+          colorScheme: "white",
+          endIcon: <CheckIcon size={5} />,
         }}
-        labelStyle={{
-          fontSize: 16,
-          textAlign: "left",
-          color: colors.white,
-        }}
-        dropDownStyle={{ backgroundColor: colors.darkGreen }}
-        onChangeItem={(item: keyValue) => handleChange(item)}
-        disabled={disabled}
-      />
-    </View>
+        variant={"rounded"}
+        size={"md"}
+        {...rest}
+      >
+        {items.map((item) => {
+          return (
+            <Select.Item
+              key={item.label}
+              label={item.label}
+              value={item.value.toString()}
+            />
+          );
+        })}
+      </Select>
+    </FormControl>
   );
 };
 

@@ -3,7 +3,6 @@ import {
   Text,
   View,
   ScrollView,
-  KeyboardAvoidingView,
   Platform,
   Alert,
   ActivityIndicator,
@@ -15,7 +14,7 @@ import DateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import { format } from "date-fns";
 import { useForm, Controller } from "react-hook-form";
-import { VStack, Button } from "native-base";
+import { VStack, Button, KeyboardAvoidingView } from "native-base";
 
 import { styles } from "./styles";
 import { colors, globalStyles } from "../../Assets/GlobalStyles";
@@ -50,7 +49,7 @@ const NewPuerperal = (): JSX.Element => {
     formattedDate: "",
   });
   const [admissionDate, setAdmissionDate] = useState<IFormattedDate>({
-    date: new Date(1999, 1, 1),
+    date: new Date(),
     formattedDate: "",
   });
 
@@ -93,8 +92,8 @@ const NewPuerperal = (): JSX.Element => {
     }
   }, []);
 
-  const handleChangeInfirmary = async (item: keyValue) => {
-    const { value } = item;
+  const handleChangeInfirmary = async (item: string) => {
+    const value = Number(item);
     setBedPickerDisabled(true);
     setBeds([]);
     setHospitalBed(0);
@@ -186,9 +185,9 @@ const NewPuerperal = (): JSX.Element => {
         <View style={styles.buttonsContainer}>
           {infirmaries.length > 0 ? (
             <Picker
-              placeholder="Selecione a enfermaria"
+              placeholder="Enfermaria"
               items={infirmaries}
-              handleChange={async (item) => await handleChangeInfirmary(item)}
+              onValueChange={async (item) => await handleChangeInfirmary(item)}
             />
           ) : (
             <ActivityIndicator size="small" color={colors.darkGreen} />
@@ -197,10 +196,10 @@ const NewPuerperal = (): JSX.Element => {
             <ActivityIndicator size="small" color={colors.darkGreen} />
           ) : (
             <Picker
-              placeholder="Selecione o leito"
+              placeholder="Leito"
               items={beds}
-              handleChange={(item) => setHospitalBed(item.value)}
-              disabled={bedsPickerDisabled || beds.length === 0}
+              onValueChange={(item) => setHospitalBed(Number(item))}
+              isDisabled={bedsPickerDisabled || beds.length === 0}
             />
           )}
         </View>
@@ -215,7 +214,13 @@ const NewPuerperal = (): JSX.Element => {
               position: "relative",
             }}
           >
-            <VStack bgColor={"white"} flex={1} px={10}>
+            <VStack
+              bgColor={"white"}
+              flex={1}
+              px={10}
+              paddingTop={6}
+              paddingBottom={4}
+            >
               <Controller
                 control={control}
                 name="Nome"
@@ -240,7 +245,6 @@ const NewPuerperal = (): JSX.Element => {
                   value={birthDate.date}
                   placeholderText="Data de nascimento"
                   mode={"date"}
-                  display="default"
                   onChange={(_event: DateTimePickerEvent, date?: Date) =>
                     date ? onChangeBirthDate(date) : null
                   }
@@ -260,7 +264,6 @@ const NewPuerperal = (): JSX.Element => {
                   value={admissionDate.date}
                   placeholderText="Data de admissão"
                   mode={"date"}
-                  display="default"
                   onChange={(_event: DateTimePickerEvent, date?: Date) =>
                     date ? onChangeAdmissionDate(date) : null
                   }
