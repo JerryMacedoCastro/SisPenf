@@ -113,8 +113,20 @@ export interface INewPuerperalForm {
 }
 
 export interface IPsycologicalNeedsForm {
-  "Situação Financeira": string;
-  "Problema de Comunicação": string;
-  "Suporte Familiar": string;
-  "Abuso Doméstico": string;
+  "Estado civil": string;
+  "Falta de apoio social": string;
+  Escolaridade: string;
+  "Falta de conhecimento sobre a amamentação": string;
+  "Falta de conhecimento sobre a ordenha do leite materno": string;
+  "Falta de conhecimento sobre a situação clínica do recém-nascido": string;
+  "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica": string;
+  "Falta de conhecimento sobre o autocuidado com as mamas": string;
+  "Falta de conhecimento sobre os cuidados com recém-nascido": string;
+  "Falta de conhecimento sobre o planejamento familiar": string;
+  "Comunicação verbal prejudicada": string;
+  Ansiedade: string;
+  "Atitude familiar conflitante": string;
+  "Maternidade/paternidade prejudicada": string;
+  "Risco de maternidade/paternidade prejudicada": string;
+  "Risco de vínculo mãe-filho prejudicado": string;
 }

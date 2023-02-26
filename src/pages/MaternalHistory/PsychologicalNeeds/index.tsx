@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Platform,
-  KeyboardAvoidingView,
-  Alert,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Platform, KeyboardAvoidingView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 
 import { styles } from "../styles";
-import CommonInput from "../../../components/Input/CommonInput";
 import DateHeader from "../../../components/DateHeader";
 import Gradient from "../../../components/Gradient";
 import { ScrollView } from "react-native-gesture-handler";
@@ -24,8 +17,9 @@ import { useAuth } from "../../../contexts/auth";
 import { getQuestionsByType } from "../../../services/question.service";
 import { Controller, useForm } from "react-hook-form";
 import PickerSelect from "../../../components/PickerSelect";
-import { Button } from "native-base";
+import { Button, Text } from "native-base";
 import { addAnswers } from "../../../services/answer.service";
+import CommonInput from "../../../components/Input/CommonInput";
 
 type Props = StackScreenProps<RootStackParamList, "PsychologicalNeeds">;
 
@@ -34,52 +28,123 @@ const index = ({ route }: Props): JSX.Element => {
   const { patientId } = route.params;
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
-  const [questions, setQuestions] = useState<IQuestionResponse[]>([]);
   const [loading, setLoading] = useState(false);
   const { control, handleSubmit } = useForm<IPsycologicalNeedsForm>();
-  const questionsType = 2;
-
-  async function fetchQuestionsData() {
-    try {
-      const questionsForm = await getQuestionsByType(questionsType);
-      setQuestions(questionsForm);
-    } catch (error) {
-      throw new Error("Erro ao buscar dados", error.message);
-    }
-  }
-
-  useEffect(() => {
-    try {
-      fetchQuestionsData();
-    } catch (error) {
-      Alert.alert("Ops", error.message);
-    }
-  }, []);
 
   const submitForm = async (data: IPsycologicalNeedsForm) => {
     try {
       setLoading(true);
+      console.log(data);
       const answeredQuestions = [
         {
-          question: "Situação Financeira",
-          comment: data["Situação Financeira"],
+          question: "Estado civil",
+          comment: data["Estado civil"],
         },
         {
-          question: "Dificuldade de Comunicação",
-          comment: data["Problema de Comunicação"],
+          question: "Falta de apoio social",
+          comment: data["Falta de apoio social"],
         },
         {
-          question: "Apoio Familiar",
-          comment: data["Suporte Familiar"],
+          question: "Escolaridade",
+          comment: data.Escolaridade,
         },
         {
-          question: "Violência Domestica",
-          comment: data["Abuso Doméstico"],
+          question: "Falta de conhecimento sobre a amamentação",
+          comment: data["Falta de conhecimento sobre a amamentação"],
+        },
+        {
+          question: "Falta de conhecimento sobre a ordenha do leite materno",
+          comment:
+            data["Falta de conhecimento sobre a ordenha do leite materno"],
+        },
+        {
+          question:
+            "Falta de conhecimento sobre a situação clínica do recém-nascido",
+          comment:
+            data[
+              "Falta de conhecimento sobre a situação clínica do recém-nascido"
+            ],
+        },
+        {
+          question:
+            "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica",
+          comment:
+            data[
+              "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica"
+            ],
+        },
+        {
+          question: "Falta de conhecimento sobre o autocuidado com as mamas",
+          comment:
+            data["Falta de conhecimento sobre o autocuidado com as mamas"],
+        },
+        {
+          question: "Falta de conhecimento sobre os cuidados com recém-nascido",
+          comment:
+            data["Falta de conhecimento sobre os cuidados com recém-nascido"],
+        },
+        {
+          question: "Falta de conhecimento sobre o planejamento familiar",
+          comment: data["Falta de conhecimento sobre o planejamento familiar"],
+        },
+        {
+          question: "Comunicação verbal prejudicada",
+          comment: data["Comunicação verbal prejudicada"],
+        },
+        {
+          question: "Ansiedade",
+          comment: data.Ansiedade,
+        },
+        {
+          question: "Atitude familiar conflitante",
+          comment: data["Atitude familiar conflitante"],
+        },
+        {
+          question: "Maternidade/paternidade prejudicada",
+          comment: data["Maternidade/paternidade prejudicada"],
+        },
+        {
+          question: "Risco de maternidade/paternidade prejudicada",
+          comment: data["Risco de maternidade/paternidade prejudicada"],
+        },
+        {
+          question: "Risco de vínculo mãe-filho prejudicado",
+          comment: data["Risco de vínculo mãe-filho prejudicado"],
         },
       ];
 
+      if (
+        !data["Estado civil"] ||
+        !data["Falta de apoio social"] ||
+        !data["Escolaridade"] ||
+        !data["Falta de conhecimento sobre a amamentação"] ||
+        !data["Falta de conhecimento sobre a ordenha do leite materno"] ||
+        !data[
+          "Falta de conhecimento sobre a situação clínica do recém-nascido"
+        ] ||
+        !data[
+          "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica"
+        ] ||
+        !data["Falta de conhecimento sobre o autocuidado com as mamas"] ||
+        !data["Falta de conhecimento sobre os cuidados com recém-nascido"] ||
+        !data["Falta de conhecimento sobre o planejamento familiar"] ||
+        !data["Comunicação verbal prejudicada"] ||
+        !data["Ansiedade"] ||
+        !data["Atitude familiar conflitante"] ||
+        !data["Maternidade/paternidade prejudicada"] ||
+        !data["Risco de maternidade/paternidade prejudicada"] ||
+        !data["Risco de vínculo mãe-filho prejudicado"]
+      ) {
+        Alert.alert(
+          "Preencha todos os campos",
+          "Todos os campos são obrigatórios!"
+        );
+        setLoading(false);
+        return;
+      }
+
       if (user) {
-        await addAnswers(user.id, patientId, answeredQuestions);
+        // await addAnswers(user.id, patientId, answeredQuestions);
         navigation.navigate("SpiritualNeeds", { patientId });
       }
     } catch (error) {
@@ -91,7 +156,7 @@ const index = ({ route }: Props): JSX.Element => {
     <>
       {!isKeyboardShown && (
         <DateHeader
-          title="Necessidades Psicológicas"
+          title="Necessidades Psicossociais"
           destinyBack="NewPuerperal"
         />
       )}
@@ -108,37 +173,256 @@ const index = ({ route }: Props): JSX.Element => {
             }}
           >
             <View style={styles.formContainer}>
-              {questions.map((question): JSX.Element => {
-                return question.options.length === 0 ? (
-                  <Controller
-                    key={question.id}
-                    control={control}
-                    name={question.description as keyof IPsycologicalNeedsForm}
-                    render={({ field: { onChange } }) => (
-                      <CommonInput
-                        key={question.id}
-                        placeholder={question.description}
-                        returnKeyType="next"
-                        onChangeText={onChange}
-                      />
-                    )}
+              <Text fontSize="lg" bold mb={4}>
+                Gregária
+              </Text>
+              <Controller
+                control={control}
+                name={"Estado civil"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Casada" },
+                      { description: "Solteira" },
+                      { description: "União estável" },
+                      { description: "Divorciada" },
+                    ]}
+                    placeholder={"Estado civil"}
+                    onValueChange={onChange}
                   />
-                ) : (
-                  <Controller
-                    key={question.id}
-                    control={control}
-                    name={question.description as keyof IPsycologicalNeedsForm}
-                    render={({ field: { onChange } }) => (
-                      <PickerSelect
-                        key={question.id}
-                        options={question.options}
-                        placeholder={question.description}
-                        onValueChange={onChange}
-                      />
-                    )}
+                )}
+              />
+              <Controller
+                control={control}
+                name="Falta de apoio social"
+                render={({ field: { onChange } }) => (
+                  <CommonInput
+                    placeholder={"Falta de apoio social"}
+                    returnKeyType="next"
+                    onChangeText={onChange}
                   />
-                );
-              })}
+                )}
+              />
+              <Text fontSize="lg" bold mb={4}>
+                Educação para a saúde/aprendizagem
+              </Text>
+              <Controller
+                control={control}
+                name={"Escolaridade"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Não alfabetizada" },
+                      { description: "Ensino fundamental incompleto" },
+                      { description: "Ensino fundamental completo" },
+                      { description: "Ensino médio incompleto" },
+                      { description: "Ensino médio completo" },
+                      { description: "Ensino superior incompleto" },
+                      { description: "Ensino superior completo" },
+                    ]}
+                    placeholder={"Escolaridade"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              <Text fontSize="lg" bold mb={4}>
+                Falta de conhecimento sobre
+              </Text>
+              <Controller
+                control={control}
+                name={"Falta de conhecimento sobre a amamentação"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Presente" },
+                      { description: "Ausente" },
+                    ]}
+                    placeholder={"Amamentação"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={"Falta de conhecimento sobre a ordenha do leite materno"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Presente" },
+                      { description: "Ausente" },
+                    ]}
+                    placeholder={"Ordenha do leite materno"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={
+                  "Falta de conhecimento sobre a situação clínica do recém-nascido"
+                }
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Presente" },
+                      { description: "Ausente" },
+                    ]}
+                    placeholder={"Situação clínica do recém-nascido"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={
+                  "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica"
+                }
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Presente" },
+                      { description: "Ausente" },
+                    ]}
+                    placeholder={"Autocuidado com a ferida cirúrgica"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={"Falta de conhecimento sobre o autocuidado com as mamas"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Presente" },
+                      { description: "Ausente" },
+                    ]}
+                    placeholder={"Autocuidado com as mamas"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={
+                  "Falta de conhecimento sobre os cuidados com recém-nascido"
+                }
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Presente" },
+                      { description: "Ausente" },
+                    ]}
+                    placeholder={"Cuidados com recém-nascido"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={"Falta de conhecimento sobre o planejamento familiar"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Presente" },
+                      { description: "Ausente" },
+                    ]}
+                    placeholder={"Planejamento familiar"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              <Text fontSize="lg" bold mb={4}>
+                Comunicação
+              </Text>
+              <Controller
+                control={control}
+                name="Comunicação verbal prejudicada"
+                render={({ field: { onChange } }) => (
+                  <CommonInput
+                    placeholder={"Comunicação verbal prejudicada"}
+                    returnKeyType="next"
+                    onChangeText={onChange}
+                  />
+                )}
+              />
+              <Text fontSize="lg" bold mb={4}>
+                Saúde emocional
+              </Text>
+              <Controller
+                control={control}
+                name={"Ansiedade"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Ausente" },
+                      { description: "Leve" },
+                      { description: "Moderada" },
+                      { description: "Grave" },
+                    ]}
+                    placeholder={"Ansiedade"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              <Text fontSize="lg" bold mb={4}>
+                Amor, aceitação e autorealização
+              </Text>
+              <Controller
+                control={control}
+                name="Atitude familiar conflitante"
+                render={({ field: { onChange } }) => (
+                  <CommonInput
+                    placeholder={"Atitude familiar conflitante"}
+                    returnKeyType="next"
+                    onChangeText={onChange}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={"Maternidade/paternidade prejudicada"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Presente" },
+                      { description: "Ausente" },
+                    ]}
+                    placeholder={"Maternidade/paternidade prejudicada"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={"Risco de maternidade/paternidade prejudicada"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Aumentado" },
+                      { description: "Diminuído" },
+                      { description: "Ausente" },
+                    ]}
+                    placeholder={"Risco de maternidade/paternidade prejudicada"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={"Risco de vínculo mãe-filho prejudicado"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Aumentado" },
+                      { description: "Diminuído" },
+                      { description: "Ausente" },
+                    ]}
+                    placeholder={"Risco de vínculo mãe-filho prejudicado"}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
             </View>
           </ScrollView>
         </KeyboardAvoidingView>

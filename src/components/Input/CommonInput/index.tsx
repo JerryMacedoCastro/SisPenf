@@ -8,7 +8,13 @@ import {
 const CommonInput = ({ ...rest }: IInputProps): JSX.Element => {
   return (
     <FormControl>
-      <NativeBaseInput variant={"rounded"} size={"lg"} mb={6} {...rest} />
+      <NativeBaseInput
+        variant={"rounded"}
+        size={"full"}
+        height={12}
+        mb={6}
+        {...rest}
+      />
       <FormControl.ErrorMessage>Valor inválido</FormControl.ErrorMessage>
     </FormControl>
   );

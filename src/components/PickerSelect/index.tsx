@@ -20,7 +20,9 @@ export default function CustomSelect({ options, ...rest }: Props): JSX.Element {
           endIcon: <CheckIcon size={5} />,
         }}
         variant={"rounded"}
-        size={"lg"}
+        height={12}
+        fontSize="sm"
+        size="container"
         mb={6}
         width="full"
         {...rest}
@@ -35,9 +37,9 @@ export default function CustomSelect({ options, ...rest }: Props): JSX.Element {
           );
         })}
       </Select>
-      <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+      {/* <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
         Valor inválido
-      </FormControl.ErrorMessage>
+      </FormControl.ErrorMessage> */}
     </FormControl>
   );
 }

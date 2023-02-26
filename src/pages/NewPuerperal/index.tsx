@@ -140,6 +140,7 @@ const NewPuerperal = (): JSX.Element => {
 
   const submitForm = async (data: INewPuerperalForm) => {
     setLoading(true);
+    console.log(data);
     const answeredQuestions = [
       { question: "Diagnóstico médico", option: data["Diagnóstico médico"] },
       { question: "Dieta prescrita", option: data["Dieta prescrita"] },
@@ -149,6 +150,21 @@ const NewPuerperal = (): JSX.Element => {
       Alert.alert(
         "Preencha todos os campos",
         "Selecione o leito e a enfermaria!"
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (
+      !data.Nome ||
+      !data["Data de nascimento"] ||
+      !data["Data de admissão"] ||
+      !data["Diagnóstico médico"] ||
+      !data["Dieta prescrita"]
+    ) {
+      Alert.alert(
+        "Preencha todos os campos",
+        "Todos os campos são obrigatórios!"
       );
       setLoading(false);
       return;
@@ -192,7 +208,10 @@ const NewPuerperal = (): JSX.Element => {
           ) : (
             <ActivityIndicator size="small" color={colors.darkGreen} />
           )}
-          {infirmary !== 0 && bedsPickerDisabled && beds.length === 0 ? (
+          {infirmaries.length > 0 &&
+          infirmary !== 0 &&
+          bedsPickerDisabled &&
+          beds.length === 0 ? (
             <ActivityIndicator size="small" color={colors.darkGreen} />
           ) : (
             <Picker
@@ -224,7 +243,6 @@ const NewPuerperal = (): JSX.Element => {
               <Controller
                 control={control}
                 name="Nome"
-                rules={{ required: "Obrigatório" }}
                 render={({ field: { onChange } }) => (
                   <CommonInput
                     placeholder={"Nome"}
