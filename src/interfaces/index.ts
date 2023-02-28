@@ -103,6 +103,10 @@ export interface IQuestionResponse {
   type: IQuesttionType;
   options: IOption[];
 }
+export interface IFormattedDate {
+  date: Date;
+  formattedDate: string;
+}
 
 export interface INewPuerperalForm {
   Nome: string;
@@ -129,4 +133,34 @@ export interface IPsycologicalNeedsForm {
   "Maternidade/paternidade prejudicada": string;
   "Risco de maternidade/paternidade prejudicada": string;
   "Risco de vínculo mãe-filho prejudicado": string;
+}
+
+export interface ISpiritualNeedsForm {
+  "Angústia espiritual": string;
+  "Sofrimento espiritual": string;
+  "Risco de sofrimento espiritual": string;
+}
+
+export interface IPsycobiologicNeedsForm {
+  Gesta: string;
+  Para: string;
+  Aborto: string;
+  "Número de filhos vivos": string;
+  "Pré-natal": string;
+  "Número de consultas": string;
+  "Intercorrências na gestação": string;
+  "Doenças associadas": string;
+  Alergias: string;
+  "Uso de medicamentos": string;
+  "Anti-HIV": string;
+  VDRL: string;
+  "Classificação sanguínea e fator RH": string;
+  Outro: string;
+  "Uso de substâncias lícitas e/ou ilícitas": string;
+  "Data do parto": string;
+  "Hora do parto": string;
+  Gestação: string;
+  "Tipo de parto": string;
+  RPMO: string;
+  "Tempo de bolsa rota até o parto": string;
 }

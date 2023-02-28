@@ -11,10 +11,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import { globalStyles } from "../../../Assets/GlobalStyles";
 import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import { RootStackParamList } from "../../../Routes/app.routes";
-import { IPsycologicalNeedsForm, IQuestionResponse } from "../../../interfaces";
+import { IPsycologicalNeedsForm } from "../../../interfaces";
 
 import { useAuth } from "../../../contexts/auth";
-import { getQuestionsByType } from "../../../services/question.service";
 import { Controller, useForm } from "react-hook-form";
 import PickerSelect from "../../../components/PickerSelect";
 import { Button, Text } from "native-base";
@@ -34,7 +33,6 @@ const index = ({ route }: Props): JSX.Element => {
   const submitForm = async (data: IPsycologicalNeedsForm) => {
     try {
       setLoading(true);
-      console.log(data);
       const answeredQuestions = [
         {
           question: "Estado civil",
@@ -144,7 +142,7 @@ const index = ({ route }: Props): JSX.Element => {
       }
 
       if (user) {
-        // await addAnswers(user.id, patientId, answeredQuestions);
+        //  await addAnswers(user.id, patientId, answeredQuestions);
         navigation.navigate("SpiritualNeeds", { patientId });
       }
     } catch (error) {

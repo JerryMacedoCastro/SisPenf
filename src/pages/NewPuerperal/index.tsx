@@ -28,6 +28,7 @@ import {
   IHospitalBedResponse,
   IPatientResponse,
   INewPuerperalForm,
+  IFormattedDate,
 } from "../../interfaces";
 import Gradient from "../../components/Gradient";
 import { useAuth } from "../../contexts/auth";
@@ -36,11 +37,6 @@ import { createPatient } from "../../services/patient.service";
 import { getInfirmaries } from "../../services/infirmary.service";
 import { getHospitalbedByNumber } from "../../services/hospitalBed.service";
 import { addAnswers } from "../../services/answer.service";
-
-interface IFormattedDate {
-  date: Date;
-  formattedDate: string;
-}
 
 const NewPuerperal = (): JSX.Element => {
   const [infirmary, setInfirmary] = useState<number>(0);
@@ -121,7 +117,7 @@ const NewPuerperal = (): JSX.Element => {
 
   const handleCancel = () => {
     //TODO: trocar
-    navigation.navigate("PsychologicalNeeds", { patientId: 29 });
+    navigation.navigate("PsychobiologicNeeds", { patientId: 2 });
   };
 
   const onChangeBirthDate = (selectedDate: Date) => {
