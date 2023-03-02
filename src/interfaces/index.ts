@@ -164,3 +164,18 @@ export interface IPsycobiologicNeedsForm {
   RPMO: string;
   "Tempo de bolsa rota até o parto": string;
 }
+
+export interface IFirstPhysicalExamForm {
+  "Condições gerais": string;
+  "Estado mental": string;
+  Pele: string;
+  Cabelo: string;
+  Cabeça: string;
+  Olhos: string;
+  Ouvidos: string;
+  "Nariz e seios nasais": string;
+  "Boca e garganta": string;
+  Pescoço: string;
+  Mamas: string;
+  Axila: string;
+}

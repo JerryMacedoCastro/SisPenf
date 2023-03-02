@@ -53,6 +53,7 @@ const NewPuerperal = (): JSX.Element => {
   const [showAdmissionDateModal, setShowAdmissionDateModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [bedsPickerDisabled, setBedPickerDisabled] = useState(true);
+  const [dietComment, setDietComment] = useState("");
   const [hospitalBed, setHospitalBed] = useState(0);
   const [infirmaries, setInfirmaries] = useState<keyValue[]>([]);
   const [beds, setBeds] = useState<keyValue[]>([]);
@@ -138,7 +139,11 @@ const NewPuerperal = (): JSX.Element => {
     setLoading(true);
     console.log(data);
     const answeredQuestions = [
-      { question: "Diagnóstico médico", option: data["Diagnóstico médico"] },
+      {
+        question: "Diagnóstico médico",
+        comment: dietComment,
+        option: data["Diagnóstico médico"],
+      },
       { question: "Dieta prescrita", option: data["Dieta prescrita"] },
     ];
 
@@ -317,6 +322,10 @@ const NewPuerperal = (): JSX.Element => {
                     ]}
                     placeholder={"Dieta prescrita"}
                     onValueChange={onChange}
+                    addInfo
+                    modalTitle="Dieta prescrita"
+                    onClickSave={(value) => setDietComment(value)}
+                    infoValue={dietComment}
                   />
                 )}
               />
