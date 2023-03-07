@@ -54,6 +54,7 @@ const NewPuerperal = (): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [bedsPickerDisabled, setBedPickerDisabled] = useState(true);
   const [dietComment, setDietComment] = useState("");
+  const [diagnosticComment, setDiagnosticComment] = useState("");
   const [hospitalBed, setHospitalBed] = useState(0);
   const [infirmaries, setInfirmaries] = useState<keyValue[]>([]);
   const [beds, setBeds] = useState<keyValue[]>([]);
@@ -137,16 +138,20 @@ const NewPuerperal = (): JSX.Element => {
 
   const submitForm = async (data: INewPuerperalForm) => {
     setLoading(true);
-    console.log(data);
+
     const answeredQuestions = [
       {
         question: "Diagnóstico médico",
-        comment: dietComment,
+        comment: diagnosticComment,
         option: data["Diagnóstico médico"],
       },
-      { question: "Dieta prescrita", option: data["Dieta prescrita"] },
+      {
+        question: "Dieta prescrita",
+        comment: dietComment,
+        option: data["Dieta prescrita"],
+      },
     ];
-
+    console.log(answeredQuestions);
     if (infirmary === 0 || hospitalBed === 0) {
       Alert.alert(
         "Preencha todos os campos",
@@ -155,11 +160,11 @@ const NewPuerperal = (): JSX.Element => {
       setLoading(false);
       return;
     }
-
+    console.log(data);
     if (
       !data.Nome ||
-      !data["Data de nascimento"] ||
-      !data["Data de admissão"] ||
+      !birthDate.formattedDate ||
+      !admissionDate.formattedDate ||
       !data["Diagnóstico médico"] ||
       !data["Dieta prescrita"]
     ) {
@@ -301,6 +306,10 @@ const NewPuerperal = (): JSX.Element => {
                     ]}
                     placeholder={"Diagnóstico Médico"}
                     onValueChange={onChange}
+                    addInfo
+                    modalTitle="Diagnóstico médico"
+                    onClickSave={(value) => setDiagnosticComment(value)}
+                    infoValue={diagnosticComment}
                   />
                 )}
               />

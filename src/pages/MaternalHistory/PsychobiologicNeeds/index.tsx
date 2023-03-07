@@ -462,7 +462,6 @@ const index = ({ route }: Props): JSX.Element => {
                     placeholder={"Tempo de bolsa rota até o parto"}
                     returnKeyType="next"
                     onChangeText={onChange}
-                    modalTitle="Tempo de bolsa rota até o parto"
                   />
                 )}
               />
