@@ -18,12 +18,6 @@ import { useNavigation } from "@react-navigation/native";
 const FindPatient = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
   const [searchPatient, setSearchPatient] = useState("");
-  
-  const navigation = useNavigation();
-  const handleCancel = () => {
-    navigation.navigate("Home");
-  };
-
   const handleChangeInput = (value: string) => {
     setSearchPatient(value);
   };

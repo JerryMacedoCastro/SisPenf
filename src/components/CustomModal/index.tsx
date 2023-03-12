@@ -8,8 +8,8 @@ interface customModalProps {
   modalVisible: boolean;
   firstButtonText: string;
   secondButtonText: string;
-  actionFirstButton: VoidFunction;
-  actionSecondButton: VoidFunction;
+  actionFirstButton?: VoidFunction;
+  actionSecondButton?: VoidFunction;
   onClose: () => void;
 }
 

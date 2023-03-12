@@ -55,5 +55,4 @@ export async function getAllPatients(): Promise<IPatientResponse[]> {
   } catch (error) {
     throw new Error("Error on patientService.createPatient: " + error.message);
   }
-
 }

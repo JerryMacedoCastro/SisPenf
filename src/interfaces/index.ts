@@ -179,3 +179,38 @@ export interface IFirstPhysicalExamForm {
   Mamas: string;
   Axila: string;
 }
+
+export interface IParamsDiagnosis {
+  judgments: string[];
+  actions: string[];
+}
+
+export interface IFocusDiagnosisForm {
+  "Edema Periférico": IParamsDiagnosis;
+  "Amamentação exclusiva": IParamsDiagnosis;
+  Constipação: IParamsDiagnosis;
+  "Eliminação urinária": IParamsDiagnosis;
+  Sono: IParamsDiagnosis;
+  "Comportamento de repouso": IParamsDiagnosis;
+  Deambulação: IParamsDiagnosis;
+  "Exaustão no período pós-parto": IParamsDiagnosis;
+  "Fadiga no período pós-parto": IParamsDiagnosis;
+  "Higiene pessoal": IParamsDiagnosis;
+  "Ferida cirúrgica (cicatrização)": IParamsDiagnosis;
+  "Fissura na mama": IParamsDiagnosis;
+  "Ingurgitamento mamário": IParamsDiagnosis;
+  "Pressão sanguínea": IParamsDiagnosis;
+  "Risco de processo hemorrágico": IParamsDiagnosis;
+  "Risco de infecção": IParamsDiagnosis;
+  "Dor no período pós-parto": IParamsDiagnosis;
+  Ansiedade: IParamsDiagnosis;
+  "Risco de parentalidade prejudicada": IParamsDiagnosis;
+  "Risco de ligação afetiva pais-criança prejudicada": IParamsDiagnosis;
+  "Conhecimento sobre amamentação": IParamsDiagnosis;
+  "Conhecimento sobre ordenha": IParamsDiagnosis;
+  "Conhecimento sobre recém-nascido": IParamsDiagnosis;
+  "Conhecimento sobre o cuidado com a ferida ": IParamsDiagnosis;
+  "Regime de cuidados com as mamas": IParamsDiagnosis;
+  "Capacidade do cuidador para executar os cuidados com recém-nascido": IParamsDiagnosis;
+  "Planejamento familiar ": IParamsDiagnosis;
+}

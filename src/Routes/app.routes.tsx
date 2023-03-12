@@ -11,6 +11,7 @@ import ChildbirthData from "../pages/MaternalHistory/ChildbirthData";
 import PartOne from "../pages/PhysicalExam/PartOne";
 import PartTwo from "../pages/PhysicalExam/PartTwo";
 import { colors } from "../Assets/GlobalStyles";
+import Diagnosis from "../pages/Diagnosis";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -22,6 +23,7 @@ export type RootStackParamList = {
   ChildbirthData: { patientId: number };
   PartOne: undefined;
   PartTwo: undefined;
+  Diagnosis: undefined;
 };
 
 const AppRoutes = (): JSX.Element => {
@@ -48,6 +50,7 @@ const AppRoutes = (): JSX.Element => {
       <RootStack.Screen name="ChildbirthData" component={ChildbirthData} />
       <RootStack.Screen name="PartOne" component={PartOne} />
       <RootStack.Screen name="PartTwo" component={PartTwo} />
+      <RootStack.Screen name="Diagnosis" component={Diagnosis} />
     </RootStack.Navigator>
   );
 };
