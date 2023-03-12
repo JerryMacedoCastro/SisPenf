@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import { RectButton, TextInput } from "react-native-gesture-handler";
@@ -13,33 +13,46 @@ import PatiensList from "../../components/PatientsList";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
 import { colors, globalStyles } from "../../Assets/GlobalStyles";
 import { hospitalBeds, infirmaries } from "../../data";
-import { keyValue } from "../../interfaces/index";
+import { IParamsDiagnosis, keyValue } from "../../interfaces/index";
 import { useNavigation } from "@react-navigation/native";
 import { DiagnosisParams } from "./diagnosisParams";
 
 const Diagnosis = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
   const [loading, setLoading] = useState(false);
+  const [dataDiagnostic, setDataDiagnostic] = useState<{
+    [x: string]: IParamsDiagnosis;
+  }>();
 
-  //  <TextInput> or others dont work here
-  //  forced to use <any>
-  //  eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const searchInput = useRef<any>(null);
-  const handleSearchPress = () => {
-    if (searchInput && searchInput.current) {
-      searchInput.current.focus();
-    }
+  const generateInitialDataDiagnostic = () => {
+    const aux: {
+      [x: string]: IParamsDiagnosis;
+    } = {};
+    const namesFocus = Object.keys(DiagnosisParams);
+    namesFocus.forEach((element) => {
+      aux[element] = {
+        judgments: [],
+        actions: [],
+      };
+    });
+    return aux;
   };
+
+  useEffect(() => {
+    setDataDiagnostic(generateInitialDataDiagnostic());
+  }, []);
+
   const cardToDiagnosis = (focus: string) => {
     const params = DiagnosisParams[focus];
 
-    if (params) {
+    if (params && dataDiagnostic) {
       const { judgments } = params;
       return (
         <Box
           borderWidth="1"
           borderRadius="md"
           my="2"
+          key={focus}
           marginRight="2"
           width="100%"
         >
@@ -49,12 +62,28 @@ const Diagnosis = (): JSX.Element => {
             </Box>
             <Box px="4">
               <HStack>
-                {judgments.map((item) => {
-                  const onlyTest =
-                    Math.ceil(Math.floor(Math.random() * 10)) % 2 === 0;
+                {judgments.map((item, index) => {
+                  const isSelected =
+                    dataDiagnostic[focus].judgments.includes(item);
                   return (
-                    <VStack padding={2}>
-                      <Checkbox isChecked={onlyTest} value="one">
+                    <VStack padding={2} key={focus + item + index}>
+                      <Checkbox
+                        isChecked={isSelected}
+                        value="one"
+                        onChange={() => {
+                          if (isSelected) {
+                            let obj = { ...dataDiagnostic[focus] }.judgments;
+                            obj = obj.filter((judgment) => judgment !== item);
+                            dataDiagnostic[focus].judgments = obj;
+                            setDataDiagnostic({ ...dataDiagnostic });
+                          } else {
+                            const obj = { ...dataDiagnostic[focus] }.judgments;
+                            obj.push(item);
+                            dataDiagnostic[focus].judgments = obj;
+                            setDataDiagnostic({ ...dataDiagnostic });
+                          }
+                        }}
+                      >
                         {item}
                       </Checkbox>
                     </VStack>
@@ -103,7 +132,7 @@ const Diagnosis = (): JSX.Element => {
                 const focusName = item.item;
                 return cardToDiagnosis(focusName);
               }}
-              keyExtractor={(item) => item}
+              keyExtractor={(item, index) => item + index}
             />
           </View>
         </KeyboardAvoidingView>
