@@ -8,11 +8,17 @@ function useKeyboardControll(): boolean {
   const handleKeyboardHidde = () => setIsKeyboardShown(false);
 
   useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", handlekeyboardShow);
-    Keyboard.addListener("keyboardDidHide", handleKeyboardHidde);
+    const showSubscription = Keyboard.addListener(
+      "keyboardDidShow",
+      handlekeyboardShow
+    );
+    const hideSubscription = Keyboard.addListener(
+      "keyboardDidHide",
+      handleKeyboardHidde
+    );
     return () => {
-      Keyboard.removeListener("keyboardDidShow", handlekeyboardShow);
-      Keyboard.removeListener("keyboardDidHide", handleKeyboardHidde);
+      showSubscription.remove();
+      hideSubscription.remove();
     };
   }, []);
 

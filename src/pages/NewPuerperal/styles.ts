@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: "90%",
     height: "80%",
+    paddingVertical: 10,
   },
   formContainer: {
     backgroundColor: colors.white,
@@ -30,9 +31,7 @@ export const styles = StyleSheet.create({
   buttonsContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    paddingBottom: 12,
+    width: "90%",
   },
   confirmButtonsContainer: {
     flex: 0,

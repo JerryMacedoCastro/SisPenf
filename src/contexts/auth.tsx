@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { IAuthContextData, IUser } from "../interfaces";
-import * as auth from "../services/auth";
+import * as auth from "../services/auth.service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "../services/api";
 interface Props {
   children: React.ReactNode;
 }
@@ -28,7 +27,7 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
 
       if (storagedUser && storagedToken) {
         setUser(JSON.parse(storagedUser));
-        api.defaults.headers.Authorization = `Baerer ${storagedToken}`;
+        // api.defaults.headers.Authorization = `Baerer ${storagedToken}`;
       }
       setLoading(false);
     }
@@ -39,15 +38,19 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
   async function signIn(email: string, password: string) {
     try {
       const response = await auth.signIn(email, password);
-      console.log("response: ", response);
-      setUser(response.user);
-
-      api.defaults.headers.Authorization = `Baerer ${response.token}`;
-
-      await AsyncStorage.setItem("@RNAuth:user", JSON.stringify(response.user));
+      const user = {
+        id: response.id,
+        name: response.name,
+        email: response.email,
+      };
+      setUser(user);
+      //api.defaults.headers.Authorization = `Baerer ${response.token}`;
+      console.log(response.token);
+      await AsyncStorage.setItem("@RNAuth:user", JSON.stringify(user));
       await AsyncStorage.setItem("@RNAuth:token", response.token);
+      setLoading(false);
     } catch (error) {
-      console.log(error.message);
+      throw new Error("Error on authentication");
     }
   }
 

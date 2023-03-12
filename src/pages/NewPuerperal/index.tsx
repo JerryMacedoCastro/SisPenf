@@ -1,28 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
   ScrollView,
-  KeyboardAvoidingView,
   Platform,
   Alert,
   ActivityIndicator,
 } from "react-native";
-import { RectButton } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Form } from "@unform/mobile";
-import { FormHandles, SubmitHandler } from "@unform/core";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePicker, {
-  AndroidEvent,
-  Event,
+  DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { format } from "date-fns";
+import { useForm, Controller } from "react-hook-form";
+import { VStack, Button, KeyboardAvoidingView } from "native-base";
 
 import { styles } from "./styles";
 import { colors, globalStyles } from "../../Assets/GlobalStyles";
 import CommonInput from "../../components/Input/CommonInput";
-import SimpleInput from "../../components/Input/SimpleInput";
 import DateHeader from "../../components/DateHeader";
 import Picker from "../../components/Picker";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
@@ -31,81 +27,71 @@ import {
   IInfirmariesResponse,
   IHospitalBedResponse,
   IPatientResponse,
-  IQuestionResponse,
+  INewPuerperalForm,
+  IFormattedDate,
 } from "../../interfaces";
 import Gradient from "../../components/Gradient";
-import api from "../../services/api";
 import { useAuth } from "../../contexts/auth";
-import RNPickerSelect from "../../components/PickerSelect";
-
-interface IFormPatient {
-  "Diagnostico Médico": string;
-  "Dieta Prescrita": string;
-  "Estado civil": string;
-  Escolaridade: string;
-  Ocupação: string;
-}
-
-interface IFormattedDate {
-  date: Date;
-  formattedDate: string;
-}
+import PickerSelect from "../../components/PickerSelect";
+import { createPatient } from "../../services/patient.service";
+import { getInfirmaries } from "../../services/infirmary.service";
+import { getHospitalbedByNumber } from "../../services/hospitalBed.service";
+import { addAnswers } from "../../services/answer.service";
 
 const NewPuerperal = (): JSX.Element => {
   const [infirmary, setInfirmary] = useState<number>(0);
-  const [name, setName] = useState<string>("");
-  const [date, setDate] = useState<IFormattedDate>({
+  const [birthDate, setBirthDate] = useState<IFormattedDate>({
     date: new Date(1999, 1, 1),
     formattedDate: "",
   });
-  const [showDateModal, setShowDateModal] = useState(false);
+  const [admissionDate, setAdmissionDate] = useState<IFormattedDate>({
+    date: new Date(),
+    formattedDate: "",
+  });
+
+  const [showBirthDateModal, setShowBirthDateModal] = useState(false);
+  const [showAdmissionDateModal, setShowAdmissionDateModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [bedsPickerDisabled, setBedPickerDisabled] = useState(true);
+  const [dietComment, setDietComment] = useState("");
+  const [diagnosticComment, setDiagnosticComment] = useState("");
   const [hospitalBed, setHospitalBed] = useState(0);
-  const [questions, setQuestions] = useState<IQuestionResponse[]>([]);
   const [infirmaries, setInfirmaries] = useState<keyValue[]>([]);
   const [beds, setBeds] = useState<keyValue[]>([]);
   const isKeyboardShown = useKeyboardControll();
   const navigation = useNavigation();
-  const formRef = useRef<FormHandles>(null);
+  const { control, handleSubmit } = useForm<INewPuerperalForm>();
   const { user } = useAuth();
-  const questionsType = 1;
 
-  useEffect(() => {
+  async function fetchInfirmariesData() {
     let keyValueInfirmaries: keyValue[] = [];
+    try {
+      const infirmariesResponse: IInfirmariesResponse[] =
+        await getInfirmaries();
 
-    async function fetchData() {
-      try {
-        const { data } = await api.get("/infirmary");
-        const infirmariesResponse: IInfirmariesResponse[] = data;
-        infirmariesResponse.forEach((infirmary: IInfirmariesResponse) => {
-          const keyValueInfirmary: keyValue = {
-            label: infirmary.description,
-            value: infirmary.id,
-          };
-          keyValueInfirmaries = [...keyValueInfirmaries, keyValueInfirmary];
-        });
-        setInfirmaries(keyValueInfirmaries);
-      } catch (error) {
-        Alert.alert("Problema de conexão! fetch DAta", error.message);
-      }
+      infirmariesResponse.forEach((infirmary: IInfirmariesResponse) => {
+        const keyValueInfirmary: keyValue = {
+          label: infirmary.description,
+          value: infirmary.id,
+        };
+        keyValueInfirmaries = [...keyValueInfirmaries, keyValueInfirmary];
+      });
+      setInfirmaries(keyValueInfirmaries);
+    } catch (error) {
+      throw new Error("Erro ao buscar enfermarias", error.message);
     }
-    fetchData();
-  }, []);
+  }
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const questionsForm = await api.get(`question/${questionsType}`);
-        setQuestions(questionsForm.data);
-      } catch (error) {
-        Alert.alert("Problema de conexão! AQUIII", error.message);
-      }
+    try {
+      fetchInfirmariesData();
+    } catch (error) {
+      Alert.alert("Ops", error.message);
     }
-    fetchData();
   }, []);
 
-  const handleChangeInfirmary = async (item: keyValue) => {
-    const { value } = item;
+  const handleChangeInfirmary = async (item: string) => {
+    const value = Number(item);
     setBedPickerDisabled(true);
     setBeds([]);
     setHospitalBed(0);
@@ -113,8 +99,9 @@ const NewPuerperal = (): JSX.Element => {
 
     let keyValueBeds: keyValue[] = [];
     try {
-      const { data } = await api.get(`/hospitalbed/${value}`);
-      const bedsResponse: IHospitalBedResponse[] = data;
+      const bedsResponse: IHospitalBedResponse[] = await getHospitalbedByNumber(
+        value
+      );
       bedsResponse.forEach((bed: IHospitalBedResponse) => {
         const keyValueBed: keyValue = {
           label: bed.description,
@@ -131,64 +118,84 @@ const NewPuerperal = (): JSX.Element => {
   };
 
   const handleCancel = () => {
-    navigation.navigate("PsychologicalNeeds", { patientId: 29 });
+    navigation.navigate("Home");
   };
 
-  const handleSubmit: SubmitHandler<IFormPatient> = async (formData) => {
-    const test = formData;
+  const onChangeBirthDate = (selectedDate: Date) => {
+    const currentDate = selectedDate || birthDate;
+    setShowBirthDateModal(Platform.OS === "ios");
+    const formatted = format(currentDate, "dd/MM/yyyy");
+    setBirthDate({ date: selectedDate, formattedDate: formatted });
+  };
+
+  const onChangeAdmissionDate = (selectedDate: Date) => {
+    const currentDate = selectedDate || admissionDate;
+    setShowAdmissionDateModal(Platform.OS === "ios");
+    const formatted = format(currentDate, "dd/MM/yyyy");
+    setAdmissionDate({ date: selectedDate, formattedDate: formatted });
+  };
+
+  const submitForm = async (data: INewPuerperalForm) => {
+    setLoading(true);
+
     const answeredQuestions = [
-      { question: "Diagnostico Médico", option: test["Diagnostico Médico"] },
-      { question: "Dieta Prescrita", option: test["Dieta Prescrita"] },
-      { question: "Escolaridade", option: test.Escolaridade },
-      { question: "Estado Civil", option: test["Estado civil"] },
-      { question: "Ocupação", comment: test.Ocupação },
+      {
+        question: "Diagnóstico médico",
+        comment: diagnosticComment,
+        option: data["Diagnóstico médico"],
+      },
+      {
+        question: "Dieta prescrita",
+        comment: dietComment,
+        option: data["Dieta prescrita"],
+      },
     ];
     console.log(answeredQuestions);
-    return;
-
     if (infirmary === 0 || hospitalBed === 0) {
       Alert.alert(
         "Preencha todos os campos",
         "Selecione o leito e a enfermaria!"
       );
+      setLoading(false);
+      return;
+    }
+    console.log(data);
+    if (
+      !data.Nome ||
+      !birthDate.formattedDate ||
+      !admissionDate.formattedDate ||
+      !data["Diagnóstico médico"] ||
+      !data["Dieta prescrita"]
+    ) {
+      Alert.alert(
+        "Preencha todos os campos",
+        "Todos os campos são obrigatórios!"
+      );
+      setLoading(false);
       return;
     }
     try {
-      const { data } = await api.post("/patient", {
-        name: name,
-        birthdate: date.date,
-        bed: hospitalBed,
-      });
-      console.log(data);
-      const patient: IPatientResponse = data;
+      const patient: IPatientResponse = await createPatient(
+        data.Nome,
+        birthDate.date,
+        admissionDate.date,
+        hospitalBed
+      );
 
-      console.log(answeredQuestions);
-      if (patient.id) {
-        const { data } = await api.post("/answers", {
+      if (patient.id && user) {
+        await addAnswers(user.id, patient.id, answeredQuestions);
+        navigation.navigate("PsychologicalNeeds", {
           patientId: patient.id,
-          userId: user?.id,
-          questions: answeredQuestions,
+          infirmaryId: infirmary,
         });
-        console.log(data);
-        if (data.status === 200) {
-          navigation.navigate("PsychologicalNeeds", {
-            patientId: patient.id,
-            infirmaryId: infirmary,
-          });
-        } else {
-          Alert.alert("Problema de conexão!", data.message);
-        }
+      } else {
+        throw new Error("Usuário ou paciente não encontrados");
       }
     } catch (error) {
-      Alert.alert("Problema de conexão   !", error.message);
+      Alert.alert("Ops...", error.message);
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const onChangeDate = (selectedDate: Date) => {
-    const currentDate = selectedDate || date;
-    setShowDateModal(Platform.OS === "ios");
-    const formatted = format(currentDate, "dd/MM/yyyy");
-    setDate({ date: selectedDate, formattedDate: formatted });
   };
 
   return (
@@ -199,21 +206,24 @@ const NewPuerperal = (): JSX.Element => {
         <View style={styles.buttonsContainer}>
           {infirmaries.length > 0 ? (
             <Picker
-              placeholder="Selecione a enfermaria"
+              placeholder="Enfermaria"
               items={infirmaries}
-              handleChange={async (item) => await handleChangeInfirmary(item)}
+              onValueChange={async (item) => await handleChangeInfirmary(item)}
             />
           ) : (
             <ActivityIndicator size="small" color={colors.darkGreen} />
           )}
-          {infirmary !== 0 && bedsPickerDisabled && beds.length === 0 ? (
+          {infirmaries.length > 0 &&
+          infirmary !== 0 &&
+          bedsPickerDisabled &&
+          beds.length === 0 ? (
             <ActivityIndicator size="small" color={colors.darkGreen} />
           ) : (
             <Picker
-              placeholder="Selecione o leito"
+              placeholder="Leito"
               items={beds}
-              handleChange={(item) => setHospitalBed(item.value)}
-              disabled={bedsPickerDisabled || beds.length === 0}
+              onValueChange={(item) => setHospitalBed(Number(item))}
+              isDisabled={bedsPickerDisabled || beds.length === 0}
             />
           )}
         </View>
@@ -228,82 +238,128 @@ const NewPuerperal = (): JSX.Element => {
               position: "relative",
             }}
           >
-            <View style={styles.formContainer}>
-              <Form ref={formRef} onSubmit={handleSubmit}>
-                {!questions ? (
-                  <ActivityIndicator size="small" color={colors.darkGreen} />
-                ) : (
-                  <>
-                    <SimpleInput
-                      label={"Nome"}
-                      value={name}
-                      returnKeyType="next"
-                      onChangeText={(text) => setName(text)}
-                    />
-                    <SimpleInput
-                      label={"Data de nascimento"}
-                      value={date.formattedDate}
-                      returnKeyType="next"
-                      onFocus={() => setShowDateModal(true)}
-                      showSoftInputOnFocus={false}
-                    />
-                    {showDateModal && (
-                      <DateTimePicker
-                        value={date.date}
-                        placeholderText="Data de nascimento"
-                        mode={"date"}
-                        display="default"
-                        onChange={(_event: Event | AndroidEvent, date?: Date) =>
-                          date ? onChangeDate(date) : null
-                        }
-                        dateFormat="day month year"
-                      />
-                    )}
-                    {questions.map((question): JSX.Element => {
-                      return question.options.length === 0 ? (
-                        <CommonInput
-                          key={question.id}
-                          name={question.description}
-                          placeholder={question.description}
-                          returnKeyType="next"
-                        />
-                      ) : (
-                        <RNPickerSelect
-                          key={question.id}
-                          name={question.description}
-                          items={question.options.map((option) => {
-                            return {
-                              key: option.id,
-                              value: option.id,
-                              label: option.description,
-                            };
-                          })}
-                        />
-                      );
-                    })}
-                  </>
+            <VStack
+              bgColor={"white"}
+              flex={1}
+              px={10}
+              paddingTop={6}
+              paddingBottom={4}
+            >
+              <Controller
+                control={control}
+                name="Nome"
+                render={({ field: { onChange } }) => (
+                  <CommonInput
+                    placeholder={"Nome"}
+                    returnKeyType="next"
+                    onChangeText={onChange}
+                  />
                 )}
-              </Form>
-            </View>
+              />
+              <CommonInput
+                placeholder={"Data de nascimento"}
+                value={birthDate.formattedDate}
+                returnKeyType="next"
+                onFocus={() => setShowBirthDateModal(true)}
+                showSoftInputOnFocus={false}
+              />
+              {showBirthDateModal && (
+                <DateTimePicker
+                  value={birthDate.date}
+                  placeholderText="Data de nascimento"
+                  mode={"date"}
+                  onChange={(_event: DateTimePickerEvent, date?: Date) =>
+                    date ? onChangeBirthDate(date) : null
+                  }
+                  dateFormat="day month year"
+                />
+              )}
+
+              <CommonInput
+                placeholder={"Data de admissão"}
+                value={admissionDate.formattedDate}
+                returnKeyType="next"
+                onFocus={() => setShowAdmissionDateModal(true)}
+                showSoftInputOnFocus={false}
+              />
+              {showAdmissionDateModal && (
+                <DateTimePicker
+                  value={admissionDate.date}
+                  placeholderText="Data de admissão"
+                  mode={"date"}
+                  onChange={(_event: DateTimePickerEvent, date?: Date) =>
+                    date ? onChangeAdmissionDate(date) : null
+                  }
+                  dateFormat="day month year"
+                />
+              )}
+
+              <Controller
+                control={control}
+                name={"Diagnóstico médico"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Pós-parto imediato (cesariana)" },
+                      { description: "Pós-parto vaginal imediato" },
+                    ]}
+                    placeholder={"Diagnóstico Médico"}
+                    onValueChange={onChange}
+                    addInfo
+                    modalTitle="Diagnóstico médico"
+                    onClickSave={(value) => setDiagnosticComment(value)}
+                    infoValue={diagnosticComment}
+                  />
+                )}
+              />
+
+              <Controller
+                control={control}
+                name={"Dieta prescrita"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "Zero por 8 horas" },
+                      { description: "Livre" },
+                      { description: "Hipossódica" },
+                      { description: "Hipoglicêmica" },
+                      { description: "Laxativa" },
+                      { description: "Zero" },
+                      { description: "Branda" },
+                      { description: "Líquida" },
+                    ]}
+                    placeholder={"Dieta prescrita"}
+                    onValueChange={onChange}
+                    addInfo
+                    modalTitle="Dieta prescrita"
+                    onClickSave={(value) => setDietComment(value)}
+                    infoValue={dietComment}
+                  />
+                )}
+              />
+            </VStack>
           </ScrollView>
         </KeyboardAvoidingView>
 
         {!isKeyboardShown && (
           <View style={styles.confirmButtonsContainer}>
-            <RectButton
-              style={[globalStyles.button, globalStyles.primaryButton]}
-              onPress={() => formRef?.current?.submitForm()}
+            <Button
+              bgColor={"green.900"}
+              style={globalStyles.button}
+              onPress={handleSubmit(submitForm)}
+              isLoading={loading}
+              isLoadingText="Carregando"
             >
               <Text style={globalStyles.primaryButtonText}>
                 Iniciar processo de enfermagem
               </Text>
-            </RectButton>
-            <RectButton
+            </Button>
+            <Button
               style={[globalStyles.button, globalStyles.secondaryButton]}
               onPress={handleCancel}
             >
               <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
-            </RectButton>
+            </Button>
           </View>
         )}
       </SafeAreaView>
