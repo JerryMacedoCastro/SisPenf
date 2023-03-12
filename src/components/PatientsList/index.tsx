@@ -6,6 +6,7 @@ import Fieldset from "../Fieldset";
 import { styles } from "./styles";
 import api from "../../services/api";
 import { IPatientResponse } from "../../interfaces";
+import { getAllPatients } from "../../services/patient.service";
 
 interface IPatientListProps {
   search?: string;
@@ -18,8 +19,7 @@ const index = ({ search }: IPatientListProps): JSX.Element => {
 
   const handleSearch = async () => {
     if (search) {
-      const { data } = await api.get("patient");
-      const patients: IPatientResponse[] = data;
+      const patients = await getAllPatients();
       const list = patients.filter((patient) => {
         if (!patient.isActive) return false;
         return patient.name
