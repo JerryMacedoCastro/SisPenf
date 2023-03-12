@@ -20,7 +20,7 @@ import { addAnswers } from "../../../services/answer.service";
 import { useAuth } from "../../../contexts/auth";
 import { Controller, useForm } from "react-hook-form";
 import PickerSelect from "../../../components/PickerSelect";
-import { Button, Text } from "native-base";
+import { Button, Text, VStack } from "native-base";
 import { format } from "date-fns";
 
 type Props = StackScreenProps<RootStackParamList, "PsychologicalNeeds">;
@@ -42,6 +42,8 @@ const index = ({ route }: Props): JSX.Element => {
     formattedDate: new Date().toLocaleTimeString(),
   });
   const [showChildbirthTimeModal, setShowChildbirthTimeModal] = useState(false);
+  const [drugsComment, setDrugsComment] = useState("");
+  const [birthComment, setBirthComment] = useState("");
 
   const onChangeDate = (selectedDate: Date) => {
     const currentDate = selectedDate || childbirthDate;
@@ -60,9 +62,6 @@ const index = ({ route }: Props): JSX.Element => {
   const submitForm = async (data: IPsycobiologicNeedsForm) => {
     try {
       setLoading(true);
-      console.log(data);
-      // return;
-
       const answeredQuestions = [
         {
           question: "Gesta",
@@ -78,11 +77,11 @@ const index = ({ route }: Props): JSX.Element => {
         },
         {
           question: "Número de filhos vivos",
-          comment: data["Número de filhos vivos"],
+          option: data["Número de filhos vivos"],
         },
         {
           question: "Pré-natal",
-          comment: data["Pré-natal"],
+          optopn: data["Pré-natal"],
         },
         {
           question: "Número de consultas",
@@ -122,7 +121,8 @@ const index = ({ route }: Props): JSX.Element => {
         },
         {
           question: "Uso de substâncias lícitas e/ou ilícitas",
-          comment: data["Uso de substâncias lícitas e/ou ilícitas"],
+          option: data["Uso de substâncias lícitas e/ou ilícitas"],
+          comment: drugsComment,
         },
         {
           question: "Data do parto",
@@ -134,15 +134,16 @@ const index = ({ route }: Props): JSX.Element => {
         },
         {
           question: "Gestação",
-          comment: data.Gestação,
+          option: data.Gestação,
         },
         {
           question: "Tipo de parto",
-          comment: data["Tipo de parto"],
+          option: data["Tipo de parto"],
+          comment: birthComment,
         },
         {
           question: "RPMO",
-          comment: data.RPMO,
+          option: data.RPMO,
         },
         {
           question: "Tempo de bolsa rota até o parto",
@@ -211,7 +212,13 @@ const index = ({ route }: Props): JSX.Element => {
               position: "relative",
             }}
           >
-            <View style={styles.formContainer}>
+            <VStack
+              bgColor={"white"}
+              flex={1}
+              px={10}
+              paddingTop={6}
+              paddingBottom={4}
+            >
               <Controller
                 control={control}
                 name="Gesta"
@@ -373,6 +380,26 @@ const index = ({ route }: Props): JSX.Element => {
                   />
                 )}
               />
+              <Controller
+                control={control}
+                name={"Uso de substâncias lícitas e/ou ilícitas"}
+                render={({ field: { onChange } }) => (
+                  <PickerSelect
+                    options={[
+                      { description: "álcool" },
+                      { description: "cigarro" },
+                      { description: "drogas" },
+                    ]}
+                    placeholder={"Uso de substâncias lícitas e/ou ilícitas"}
+                    onValueChange={onChange}
+                    addInfo
+                    modalTitle="Uso de substâncias lícitas e/ou ilícitas"
+                    onClickSave={(value) => setDrugsComment(value)}
+                    infoValue={drugsComment}
+                  />
+                )}
+              />
+
               <Text fontSize="lg" bold mb={4}>
                 Dados do parto:
               </Text>
@@ -440,6 +467,10 @@ const index = ({ route }: Props): JSX.Element => {
                     ]}
                     placeholder={"Tipo de parto"}
                     onValueChange={onChange}
+                    addInfo
+                    modalTitle="Tipo de parto"
+                    onClickSave={(value) => setBirthComment(value)}
+                    infoValue={birthComment}
                   />
                 )}
               />
@@ -465,7 +496,7 @@ const index = ({ route }: Props): JSX.Element => {
                   />
                 )}
               />
-            </View>
+            </VStack>
           </ScrollView>
         </KeyboardAvoidingView>
 

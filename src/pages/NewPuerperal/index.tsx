@@ -118,8 +118,7 @@ const NewPuerperal = (): JSX.Element => {
   };
 
   const handleCancel = () => {
-    //TODO: trocar
-    navigation.navigate("PsychobiologicNeeds", { patientId: 2 });
+    navigation.navigate("Home");
   };
 
   const onChangeBirthDate = (selectedDate: Date) => {

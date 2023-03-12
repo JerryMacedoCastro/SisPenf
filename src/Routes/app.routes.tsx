@@ -7,7 +7,6 @@ import FindPatient from "../pages/FindPatient";
 import PsychologicalNeeds from "../pages/MaternalHistory/PsychologicalNeeds";
 import SpiritualNeeds from "../pages/MaternalHistory/SpiritualNeeds";
 import PsychobiologicNeeds from "../pages/MaternalHistory/PsychobiologicNeeds";
-import ChildbirthData from "../pages/MaternalHistory/ChildbirthData";
 import PartOne from "../pages/PhysicalExam/PartOne";
 import PartTwo from "../pages/PhysicalExam/PartTwo";
 import { colors } from "../Assets/GlobalStyles";
@@ -19,9 +18,8 @@ export type RootStackParamList = {
   PsychologicalNeeds: { patientId: number };
   SpiritualNeeds: { patientId: number };
   PsychobiologicNeeds: { patientId: number };
-  ChildbirthData: { patientId: number };
-  PartOne: undefined;
-  PartTwo: undefined;
+  PartOne: { patientId: number };
+  PartTwo: { patientId: number };
 };
 
 const AppRoutes = (): JSX.Element => {
@@ -45,7 +43,6 @@ const AppRoutes = (): JSX.Element => {
         name="PsychobiologicNeeds"
         component={PsychobiologicNeeds}
       />
-      <RootStack.Screen name="ChildbirthData" component={ChildbirthData} />
       <RootStack.Screen name="PartOne" component={PartOne} />
       <RootStack.Screen name="PartTwo" component={PartTwo} />
     </RootStack.Navigator>

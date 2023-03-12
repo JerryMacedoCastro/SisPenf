@@ -16,7 +16,7 @@ import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import { RootStackParamList } from "../../../Routes/app.routes";
 import { Controller, useForm } from "react-hook-form";
 import PickerSelect from "../../../components/PickerSelect";
-import { Button, Text } from "native-base";
+import { Button, Text, VStack } from "native-base";
 
 type Props = StackScreenProps<RootStackParamList, "SpiritualNeeds">;
 
@@ -34,15 +34,15 @@ const index = ({ route }: Props): JSX.Element => {
       const answeredQuestions = [
         {
           question: "Angústia espiritual",
-          comment: data["Angústia espiritual"],
+          option: data["Angústia espiritual"],
         },
         {
           question: "Risco de sofrimento espiritual",
-          comment: data["Risco de sofrimento espiritual"],
+          option: data["Risco de sofrimento espiritual"],
         },
         {
           question: "Sofrimento espiritual",
-          comment: data["Sofrimento espiritual"],
+          option: data["Sofrimento espiritual"],
         },
       ];
 
@@ -89,7 +89,13 @@ const index = ({ route }: Props): JSX.Element => {
               position: "relative",
             }}
           >
-            <View style={styles.formContainer}>
+            <VStack
+              bgColor={"white"}
+              flex={1}
+              px={10}
+              paddingTop={6}
+              paddingBottom={4}
+            >
               <Text fontSize="lg" bold mb={4}>
                 Religiosidade/espiritualidade
               </Text>
@@ -135,7 +141,7 @@ const index = ({ route }: Props): JSX.Element => {
                   />
                 )}
               />
-            </View>
+            </VStack>
           </ScrollView>
         </KeyboardAvoidingView>
 
