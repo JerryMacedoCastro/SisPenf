@@ -3,7 +3,7 @@ import { Feather } from "@expo/vector-icons";
 import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import { RectButton, TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
-import { VStack, Box, Divider, FlatList, Button, HStack, Checkbox } from "native-base";
+import { VStack, Box, Divider, FlatList, Button, Radio } from "native-base";
 
 import DateHeader from "../../components/DateHeader";
 import Gradient from "../../components/Gradient";
@@ -61,35 +61,20 @@ const Diagnosis = (): JSX.Element => {
               {focus}
             </Box>
             <Box px="4">
-              <HStack>
-                {judgments.map((item, index) => {
-                  const isSelected =
-                    dataDiagnostic[focus].judgments.includes(item);
-                  return (
-                    <VStack padding={2} key={focus + item + index}>
-                      <Checkbox
-                        isChecked={isSelected}
-                        value="one"
-                        onChange={() => {
-                          if (isSelected) {
-                            let obj = { ...dataDiagnostic[focus] }.judgments;
-                            obj = obj.filter((judgment) => judgment !== item);
-                            dataDiagnostic[focus].judgments = obj;
-                            setDataDiagnostic({ ...dataDiagnostic });
-                          } else {
-                            const obj = { ...dataDiagnostic[focus] }.judgments;
-                            obj.push(item);
-                            dataDiagnostic[focus].judgments = obj;
-                            setDataDiagnostic({ ...dataDiagnostic });
-                          }
-                        }}
-                      >
+              <VStack>
+                <Radio.Group
+                  defaultValue={dataDiagnostic[focus].judgments[0]}
+                  name={"Judgments" + focus}
+                >
+                  {judgments.map((item, index) => {
+                    return (
+                      <Radio value={item} my={1} key={focus + item + index}>
                         {item}
-                      </Checkbox>
-                    </VStack>
-                  );
-                })}
-              </HStack>
+                      </Radio>
+                    );
+                  })}
+                </Radio.Group>
+              </VStack>
             </Box>
             <Box
               px="4"
@@ -127,7 +112,7 @@ const Diagnosis = (): JSX.Element => {
           <Text style={styles.label}>Diangostico de Jessica</Text>
           <View style={{ display: "flex", width: "100%", padding: 10 }}>
             <FlatList
-              data={Object.keys(DiagnosisParams).slice(0, 3)}
+              data={Object.keys(DiagnosisParams).slice(0, 7)}
               renderItem={(item) => {
                 const focusName = item.item;
                 return cardToDiagnosis(focusName);
