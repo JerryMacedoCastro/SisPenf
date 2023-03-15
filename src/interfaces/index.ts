@@ -90,6 +90,11 @@ export interface IOption {
   description: string;
 }
 
+export interface IOptionChecked {
+  description: string;
+  checked: boolean;
+}
+
 export interface IQuesttionType {
   id: number;
   label: string;

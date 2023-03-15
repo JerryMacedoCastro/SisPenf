@@ -7,28 +7,27 @@ import { VStack, Box, Divider, FlatList, Button, Radio } from "native-base";
 
 import DateHeader from "../../components/DateHeader";
 import Gradient from "../../components/Gradient";
-import Separator from "../../components/Separator";
-import PickerInfirmary from "../../components/Picker";
-import PatiensList from "../../components/PatientsList";
+import PickerSelectChecked from "../../components/PickerSelectChecked";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
 import { colors, globalStyles } from "../../Assets/GlobalStyles";
 import { hospitalBeds, infirmaries } from "../../data";
 import { IParamsDiagnosis, keyValue } from "../../interfaces/index";
-import { useNavigation } from "@react-navigation/native";
-import { DiagnosisParams } from "./diagnosisParams";
+import { DiagnosisActions, DiagnosisJudgments } from "./diagnosisParams";
+import { Controller, useForm } from "react-hook-form";
 
 const Diagnosis = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
   const [loading, setLoading] = useState(false);
-  const [dataDiagnostic, setDataDiagnostic] = useState<{
+  const { control, handleSubmit } = useForm<{ judgments: string[], actions: string[] }>();
+  const [dataJudgments, setDataJudgments] = useState<{
     [x: string]: IParamsDiagnosis;
   }>();
 
-  const generateInitialDataDiagnostic = () => {
+  const generateInitialDataJudgments = () => {
     const aux: {
       [x: string]: IParamsDiagnosis;
     } = {};
-    const namesFocus = Object.keys(DiagnosisParams);
+    const namesFocus = Object.keys(DiagnosisJudgments);
     namesFocus.forEach((element) => {
       aux[element] = {
         judgments: [],
@@ -39,13 +38,13 @@ const Diagnosis = (): JSX.Element => {
   };
 
   useEffect(() => {
-    setDataDiagnostic(generateInitialDataDiagnostic());
+    setDataJudgments(generateInitialDataJudgments());
   }, []);
 
   const cardToDiagnosis = (focus: string) => {
-    const params = DiagnosisParams[focus];
+    const params = DiagnosisJudgments[focus];
 
-    if (params && dataDiagnostic) {
+    if (params && dataJudgments) {
       const { judgments } = params;
       return (
         <Box
@@ -56,14 +55,14 @@ const Diagnosis = (): JSX.Element => {
           marginRight="2"
           width="100%"
         >
-          <VStack space="4" divider={<Divider />}>
+          <VStack space="4" divider={<Divider />} width="100%">
             <Box px="4" pt="4" fontWeight={"bold"}>
               {focus}
             </Box>
             <Box px="4">
               <VStack>
                 <Radio.Group
-                  defaultValue={dataDiagnostic[focus].judgments[0]}
+                  defaultValue={dataJudgments[focus].judgments[0]}
                   name={"Judgments" + focus}
                 >
                   {judgments.map((item, index) => {
@@ -79,20 +78,18 @@ const Diagnosis = (): JSX.Element => {
             <Box
               px="4"
               pb="4"
-              alignContent="center"
-              justifyContent="center"
-              backgroundColor="red"
+              width="100%"
+              style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <Button
-                bgColor={"green.900"}
-                style={globalStyles.button}
-                isLoading={loading}
-                isLoadingText="Carregando"
-              >
-                <Text style={globalStyles.primaryButtonText}>
-                  Ações ou Meios
-                </Text>
-              </Button>
+            <PickerSelectChecked
+                textButton="Ações ou meios"
+                options={DiagnosisActions[focus].actions.map((item) => {
+                  return {
+                    description: item
+                  }
+                })}
+                placeholder={"Ações ou meios"}
+              /> 
             </Box>
           </VStack>
         </Box>
@@ -112,12 +109,14 @@ const Diagnosis = (): JSX.Element => {
           <Text style={styles.label}>Diangostico de Jessica</Text>
           <View style={{ display: "flex", width: "100%", padding: 10 }}>
             <FlatList
-              data={Object.keys(DiagnosisParams).slice(0, 7)}
+              data={Object.keys(DiagnosisJudgments)}
               renderItem={(item) => {
                 const focusName = item.item;
                 return cardToDiagnosis(focusName);
               }}
               keyExtractor={(item, index) => item + index}
+              maxToRenderPerBatch={3}
+              initialNumToRender={2}
             />
           </View>
         </KeyboardAvoidingView>

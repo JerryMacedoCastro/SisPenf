@@ -1,8 +1,101 @@
 import { IParamsDiagnosis } from "../../interfaces";
 
-export const DiagnosisParams = {
+export const DiagnosisJudgments = {
   "Edema Periférico": {
     judgments: ["Presente", "Ausente"],
+  },
+  "Amamentação exclusiva": {
+    judgments: ["Eficaz", "Prejudicada", "Interrompida"],
+  },
+  Constipação: {
+    judgments: ["Presente", "Melhorada", "Ausente"],
+  },
+  "Eliminação urinária": {
+    judgments: ["Eficaz", "Ausente"],
+  },
+  Sono: {
+    judgments: ["Adequado", "Positivo", "Prejudicado"],
+  },
+  "Comportamento de repouso": {
+    judgments: ["Adequado", "Positivo", "Prejudicado"],
+  },
+  Deambulação: {
+    judgments: ["Eficaz", "Prejudicada", "Ausente"],
+  },
+  "Exaustão no período pós-parto": {
+    judgments: ["Presente ", "Ausente"],
+  },
+  "Fadiga no período pós-parto": {
+    judgments: ["Presente ", "Ausente"],
+    actions: [
+      "Encorajar repouso após o parto",
+      "Explicar à paciente a causa da exaustão pós-parto.",
+      "Implementar cuidados de conforto",
+      "Promover ingestão nutricional positiva e hidratação",
+    ],
+  },
+  "Higiene pessoal": {
+    judgments: ["Eficaz", "Prejudicada"],
+  },
+  "Ferida cirúrgica (cicatrização)": {
+    judgments: ["Eficaz", "Prejudicada"],
+  },
+  "Fissura na mama": {
+    judgments: ["Presente", "Ausente"],
+  },
+  "Ingurgitamento mamário": {
+    judgments: ["Presente", "Ausente"],
+  },
+  "Pressão sanguínea": {
+    judgments: ["Eficaz", "Alterada - Elevada", "Alterada - Diminuída"],
+  },
+  "Risco de processo hemorrágico": {
+    judgments: ["Baixo", "Elevado", "Ausente"],
+  },
+  "Risco de infecção": {
+    judgments: ["Baixo", "Elevado", "Ausente"],
+  },
+  "Dor no período pós-parto": {
+    judgments: ["Leve", "Moderada", "Melhorada", "Ausente"],
+  },
+  Ansiedade: {
+    judgments: ["Ausente", "Presente", "Moderada"],
+  },
+  "Risco de parentalidade prejudicada": {
+    judgments: ["Presente", "Parentalidade eficaz"],
+  },
+  "Risco de ligação afetiva pais-criança prejudicada": {
+    judgments: ["Presente", "Ligação afetiva melhorada"],
+  },
+  "Conhecimento sobre amamentação": {
+    judgments: ["Baixo", "Adequado"],
+  },
+  "Conhecimento sobre ordenha": {
+    judgments: ["Baixo", "Adequado"],
+  },
+  "Conhecimento sobre recém-nascido": {
+    judgments: ["Baixo", "Adequado"],
+  },
+  "Conhecimento sobre o cuidado com a ferida ": {
+    judgments: ["Baixo", "Adequado"],
+  },
+  "Regime de cuidados com as mamas": {
+    judgments: ["Prejudicado", "Adequado"],
+  },
+  "Capacidade do cuidador para executar os cuidados com recém-nascido": {
+    judgments: ["Baixa", "Adequada"],
+  },
+  "Planejamento familiar ": {
+    judgments: ["Prejudicado", "Adequado"],
+  },
+} as {
+  [key: string]: {
+    judgments: string[]
+  }
+};
+
+export const DiagnosisActions = {
+  "Edema Periférico": {
     actions: [
       "Explicar causas do edema",
       "Avaliar grau de edema",
@@ -25,9 +118,8 @@ export const DiagnosisParams = {
       "Aplicar compressa de gelo (Bolsa para compressa fria) na região vulvar.",
       "Avaliar cicatrização da vagina e períneo",
     ],
-  } as IParamsDiagnosis,
+  },
   "Amamentação exclusiva": {
-    judgments: ["Eficaz", "Prejudicada", "Interrompida"],
     actions: [
       "Avaliar conhecimento da paciente sobre amamentação",
       "Colaborar com a paciente no plano de amamentação",
@@ -43,9 +135,8 @@ export const DiagnosisParams = {
       "Promover técnica de contato pele-a-pele",
       "Orientar a mãe sobre a satisfação das necessidades nutricionais do recém-nascido",
     ],
-  } as IParamsDiagnosis,
+  },
   Constipação: {
-    judgments: ["Presente", "Melhorada", "Ausente"],
     actions: [
       "Obter dados sobre condição intestinal",
       "Monitorar sinais e sintomas de constipação.",
@@ -62,9 +153,8 @@ export const DiagnosisParams = {
       "Encorajar deambulação",
       "Proporcionar privacidade",
     ],
-  } as IParamsDiagnosis,
+  },
   "Eliminação urinária": {
-    judgments: ["Eficaz", "Ausente"],
     actions: [
       "Estimular micção positiva ",
       "Identificar sinais e sintomas de infecção do trato urinário",
@@ -77,18 +167,16 @@ export const DiagnosisParams = {
       "Proporcionar privacidade",
       "Suspender uso de cateter urinário",
     ],
-  } as IParamsDiagnosis,
+  },
   Sono: {
-    judgments: ["Adequado", "Positivo", "Prejudicado"],
     actions: [
       "Monitorar o padrão de sono e do repouso",
       "Identificar efeito colateral de medicação",
       "Ensinar a cliente técnicas de relaxamento",
       "Explicar a necessidade do sono e do repouso",
     ],
-  } as IParamsDiagnosis,
+  },
   "Comportamento de repouso": {
-    judgments: ["Adequado", "Positivo", "Prejudicado"],
     actions: [
       "Motivar rotina de hora para dormir",
       "Implementar plano de cuidados que não interfira no repouso da paciente",
@@ -96,9 +184,8 @@ export const DiagnosisParams = {
       "Orientar sobre apoio familiar",
       "Orientar a paciente a repousar enquanto o recém-nascido dorme",
     ],
-  } as IParamsDiagnosis,
+  },
   Deambulação: {
-    judgments: ["Eficaz", "Prejudicada", "Ausente"],
     actions: [
       "Supervisionar deambulação da cliente ",
       "Estimular mobilidade na cama",
@@ -106,27 +193,24 @@ export const DiagnosisParams = {
       "Orientar técnica de deambulação",
       "Estimular deambulação com frequência progressiva",
     ],
-  } as IParamsDiagnosis,
+  },
   "Exaustão no período pós-parto": {
-    judgments: ["Presente ", "Ausente"],
     actions: [
       "Encorajar repouso após o parto",
       "Explicar à paciente a causa da exaustão pós-parto.",
       "Implementar cuidados de conforto",
       "Promover ingestão nutricional positiva e hidratação",
     ],
-  } as IParamsDiagnosis,
+  },
   "Fadiga no período pós-parto": {
-    judgments: ["Presente ", "Ausente"],
     actions: [
       "Encorajar repouso após o parto",
       "Explicar à paciente a causa da exaustão pós-parto.",
       "Implementar cuidados de conforto",
       "Promover ingestão nutricional positiva e hidratação",
     ],
-  } as IParamsDiagnosis,
+  },
   "Higiene pessoal": {
-    judgments: ["Eficaz", "Prejudicada"],
     actions: [
       "Educar sobre autocuidado",
       "Orientar sobre padrão de higiene",
@@ -140,9 +224,8 @@ export const DiagnosisParams = {
       "Facilitar a higiene, por si próprio",
       "Assegurar a privacidade da paciente",
     ],
-  } as IParamsDiagnosis,
+  },
   "Ferida cirúrgica (cicatrização)": {
-    judgments: ["Eficaz", "Prejudicada"],
     actions: [
       "Avaliar cicatrização da ferida",
       "Orientar sobre cicatrização de ferida",
@@ -155,9 +238,8 @@ export const DiagnosisParams = {
       "Orientar quanto à importância da higiene corporal e íntima.",
       "Orientar sobre os sinais e os sintomas de infecção",
     ],
-  } as IParamsDiagnosis,
+  },
   "Fissura na mama": {
-    judgments: ["Presente", "Ausente"],
     actions: [
       "Examinar características da fissura mamilar",
       "Avaliar a posição da mãe e recém-nascido durante a amamentação",
@@ -165,9 +247,8 @@ export const DiagnosisParams = {
       "Orientar sobre cuidados com as mamas (evitar manipulação excessiva dos mamilos, uso de sabonetes, cremes e pomadas na região aréolo-mamilar, orientar higiene das mamas e exposição ao sol, aplicar leite humano nos mamilos após cada mamada)",
       "Orientar técnicas de posicionamento para o recém-nascido durante a amamentação",
     ],
-  } as IParamsDiagnosis,
+  },
   "Ingurgitamento mamário": {
-    judgments: ["Presente", "Ausente"],
     actions: [
       "Avaliar mamas diariamente.",
       "Avaliar a capacidade da criança de apreender a região aréolo-mamilar",
@@ -178,9 +259,8 @@ export const DiagnosisParams = {
       "Aplicar compressa fria, sob supervisão profissional",
       "Massagear e ordenhar as mamas antes da mamada",
     ],
-  } as IParamsDiagnosis,
+  },
   "Pressão sanguínea": {
-    judgments: ["Eficaz", "Alterada - Elevada", "Alterada - Diminuída"],
     actions: [
       "Monitorar pressão arterial.",
       "Motivar adesão ao regime medicamentoso",
@@ -191,9 +271,8 @@ export const DiagnosisParams = {
       "Observar sinais de sangramento.",
       "Orientar repouso relativo",
     ],
-  } as IParamsDiagnosis,
+  },
   "Risco de processo hemorrágico": {
-    judgments: ["Baixo", "Elevado", "Ausente"],
     actions: [
       "Monitorar sangramento vaginal",
       "Ensinar sobre sinais de sangramento vaginal alterado.",
@@ -206,9 +285,8 @@ export const DiagnosisParams = {
       "Identificar sinais de choque hipovolêmico.",
       "Monitorar sinais vitais",
     ],
-  } as IParamsDiagnosis,
+  },
   "Risco de infecção": {
-    judgments: ["Baixo", "Elevado", "Ausente"],
     actions: [
       "Avaliar cicatrização da ferida",
       "Orientar sobre cicatrização da ferida",
@@ -218,9 +296,8 @@ export const DiagnosisParams = {
       "Orientar quanto à importância da higiene corporal e íntima.",
       "Monitorar temperatura corporal",
     ],
-  } as IParamsDiagnosis,
+  },
   "Dor no período pós-parto": {
-    judgments: ["Leve", "Moderada", "Melhorada", "Ausente"],
     actions: [
       "Registrar características da dor.",
       "Aplicar compressa fria ou quente, de acordo com a necessidade",
@@ -232,9 +309,8 @@ export const DiagnosisParams = {
       "Encorajar repouso",
       "Implementar cuidados pós-parto",
     ],
-  } as IParamsDiagnosis,
+  },
   Ansiedade: {
-    judgments: ["Ausente", "Presente", "Moderada"],
     actions: [
       "Identificar atitude em relação ao cuidado",
       "Ajudar a paciente a reconhecer sua ansiedade.",
@@ -247,9 +323,8 @@ export const DiagnosisParams = {
       "Encaminhar para assistente social",
       "Estimular mecanismos de adaptação sadios.",
     ],
-  } as IParamsDiagnosis,
+  },
   "Risco de parentalidade prejudicada": {
-    judgments: ["Presente", "Parentalidade eficaz"],
     actions: [
       "Encorajar a comunicação de sentimentos e preocupações.",
       "Orientar sobre o cuidado com o recém-nascido.",
@@ -258,9 +333,8 @@ export const DiagnosisParams = {
       "Estimular visitas ao recém-nascido.",
       "Incentivar a amamentação exclusiva",
     ],
-  } as IParamsDiagnosis,
+  },
   "Risco de ligação afetiva pais-criança prejudicada": {
-    judgments: ["Presente", "Ligação afetiva melhorada"],
     actions: [
       "Promover técnica de contato pele-a-pele",
       "Estimular na participação dos cuidados com recém-nascido.",
@@ -276,9 +350,8 @@ export const DiagnosisParams = {
       "Estimular a paciente a desempenhar seu papel de mãe",
       "Elogiar a paciente durante o desempenho do papel de mãe",
     ],
-  } as IParamsDiagnosis,
+  },
   "Conhecimento sobre amamentação": {
-    judgments: ["Baixo", "Adequado"],
     actions: [
       "Avaliar conhecimento sobre amamentação.",
       "Avaliar disposição para aprender.",
@@ -288,9 +361,8 @@ export const DiagnosisParams = {
       "Fornecer material de instrução sobre amamentação",
       "Encaminhar para grupo de apoio à amamentação",
     ],
-  } as IParamsDiagnosis,
+  },
   "Conhecimento sobre ordenha": {
-    judgments: ["Baixo", "Adequado"],
     actions: [
       "Reforçar a importância da massagem e ordenha das mamas",
       "Avaliar a técnica de massagem e ordenha manual",
@@ -298,9 +370,8 @@ export const DiagnosisParams = {
       "Supervisionar capacidade da mãe em massagear e ordenhar as mamas",
       "Demonstrar técnica de administração de leite por copinho",
     ],
-  } as IParamsDiagnosis,
+  },
   "Conhecimento sobre recém-nascido": {
-    judgments: ["Baixo", "Adequado"],
     actions: [
       "Avaliar conhecimento sobre a situação clínica do recém-nascido.",
       "Avaliar disposição para aprender.",
@@ -310,9 +381,8 @@ export const DiagnosisParams = {
       "Avaliar resposta psicossocial à instrução",
       "Instruir acerca de regime terapêutico (consultas, exames, medicações, vacinas do recém-nascido)",
     ],
-  } as IParamsDiagnosis,
+  },
   "Conhecimento sobre o cuidado com a ferida ": {
-    judgments: ["Baixo", "Adequado"],
     actions: [
       "Avaliar disposição para aprender.",
       "Avaliar capacidade para executar o autocuidado",
@@ -323,9 +393,8 @@ export const DiagnosisParams = {
       "Reforçar padrão de higiene",
       "Avaliar resposta à instrução sobre ferida",
     ],
-  } as IParamsDiagnosis,
+  },
   "Regime de cuidados com as mamas": {
-    judgments: ["Prejudicado", "Adequado"],
     actions: [
       "Avaliar a disposição para aprender.",
       "Avaliar o conhecimento sobre o cuidado com as mamas.",
@@ -333,9 +402,8 @@ export const DiagnosisParams = {
       "Encorajar o autocuidado",
       "Reforçar padrão de higiene",
     ],
-  } as IParamsDiagnosis,
+  },
   "Capacidade do cuidador para executar os cuidados com recém-nascido": {
-    judgments: ["Baixa", "Adequada"],
     actions: [
       "Avaliar disposição para aprender.",
       "Avaliar o conhecimento sobre os cuidados com o recém-nascido.",
@@ -347,9 +415,8 @@ export const DiagnosisParams = {
       "Reforçar amamentação exclusiva",
       "Instruir acerca de regime terapêutico (consultas, exames, medicações, vacinas do recém-nascido, consultas de puericultura)",
     ],
-  } as IParamsDiagnosis,
+  },
   "Planejamento familiar ": {
-    judgments: ["Prejudicado", "Adequado"],
     actions: [
       "Avaliar conhecimento da paciente sobre planejamento familiar.",
       "Avaliar disposição para aprender",
@@ -360,5 +427,9 @@ export const DiagnosisParams = {
       "Orientar sobre a importância do acompanhamento no período pós-parto (consulta puerperal)",
       "Orientar sobre uso de contraceptivo",
     ],
-  } as IParamsDiagnosis,
-} as { [key: string]: IParamsDiagnosis };
+  },
+} as {
+  [key: string]: {
+    actions: string[]
+  }
+}
