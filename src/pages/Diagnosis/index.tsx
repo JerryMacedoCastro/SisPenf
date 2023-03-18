@@ -106,17 +106,39 @@ const Diagnosis = (): JSX.Element => {
       <Gradient />
       {!isKeyboardShown && <DateHeader title="Diagnósticos/Resultados" />}
       <View style={styles.content}>
-        <KeyboardAvoidingView
-          style={styles.searchContainer}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Text
+            numberOfLines={2}
+            ellipsizeMode={"tail"}
+            style={styles.label}
+          >
+            Diangostico de Jessica
+          </Text>
+        </View>
+        <ScrollView style={{ display: "flex", width: "100%", padding: 10, marginBottom: 20 }}>
+          {Object.keys(DiagnosisJudgments).slice(0, 5).map((focusName) =>
+            cardToDiagnosis(focusName)
+          )}
+        </ScrollView>
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 10
+          }}
         >
-          <Text style={styles.label}>Diangostico de Jessica</Text>
-          <ScrollView style={{ display: "flex", width: "100%", padding: 10, marginBottom: 20 }}>
-            {Object.keys(DiagnosisJudgments).map((focusName) =>
-              cardToDiagnosis(focusName)
-            )}
-          </ScrollView>
-        </KeyboardAvoidingView>
+          <Button
+            style={[{ ...globalStyles.button, marginTop: 0 }, globalStyles.secondaryButton]}
+          >
+            <Text
+              style={{ ...globalStyles.secondaryButtonText, marginLeft: 0 }}
+            >
+              Salvar
+
+            </Text>
+          </Button>
+        </View>
       </View>
     </View>
   );

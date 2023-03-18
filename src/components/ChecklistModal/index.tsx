@@ -22,7 +22,7 @@ const ModalWithChecklist = ({ options, textButton, titleChecklist }: IOptionsChe
                 style={{ ...globalStyles.button, marginTop: 0 }}
                 onPress={() => setModalVisible(true)}
             >
-                <Text style={globalStyles.primaryButtonText}>{textButton}</Text>
+                <Text style={{ ...globalStyles.primaryButtonText, marginLeft: 0 }}>{textButton}</Text>
             </Button>
             <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)}>
                 <Modal.Content width="90%">
@@ -53,7 +53,7 @@ const ModalWithChecklist = ({ options, textButton, titleChecklist }: IOptionsChe
                                 style={[globalStyles.button, globalStyles.secondaryButton]}
                                 onPress={() => setModalVisible(false)}
                             >
-                                <Text style={globalStyles.secondaryButtonText}>Fechar</Text>
+                                <Text style={{ ...globalStyles.secondaryButtonText, marginLeft: 0 }}>Fechar</Text>
                             </Button>
                         </View>
                     </Modal.Footer>

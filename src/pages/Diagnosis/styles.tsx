@@ -20,15 +20,17 @@ export const styles = StyleSheet.create({
     width: "100%",
   },
   searchContainer: {
+    display: "flex",
+    flex: 1,
     width: "100%",
     alignItems: "center",
+    marginTop: 20
   },
   label: {
-    margin: 20,
+    margin: 10,
+    textAlign: "center",
     color: colors.darkGreen,
-    alignSelf: "center",
-    marginLeft: 24,
-    marginBottom: 4,
+    alignSelf: "flex-start",
     fontSize: 18,
     fontFamily: "JosefinSans_700Bold",
   },
