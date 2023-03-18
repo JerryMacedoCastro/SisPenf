@@ -18,8 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 const FindPatient = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
   const [searchPatient, setSearchPatient] = useState("");
-  const [infirmary, setInfirmary] = useState({} as keyValue);
-  const [hospitalBed, setHospitalBed] = useState({} as keyValue);
+  
   const navigation = useNavigation();
   const handleCancel = () => {
     navigation.navigate("Home");
@@ -66,42 +65,6 @@ const FindPatient = (): JSX.Element => {
           </View>
           {!!searchPatient && <PatiensList search={searchPatient} />}
         </KeyboardAvoidingView>
-
-        {/* {!isKeyboardShown && !searchPatient && ( */}
-        {false && (
-          <>
-            <View style={{ paddingVertical: "10%" }}>
-              <Separator text="Ou" />
-            </View>
-            <View style={styles.pickerButtonsContainer}>
-              <PickerInfirmary
-                placeholder="Selecione a enfermaria"
-                items={infirmaries}
-                handleChange={(item) => setInfirmary(item)}
-              />
-              <PickerInfirmary
-                placeholder="Selecione o leito"
-                items={hospitalBeds}
-                handleChange={(item) => setHospitalBed(item)}
-              />
-            </View>
-            <View style={styles.buttonsContainer}>
-              {!!hospitalBed.value && !!infirmary.value && (
-                <RectButton
-                  style={[globalStyles.button, globalStyles.primaryButton]}
-                >
-                  <Text style={globalStyles.primaryButtonText}>Buscar</Text>
-                </RectButton>
-              )}
-              <RectButton
-                style={[globalStyles.button, globalStyles.secondaryButton]}
-                onPress={handleCancel}
-              >
-                <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
-              </RectButton>
-            </View>
-          </>
-        )}
       </View>
     </View>
   );
