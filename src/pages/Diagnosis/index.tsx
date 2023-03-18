@@ -1,19 +1,15 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Feather } from "@expo/vector-icons";
-import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
-import { RectButton, TextInput } from "react-native-gesture-handler";
+import { Text, View } from "react-native";
 import { styles } from "./styles";
 import { VStack, Box, Divider, FlatList, Button, Radio, ScrollView } from "native-base";
 
 import DateHeader from "../../components/DateHeader";
 import Gradient from "../../components/Gradient";
-import PickerSelectChecked from "../../components/PickerSelectChecked";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
-import { colors, globalStyles } from "../../Assets/GlobalStyles";
-import { hospitalBeds, infirmaries } from "../../data";
-import { IParamsDiagnosis, keyValue } from "../../interfaces/index";
+import { globalStyles } from "../../Assets/GlobalStyles";
+import { IParamsDiagnosis } from "../../interfaces/index";
 import { DiagnosisActions, DiagnosisJudgments } from "./diagnosisParams";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import ModalWithChecklist from "../../components/ChecklistModal";
 
 const MemoBox = React.memo(Box);
@@ -21,6 +17,8 @@ const MemoRadio = React.memo(Radio);
 
 const Diagnosis = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
+  const [selectedjudgments, selectedJudgments] = useState<string[]>([]);
+  const [checkedActions, setCheckedActions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const { control, handleSubmit } = useForm<{ judgments: string[], actions: string[] }>();
 
@@ -87,6 +85,8 @@ const Diagnosis = (): JSX.Element => {
               <ModalWithChecklist
                 titleChecklist={`Checklist ${focus}`}
                 textButton="Ações ou Meios"
+                dataCheckedInitial={checkedActions}
+                saveDataCheckedFinal={setCheckedActions}
                 options={DiagnosisActions[focus].actions.map((item) => {
                   return {
                     label: item,
@@ -135,7 +135,6 @@ const Diagnosis = (): JSX.Element => {
               style={{ ...globalStyles.secondaryButtonText, marginLeft: 0 }}
             >
               Salvar
-
             </Text>
           </Button>
         </View>

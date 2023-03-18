@@ -6,14 +6,23 @@ import { View } from 'react-native';
 interface IOptionsCheck {
     textButton: string;
     titleChecklist: string;
+    dataCheckedInitial: string[];
+    saveDataCheckedFinal: React.Dispatch<React.SetStateAction<string[]>>;
     options: {
         label: string;
         value: string;
     }[]
 }
 
-const ModalWithChecklist = ({ options, textButton, titleChecklist }: IOptionsCheck) => {
+const ModalWithChecklist = ({
+    options,
+    textButton,
+    titleChecklist,
+    dataCheckedInitial,
+    saveDataCheckedFinal
+}: IOptionsCheck) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalChecked, setModalChecked] = useState<string[]>(dataCheckedInitial);
 
     return (
         <>
@@ -34,6 +43,18 @@ const ModalWithChecklist = ({ options, textButton, titleChecklist }: IOptionsChe
                                 <View key={item.value}>
                                     <View style={{ width: "95%" }}>
                                         <Checkbox
+                                            defaultIsChecked={modalChecked.includes(item.value)}
+                                            onChange={(checked) => {
+                                                let aux = [...modalChecked];
+
+                                                if (checked)
+                                                    aux.push(item.value)
+                                                else
+                                                    aux = aux.filter(itemAux => itemAux !== item.value);
+
+                                                setModalChecked(aux);
+
+                                            }}
                                             key={item.value}
                                             value={item.value}
                                         >
@@ -53,7 +74,15 @@ const ModalWithChecklist = ({ options, textButton, titleChecklist }: IOptionsChe
                                 style={[globalStyles.button, globalStyles.secondaryButton]}
                                 onPress={() => setModalVisible(false)}
                             >
-                                <Text style={{ ...globalStyles.secondaryButtonText, marginLeft: 0 }}>Fechar</Text>
+                                <Text
+                                    style={{ ...globalStyles.secondaryButtonText, marginLeft: 0 }}
+                                    onPress={() => {
+                                        saveDataCheckedFinal(modalChecked);
+                                        setModalVisible(false);
+                                    }}
+                                >
+                                    Fechar
+                                </Text>
                             </Button>
                         </View>
                     </Modal.Footer>
