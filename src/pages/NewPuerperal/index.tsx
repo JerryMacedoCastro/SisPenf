@@ -37,8 +37,16 @@ import { createPatient } from "../../services/patient.service";
 import { getInfirmaries } from "../../services/infirmary.service";
 import { getHospitalbedByNumber } from "../../services/hospitalBed.service";
 import { addAnswers } from "../../services/answer.service";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../Routes/app.routes";
 
-const NewPuerperal = (): JSX.Element => {
+type Props = StackScreenProps<RootStackParamList, "NewPuerperal">;
+
+const NewPuerperal = ({ route }: Props): JSX.Element => {
+  const { patientId } = route.params;
+  if (patientId) {
+    console.log("entrou");
+  }
   const [infirmary, setInfirmary] = useState<number>(0);
   const [birthDate, setBirthDate] = useState<IFormattedDate>({
     date: new Date(1999, 1, 1),

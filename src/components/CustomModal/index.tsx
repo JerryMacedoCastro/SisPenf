@@ -16,7 +16,7 @@ const index = (props: customModalProps): JSX.Element => {
   const navigation = useNavigation();
   const handleNavigation = () => {
     onClose();
-    navigation.navigate("NewPuerperal");
+    navigation.navigate("NewPuerperal", { patientId: 25 });
   };
   return (
     <Modal animationType="fade" transparent visible={modalVisible}>

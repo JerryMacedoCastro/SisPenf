@@ -13,7 +13,7 @@ import { colors } from "../Assets/GlobalStyles";
 
 export type RootStackParamList = {
   Home: undefined;
-  NewPuerperal: undefined;
+  NewPuerperal: { patientId: number | null };
   FindPatient: undefined;
   PsychologicalNeeds: { patientId: number };
   SpiritualNeeds: { patientId: number };
