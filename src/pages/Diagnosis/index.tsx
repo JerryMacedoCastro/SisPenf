@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import { RectButton, TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
-import { VStack, Box, Divider, FlatList, Button, Radio } from "native-base";
+import { VStack, Box, Divider, FlatList, Button, Radio, ScrollView } from "native-base";
 
 import DateHeader from "../../components/DateHeader";
 import Gradient from "../../components/Gradient";
@@ -14,14 +14,15 @@ import { hospitalBeds, infirmaries } from "../../data";
 import { IParamsDiagnosis, keyValue } from "../../interfaces/index";
 import { DiagnosisActions, DiagnosisJudgments } from "./diagnosisParams";
 import { Controller, useForm } from "react-hook-form";
+import ModalWithChecklist from "../../components/ChecklistModal";
+
+const MemoBox = React.memo(Box);
+const MemoRadio = React.memo(Radio);
 
 const Diagnosis = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
   const [loading, setLoading] = useState(false);
   const { control, handleSubmit } = useForm<{ judgments: string[], actions: string[] }>();
-  const [dataJudgments, setDataJudgments] = useState<{
-    [x: string]: IParamsDiagnosis;
-  }>();
 
   const generateInitialDataJudgments = () => {
     const aux: {
@@ -37,17 +38,17 @@ const Diagnosis = (): JSX.Element => {
     return aux;
   };
 
-  useEffect(() => {
-    setDataJudgments(generateInitialDataJudgments());
+  const dataJudgments = useMemo(() => {
+    return generateInitialDataJudgments();
   }, []);
 
-  const cardToDiagnosis = (focus: string) => {
+  const cardToDiagnosis = useCallback((focus: string) => {
     const params = DiagnosisJudgments[focus];
 
     if (params && dataJudgments) {
       const { judgments } = params;
       return (
-        <Box
+        <MemoBox
           borderWidth="1"
           borderRadius="md"
           my="2"
@@ -56,8 +57,10 @@ const Diagnosis = (): JSX.Element => {
           width="100%"
         >
           <VStack space="4" divider={<Divider />} width="100%">
-            <Box px="4" pt="4" fontWeight={"bold"}>
-              {focus}
+            <Box px="4" pt="4">
+              <Text style={{ fontWeight: "bold", }}>
+                {focus.toUpperCase()}
+              </Text>
             </Box>
             <Box px="4">
               <VStack>
@@ -67,9 +70,9 @@ const Diagnosis = (): JSX.Element => {
                 >
                   {judgments.map((item, index) => {
                     return (
-                      <Radio value={item} my={1} key={focus + item + index}>
+                      <MemoRadio value={item} my={1} key={focus + item + index}>
                         {item}
-                      </Radio>
+                      </MemoRadio>
                     );
                   })}
                 </Radio.Group>
@@ -81,21 +84,22 @@ const Diagnosis = (): JSX.Element => {
               width="100%"
               style={{ justifyContent: "center", alignItems: "center" }}
             >
-            <PickerSelectChecked
-                textButton="Ações ou meios"
+              <ModalWithChecklist
+                titleChecklist={`Checklist ${focus}`}
+                textButton="Ações ou Meios"
                 options={DiagnosisActions[focus].actions.map((item) => {
                   return {
-                    description: item
+                    label: item,
+                    value: item
                   }
                 })}
-                placeholder={"Ações ou meios"}
-              /> 
+              />
             </Box>
           </VStack>
-        </Box>
+        </MemoBox>
       );
     } else return <Text> Não encontrado </Text>;
-  };
+  }, [DiagnosisActions, DiagnosisJudgments, dataJudgments]);
 
   return (
     <View style={styles.container}>
@@ -107,18 +111,11 @@ const Diagnosis = (): JSX.Element => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <Text style={styles.label}>Diangostico de Jessica</Text>
-          <View style={{ display: "flex", width: "100%", padding: 10 }}>
-            <FlatList
-              data={Object.keys(DiagnosisJudgments)}
-              renderItem={(item) => {
-                const focusName = item.item;
-                return cardToDiagnosis(focusName);
-              }}
-              keyExtractor={(item, index) => item + index}
-              maxToRenderPerBatch={3}
-              initialNumToRender={2}
-            />
-          </View>
+          <ScrollView style={{ display: "flex", width: "100%", padding: 10, marginBottom: 20 }}>
+            {Object.keys(DiagnosisJudgments).map((focusName) =>
+              cardToDiagnosis(focusName)
+            )}
+          </ScrollView>
         </KeyboardAvoidingView>
       </View>
     </View>
