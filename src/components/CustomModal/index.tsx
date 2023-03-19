@@ -8,11 +8,20 @@ interface customModalProps {
   modalVisible: boolean;
   firstButtonText: string;
   secondButtonText: string;
+  actionFirstButton: VoidFunction;
+  actionSecondButton: VoidFunction;
   onClose: () => void;
 }
 
 const index = (props: customModalProps): JSX.Element => {
-  const { modalVisible, onClose, firstButtonText, secondButtonText } = props;
+  const {
+    modalVisible,
+    firstButtonText,
+    secondButtonText,
+    actionFirstButton,
+    actionSecondButton,
+    onClose,
+  } = props;
   const navigation = useNavigation();
   const handleNavigation = () => {
     onClose();
@@ -24,7 +33,7 @@ const index = (props: customModalProps): JSX.Element => {
         <View style={styles.modalView}>
           <Pressable
             style={[globalStyles.button, globalStyles.secondaryButton]}
-            onPress={handleNavigation}
+            onPress={actionFirstButton || handleNavigation}
           >
             <Text style={globalStyles.secondaryButtonText}>
               {firstButtonText}
@@ -32,7 +41,7 @@ const index = (props: customModalProps): JSX.Element => {
           </Pressable>
           <Pressable
             style={[globalStyles.button, globalStyles.secondaryButton]}
-            onPress={onClose}
+            onPress={actionSecondButton || onClose}
           >
             <Text style={globalStyles.secondaryButtonText}>
               {secondButtonText}
