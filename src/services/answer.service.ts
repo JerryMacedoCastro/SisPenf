@@ -1,3 +1,4 @@
+import { IAnswer, IPatient } from "../interfaces";
 import api from "./api";
 const headers = {
   "Content-type": "application/json;charset=UTF-8",
@@ -74,5 +75,35 @@ export async function addAnswers(
     return result;
   } catch (error) {
     throw new Error("Error on answerService.addAnswers: " + error.message);
+  }
+}
+
+export async function getAnswers(
+  patientId: number,
+  questiontype: number
+): Promise<IAnswer[]> {
+  try {
+    const { baseURL } = api;
+    const response = await fetch(
+      `${baseURL}/answer/${patientId}/${questiontype}`,
+      {
+        method: "GET",
+        headers: headers,
+        mode: "cors",
+      }
+    );
+
+    const result: IAnswer[] = await response.json();
+    let answers: IAnswer[] = [];
+    result.forEach((answer) => {
+      answers = [
+        ...answers,
+        { ...answer, description: answer.question.description },
+      ];
+    });
+
+    return answers;
+  } catch (error) {
+    throw new Error("Error on answerService.getAnswer: " + error.message);
   }
 }

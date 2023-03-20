@@ -12,16 +12,15 @@ interface FieldsetProps {
   label: string;
   value: string;
   hospitalBed: number;
+  patientId: number;
 }
 
-const index = (props: FieldsetProps): JSX.Element => {
+const Fieldset = (props: FieldsetProps): JSX.Element => {
   const navigation = useNavigation();
 
   const handlePress = async () => {
     try {
-      await api.put(`/hospitalbed/${props.hospitalBed}`);
-      Alert.alert("Alta Médica", "Paciente liberada");
-      navigation.navigate("Home");
+      navigation.navigate("NewPuerperal", { patientId: props.patientId });
     } catch (error) {
       Alert.alert("Erro de conexão", "Verifique sua conexão com a internet");
     }
@@ -39,4 +38,4 @@ const index = (props: FieldsetProps): JSX.Element => {
   );
 };
 
-export default index;
+export default Fieldset;

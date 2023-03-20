@@ -46,7 +46,13 @@ export interface IHospitalBedResponse {
     isActive: boolean;
   };
 }
-
+export interface IPatient {
+  id: number;
+  name: string;
+  birthDate: Date;
+  admissionDate: Date;
+  isActive: boolean;
+}
 export interface IPatientResponse {
   id: number;
   name: string;
@@ -106,6 +112,21 @@ export interface IQuestionResponse {
 export interface IFormattedDate {
   date: Date;
   formattedDate: string;
+}
+
+export interface IAnswer {
+  id: number;
+  comment: string;
+  createdAt: Date;
+  patient: IPatient;
+  description: string;
+  question: {
+    id: number;
+    description: string;
+    allowComment: boolean;
+  };
+  selectedOptions: { id: number; description: string }[];
+  selectedDiagnoses: { id: number; description: string }[];
 }
 
 export interface INewPuerperalForm {

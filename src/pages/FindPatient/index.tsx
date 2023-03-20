@@ -1,28 +1,18 @@
 import React, { useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
-import { RectButton, TextInput } from "react-native-gesture-handler";
+import { TextInput } from "react-native-gesture-handler";
 import { styles } from "./styles";
 
 import DateHeader from "../../components/DateHeader";
 import Gradient from "../../components/Gradient";
-import Separator from "../../components/Separator";
-import PickerInfirmary from "../../components/Picker";
 import PatiensList from "../../components/PatientsList";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
-import { colors, globalStyles } from "../../Assets/GlobalStyles";
-import { hospitalBeds, infirmaries } from "../../data";
-import { keyValue } from "../../interfaces/index";
-import { useNavigation } from "@react-navigation/native";
+import { colors } from "../../Assets/GlobalStyles";
 
 const FindPatient = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
   const [searchPatient, setSearchPatient] = useState("");
-  
-  const navigation = useNavigation();
-  const handleCancel = () => {
-    navigation.navigate("Home");
-  };
 
   const handleChangeInput = (value: string) => {
     setSearchPatient(value);

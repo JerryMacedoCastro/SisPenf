@@ -53,7 +53,23 @@ export async function getAllPatients(): Promise<IPatientResponse[]> {
 
     return patients;
   } catch (error) {
-    throw new Error("Error on patientService.createPatient: " + error.message);
+    throw new Error("Error on patientService.getAllPatients: " + error.message);
   }
+}
 
+export async function getPatientById(id: number): Promise<IPatientResponse> {
+  try {
+    const { baseURL } = api;
+    const response = await fetch(`${baseURL}/patient/${id}`, {
+      method: "GET",
+      headers: headers,
+      mode: "cors",
+    });
+
+    const patient: IPatientResponse[] = await response.json();
+
+    return patient[0];
+  } catch (error) {
+    throw new Error("Error on patientService.getPatient: " + error.message);
+  }
 }

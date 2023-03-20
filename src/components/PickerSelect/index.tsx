@@ -19,7 +19,8 @@ type Props = ISelectProps & {
   addInfo?: boolean;
   modalTitle?: string;
   onClickSave?: (value: string) => void;
-  infoValue?: string;
+  infoValue: string;
+  setValue: (value: string) => void;
 };
 
 export default function CustomSelect({
@@ -27,10 +28,12 @@ export default function CustomSelect({
   modalTitle,
   onClickSave,
   options,
+  infoValue,
+  setValue,
   ...rest
 }: Props): JSX.Element {
   const [showModal, setShowModal] = React.useState(false);
-  const [value, setValue] = React.useState("");
+
   return (
     <FormControl width={"full"}>
       <HStack space={2}>
@@ -78,7 +81,7 @@ export default function CustomSelect({
               <FormControl>
                 <FormControl.Label>Adicionar informação</FormControl.Label>
                 <Input
-                  value={value}
+                  value={infoValue}
                   onChange={(event) => {
                     setValue(event.nativeEvent.text);
                   }}
@@ -98,7 +101,7 @@ export default function CustomSelect({
                 </Button>
                 <Button
                   onPress={() => {
-                    if (onClickSave) onClickSave(value);
+                    if (onClickSave) onClickSave(infoValue);
                     setShowModal(false);
                   }}
                   backgroundColor={"green.900"}

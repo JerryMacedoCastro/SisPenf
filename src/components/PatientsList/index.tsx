@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Fieldset from "../Fieldset";
-// import { patients } from "../../data";
 import { styles } from "./styles";
-import api from "../../services/api";
 import { IPatientResponse } from "../../interfaces";
 import { getAllPatients } from "../../services/patient.service";
 
@@ -13,7 +11,7 @@ interface IPatientListProps {
   infirmary?: number;
 }
 
-const index = ({ search }: IPatientListProps): JSX.Element => {
+const PatientList = ({ search }: IPatientListProps): JSX.Element => {
   const [filteredList, setFilteredList] = useState<IPatientResponse[]>([]);
   const [hasNotFound, setHasNotFound] = useState(false);
 
@@ -46,13 +44,14 @@ const index = ({ search }: IPatientListProps): JSX.Element => {
         }}
       >
         {hasNotFound && <Text>Nenhum resultado encontrado</Text>}
-        {filteredList.map((patient, index) => {
+        {filteredList.map((patient) => {
           return (
             <Fieldset
-              key={index}
+              key={patient.id}
               value={patient.name}
               label={`${patient.hospitalBed.infirmary.description} - ${patient.hospitalBed.description}`}
               hospitalBed={patient.hospitalBed.id}
+              patientId={patient.id}
             />
           );
         })}
@@ -60,4 +59,4 @@ const index = ({ search }: IPatientListProps): JSX.Element => {
     </View>
   );
 };
-export default index;
+export default PatientList;

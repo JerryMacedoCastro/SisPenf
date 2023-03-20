@@ -29,14 +29,15 @@ import {
   IPatientResponse,
   INewPuerperalForm,
   IFormattedDate,
+  IAnswer,
 } from "../../interfaces";
 import Gradient from "../../components/Gradient";
 import { useAuth } from "../../contexts/auth";
 import PickerSelect from "../../components/PickerSelect";
-import { createPatient } from "../../services/patient.service";
+import { createPatient, getPatientById } from "../../services/patient.service";
 import { getInfirmaries } from "../../services/infirmary.service";
 import { getHospitalbedByNumber } from "../../services/hospitalBed.service";
-import { addAnswers } from "../../services/answer.service";
+import { addAnswers, getAnswers } from "../../services/answer.service";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../Routes/app.routes";
 
@@ -44,9 +45,7 @@ type Props = StackScreenProps<RootStackParamList, "NewPuerperal">;
 
 const NewPuerperal = ({ route }: Props): JSX.Element => {
   const { patientId } = route.params;
-  if (patientId) {
-    console.log("entrou");
-  }
+  const [patient, setPatient] = useState<IPatientResponse | null>(null);
   const [infirmary, setInfirmary] = useState<number>(0);
   const [birthDate, setBirthDate] = useState<IFormattedDate>({
     date: new Date(1999, 1, 1),
@@ -56,7 +55,6 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
     date: new Date(),
     formattedDate: "",
   });
-
   const [showBirthDateModal, setShowBirthDateModal] = useState(false);
   const [showAdmissionDateModal, setShowAdmissionDateModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -68,8 +66,48 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
   const [beds, setBeds] = useState<keyValue[]>([]);
   const isKeyboardShown = useKeyboardControll();
   const navigation = useNavigation();
+  const [answers, setAnswers] = useState<INewPuerperalForm>({
+    "Data de admissão": "",
+    "Data de nascimento": "",
+    "Diagnóstico médico": "",
+    "Dieta prescrita": "",
+    Nome: "",
+  });
   const { control, handleSubmit } = useForm<INewPuerperalForm>();
   const { user } = useAuth();
+
+  console.log(answers);
+
+  const getPatientInfo = async (id: number) => {
+    const patient = await getPatientById(id);
+    setPatient(patient);
+    const answersArray = await getAnswers(id, 2);
+
+    answersArray.forEach((element) => {
+      if (element.question.description === "Dieta prescrita") {
+        setAnswers((prevState) => {
+          return {
+            ...prevState,
+            "Dieta prescrita": element.selectedOptions[0].description,
+          };
+        });
+        setDietComment(element.comment);
+      }
+      if (element.question.description === "Diagnóstico médico") {
+        setAnswers((prevState) => {
+          return {
+            ...prevState,
+            "Diagnóstico médico": element.selectedOptions[0].description,
+          };
+        });
+        setDiagnosticComment(element.comment);
+      }
+    });
+  };
+
+  if (patientId && !patient) {
+    getPatientInfo(patientId);
+  }
 
   async function fetchInfirmariesData() {
     let keyValueInfirmaries: keyValue[] = [];
@@ -206,6 +244,15 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    if (patient) {
+      handleChangeInfirmary(patient.hospitalBed.infirmary.id.toString());
+      setHospitalBed(patient.hospitalBed.id);
+      onChangeBirthDate(new Date(patient.birthDate));
+      onChangeAdmissionDate(new Date(patient.admissionDate));
+    }
+  }, [patient]);
+
   return (
     <>
       {!isKeyboardShown && <DateHeader title="Admitir puérpera" />}
@@ -217,6 +264,7 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
               placeholder="Enfermaria"
               items={infirmaries}
               onValueChange={async (item) => await handleChangeInfirmary(item)}
+              defaultValue={`Enfermaria 10 ${infirmary}`}
             />
           ) : (
             <ActivityIndicator size="small" color={colors.darkGreen} />
@@ -261,6 +309,7 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
                     placeholder={"Nome"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={patient?.name}
                   />
                 )}
               />
@@ -311,12 +360,14 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
                       { description: "Pós-parto imediato (cesariana)" },
                       { description: "Pós-parto vaginal imediato" },
                     ]}
+                    selectedValue={answers["Diagnóstico médico"]}
                     placeholder={"Diagnóstico Médico"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Diagnóstico médico"
                     onClickSave={(value) => setDiagnosticComment(value)}
                     infoValue={diagnosticComment}
+                    setValue={(value) => setDiagnosticComment(value)}
                   />
                 )}
               />
@@ -336,12 +387,14 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
                       { description: "Branda" },
                       { description: "Líquida" },
                     ]}
+                    selectedValue={answers["Dieta prescrita"]}
                     placeholder={"Dieta prescrita"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Dieta prescrita"
                     onClickSave={(value) => setDietComment(value)}
                     infoValue={dietComment}
+                    setValue={(value) => setDietComment(value)}
                   />
                 )}
               />
