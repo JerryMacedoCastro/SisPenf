@@ -3,10 +3,21 @@ const headers = {
   "Content-type": "application/json;charset=UTF-8",
 };
 
-interface IQuestionsWithAnswer {
+export interface IQuestionsWithAnswer {
   question: string;
   comment?: string | number;
   option?: string;
+}
+
+export interface IQuestionsWithAnswerDiagnoses {
+  question: string;
+  comment?: string | number;
+  option?: {
+    description: string;
+  };
+  diagnoses?: {
+    description: string;
+  }[];
 }
 
 export async function addAnswer(
@@ -74,5 +85,40 @@ export async function addAnswers(
     return result;
   } catch (error) {
     throw new Error("Error on answerService.addAnswers: " + error.message);
+  }
+}
+
+export async function addAnswerDiagnostic(
+  userId: number,
+  patientId: number,
+  answeredQuestions: IQuestionsWithAnswerDiagnoses
+): Promise<void> {
+  try {
+    const data = {
+      userId,
+      patientId,
+      options: answeredQuestions.option,
+      diagnoses: answeredQuestions.diagnoses,
+    };
+
+    console.log(data);
+    const json = JSON.stringify(data);
+    const { baseURL } = api;
+    const response = await fetch(`${baseURL}/answer`, {
+      method: "POST",
+      headers: headers,
+      mode: "cors",
+      body: json,
+    });
+
+    if (!response.ok) {
+      const message = await response.json();
+      console.log(response);
+      throw new Error(message);
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw new Error("Error on answerService.answer: " + error.message);
   }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Fieldset from "../Fieldset";
 // import { patients } from "../../data";
@@ -16,8 +16,10 @@ interface IPatientListProps {
 const index = ({ search }: IPatientListProps): JSX.Element => {
   const [filteredList, setFilteredList] = useState<IPatientResponse[]>([]);
   const [hasNotFound, setHasNotFound] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSearch = async () => {
+    setLoading(true);
     if (search) {
       const patients = await getAllPatients();
       const list = patients.filter((patient) => {
@@ -28,7 +30,9 @@ const index = ({ search }: IPatientListProps): JSX.Element => {
       });
       list.length > 0 ? setHasNotFound(false) : setHasNotFound(true);
       setFilteredList(list);
+      setLoading(false);
     } else {
+      setLoading(false);
       setFilteredList([]);
     }
   };
@@ -46,6 +50,7 @@ const index = ({ search }: IPatientListProps): JSX.Element => {
         }}
       >
         {hasNotFound && <Text>Nenhum resultado encontrado</Text>}
+        {loading && <ActivityIndicator size="large" />}
         {filteredList.map((patient, index) => {
           return (
             <Fieldset
@@ -53,6 +58,7 @@ const index = ({ search }: IPatientListProps): JSX.Element => {
               value={patient.name}
               label={`${patient.hospitalBed.infirmary.description} - ${patient.hospitalBed.description}`}
               hospitalBed={patient.hospitalBed.id}
+              patient={patient}
             />
           );
         })}

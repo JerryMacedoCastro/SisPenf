@@ -7,11 +7,13 @@ import { colors } from "../../Assets/GlobalStyles";
 import { RectButton } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import CustomModal from "../../components/CustomModal";
+import { IPatientResponse } from "../../interfaces";
 
 interface FieldsetProps {
   label: string;
   value: string;
   hospitalBed: number;
+  patient: IPatientResponse;
 }
 
 const index = (props: FieldsetProps): JSX.Element => {
@@ -22,22 +24,12 @@ const index = (props: FieldsetProps): JSX.Element => {
     setModalIsVisible(!modalIsVisible);
   };
 
-  // const handlePress = async () => {
-  //   try {
-  //     await api.put(`/hospitalbed/${props.hospitalBed}`);
-  //     Alert.alert("Alta Médica", "Paciente liberada");
-  //     navigation.navigate("Home");
-  //   } catch (error) {
-  //     Alert.alert("Erro de conexão", "Verifique sua conexão com a internet");
-  //   }
-  // };
-
   const goEditPuerperal = () => {
     navigation.navigate("NewPuerperal");
   };
 
   const goDiagnosis = () => {
-    navigation.navigate("Diagnosis");
+    navigation.navigate("Diagnosis", props.patient);
   };
 
   const { label, value } = props;

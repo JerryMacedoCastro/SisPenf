@@ -45,15 +45,14 @@ const ModalWithChecklist = ({
                                         <Checkbox
                                             defaultIsChecked={modalChecked.includes(item.value)}
                                             onChange={(checked) => {
-                                                let aux = [...modalChecked];
+                                                setModalChecked((aux) => {
+                                                    if (checked)
+                                                        aux.push(item.value)
+                                                    else
+                                                        aux = aux.filter(itemAux => itemAux !== item.value);
 
-                                                if (checked)
-                                                    aux.push(item.value)
-                                                else
-                                                    aux = aux.filter(itemAux => itemAux !== item.value);
-
-                                                setModalChecked(aux);
-
+                                                    return aux;
+                                                })
                                             }}
                                             key={item.value}
                                             value={item.value}

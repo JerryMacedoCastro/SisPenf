@@ -12,6 +12,7 @@ import PartOne from "../pages/PhysicalExam/PartOne";
 import PartTwo from "../pages/PhysicalExam/PartTwo";
 import { colors } from "../Assets/GlobalStyles";
 import Diagnosis from "../pages/Diagnosis";
+import { IPatientResponse } from "../interfaces";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -23,7 +24,7 @@ export type RootStackParamList = {
   ChildbirthData: { patientId: number };
   PartOne: undefined;
   PartTwo: undefined;
-  Diagnosis: undefined;
+  Diagnosis: IPatientResponse;
 };
 
 const AppRoutes = (): JSX.Element => {
