@@ -1,7 +1,5 @@
-import { IParamsDiagnosis } from "../../interfaces";
-
 export const DiagnosisJudgments = {
-  "Edema Periférico": {
+  "Edema periférico": {
     judgments: ["Presente", "Ausente"],
   },
   "Amamentação exclusiva": {
@@ -23,10 +21,10 @@ export const DiagnosisJudgments = {
     judgments: ["Eficaz", "Prejudicada", "Ausente"],
   },
   "Exaustão no período pós-parto": {
-    judgments: ["Presente ", "Ausente"],
+    judgments: ["Presente", "Ausente"],
   },
   "Fadiga no período pós-parto": {
-    judgments: ["Presente ", "Ausente"],
+    judgments: ["Presente", "Ausente"],
     actions: [
       "Encorajar repouso após o parto",
       "Explicar à paciente a causa da exaustão pós-parto.",
@@ -90,12 +88,12 @@ export const DiagnosisJudgments = {
   },
 } as {
   [key: string]: {
-    judgments: string[]
-  }
+    judgments: string[];
+  };
 };
 
 export const DiagnosisActions = {
-  "Edema Periférico": {
+  "Edema periférico": {
     actions: [
       "Explicar causas do edema",
       "Avaliar grau de edema",
@@ -131,7 +129,7 @@ export const DiagnosisActions = {
       "Supervisionar a posição da mãe e do recém-nascido durante a amamentação",
       "Orientar técnicas de posicionamento para o recém-nascido durante a amamentação.",
       "Demonstrar técnica de massagem e ordenha das mamas",
-      "Elogiar desempenho da puérpera.                                                                                                                                                                                                                         ",
+      "Elogiar desempenho da puérpera.",
       "Promover técnica de contato pele-a-pele",
       "Orientar a mãe sobre a satisfação das necessidades nutricionais do recém-nascido",
     ],
@@ -156,7 +154,7 @@ export const DiagnosisActions = {
   },
   "Eliminação urinária": {
     actions: [
-      "Estimular micção positiva ",
+      "Estimular micção positiva",
       "Identificar sinais e sintomas de infecção do trato urinário",
       "Cateterizar bexiga urinária, conforme apropriado",
       "Assegurar inserção correta do cateter urinário",
@@ -187,7 +185,7 @@ export const DiagnosisActions = {
   },
   Deambulação: {
     actions: [
-      "Supervisionar deambulação da cliente ",
+      "Supervisionar deambulação da cliente",
       "Estimular mobilidade na cama",
       "Motivar deambulação no período pós-parto",
       "Orientar técnica de deambulação",
@@ -290,7 +288,7 @@ export const DiagnosisActions = {
     actions: [
       "Avaliar cicatrização da ferida",
       "Orientar sobre cicatrização da ferida",
-      "Orientar sobre cuidados com a ferida ",
+      "Orientar sobre cuidados com a ferida",
       "Educar sobre cuidados perineais",
       "Monitorar sinais e sintomas de infecção.",
       "Orientar quanto à importância da higiene corporal e íntima.",
@@ -430,6 +428,6 @@ export const DiagnosisActions = {
   },
 } as {
   [key: string]: {
-    actions: string[]
-  }
-}
+    actions: string[];
+  };
+};

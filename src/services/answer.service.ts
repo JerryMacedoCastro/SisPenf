@@ -1,9 +1,10 @@
+import { IAnswer } from "../interfaces";
 import api from "./api";
 const headers = {
   "Content-type": "application/json;charset=UTF-8",
 };
 
-export interface IQuestionsWithAnswer {
+interface IQuestionsWithAnswer {
   question: string;
   comment?: string | number;
   option?: string;
@@ -14,7 +15,7 @@ export interface IQuestionsWithAnswerDiagnoses {
   comment?: string | number;
   option?: {
     description: string;
-  };
+  }[];
   diagnoses?: {
     description: string;
   }[];
@@ -88,6 +89,36 @@ export async function addAnswers(
   }
 }
 
+export async function getAnswers(
+  patientId: number,
+  questiontype: number
+): Promise<IAnswer[]> {
+  try {
+    const { baseURL } = api;
+    const response = await fetch(
+      `${baseURL}/answer/${patientId}/${questiontype}`,
+      {
+        method: "GET",
+        headers: headers,
+        mode: "cors",
+      }
+    );
+
+    const result: IAnswer[] = await response.json();
+    let answers: IAnswer[] = [];
+    result.forEach((answer) => {
+      answers = [
+        ...answers,
+        { ...answer, description: answer.question.description },
+      ];
+    });
+
+    return answers;
+  } catch (error) {
+    throw new Error("Error on answerService.getAnswer: " + error.message);
+  }
+}
+
 export async function addAnswerDiagnostic(
   userId: number,
   patientId: number,
@@ -97,6 +128,7 @@ export async function addAnswerDiagnostic(
     const data = {
       userId,
       patientId,
+      question: answeredQuestions.question,
       options: answeredQuestions.option,
       diagnoses: answeredQuestions.diagnoses,
     };

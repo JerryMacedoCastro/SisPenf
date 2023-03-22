@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
 import { styles } from "./styles";
 import { VStack, Box, Divider, Button, Radio, ScrollView } from "native-base";
@@ -9,14 +9,12 @@ import useKeyboardControll from "../../hooks/useKeyboardControll";
 import { globalStyles } from "../../Assets/GlobalStyles";
 import { IParamsDiagnosis, IPatientResponse } from "../../interfaces/index";
 import { DiagnosisActions, DiagnosisJudgments } from "./diagnosisParams";
-import { useForm } from "react-hook-form";
 import ModalWithChecklist from "../../components/ChecklistModal";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useAuth } from "../../contexts/auth";
 import {
   addAnswerDiagnostic,
-  addAnswers,
-  IQuestionsWithAnswer,
+  getAnswers,
   IQuestionsWithAnswerDiagnoses,
 } from "../../services/answer.service";
 
@@ -34,7 +32,7 @@ const Diagnosis = (): JSX.Element => {
   const [checkedActions, setCheckedActions] = useState<{
     [x: string]: string[];
   }>({});
-  const [loading, setLoading] = useState(false);
+  const [loadingInitial, setLoadingInitial] = useState(true);
   const { user } = useAuth();
 
   const generateInitialDataJudgments = () => {
@@ -57,15 +55,16 @@ const Diagnosis = (): JSX.Element => {
 
   const saveData = async () => {
     const actionsFocus = Object.keys(selectedjudgments).slice(0, 1);
-    setLoading(true);
 
     await actionsFocus.forEach(async (nameFocus) => {
       try {
         const answeredQuestions = {
           question: nameFocus,
-          option: {
-            description: selectedjudgments[nameFocus],
-          },
+          option: [
+            {
+              description: selectedjudgments[nameFocus],
+            },
+          ],
           diagnoses:
             checkedActions[nameFocus]?.map((description) => {
               return {
@@ -88,9 +87,36 @@ const Diagnosis = (): JSX.Element => {
         throw new Error("Erro ao Salvar Diagnosticos");
       }
     });
-
-    setLoading(false);
   };
+
+  const getPatientDiagnosesInfo = async () => {
+    const answersArray = await getAnswers(patient.id, 7);
+    const auxJudgments: {
+      [x: string]: string;
+    } = {};
+    const auxActions: {
+      [x: string]: string[];
+    } = {};
+
+    answersArray.forEach((element) => {
+      auxJudgments[element.question.description] =
+        element.selectedOptions[0].description;
+
+      auxActions[element.question.description] = element.selectedDiagnoses.map(
+        (item) => item.description
+      );
+    });
+
+    console.log("teste", auxJudgments, auxActions);
+
+    setSelectedJudgments(auxJudgments);
+    setCheckedActions(auxActions);
+    setLoadingInitial(false);
+  };
+
+  useEffect(() => {
+    if (loadingInitial) getPatientDiagnosesInfo();
+  }, [loadingInitial]);
 
   const cardToDiagnosis = useCallback(
     (focus: string) => {
@@ -168,8 +194,12 @@ const Diagnosis = (): JSX.Element => {
         );
       } else return <Text> Não encontrado </Text>;
     },
-    [DiagnosisActions, DiagnosisJudgments, dataJudgments]
+    [selectedjudgments, checkedActions, dataJudgments]
   );
+
+  if (loadingInitial) {
+    return <ActivityIndicator size="large" />;
+  }
 
   return (
     <View style={styles.container}>
@@ -201,23 +231,19 @@ const Diagnosis = (): JSX.Element => {
             padding: 10,
           }}
         >
-          {loading ? (
-            <ActivityIndicator size="large" />
-          ) : (
-            <Button
-              style={[
-                { ...globalStyles.button, marginTop: 0 },
-                globalStyles.secondaryButton,
-              ]}
-              onPress={saveData}
+          <Button
+            style={[
+              { ...globalStyles.button, marginTop: 0 },
+              globalStyles.secondaryButton,
+            ]}
+            onPress={saveData}
+          >
+            <Text
+              style={{ ...globalStyles.secondaryButtonText, marginLeft: 0 }}
             >
-              <Text
-                style={{ ...globalStyles.secondaryButtonText, marginLeft: 0 }}
-              >
-                Salvar
-              </Text>
-            </Button>
-          )}
+              Salvar
+            </Text>
+          </Button>
         </View>
       </View>
     </View>
