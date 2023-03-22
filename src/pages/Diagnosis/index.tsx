@@ -59,6 +59,12 @@ const Diagnosis = (): JSX.Element => {
 
   const saveData = async () => {
     const actionsFocus = Object.keys(selectedjudgments);
+    if (actionsFocus.length <= 27) {
+      // 27 is number of judgments
+      Alert.alert("Oops !", "Selecione todos os julgamentos");
+      return;
+    }
+
     setOpenModalLoading(true);
     setMessage("Enviando 0%");
 
@@ -93,6 +99,7 @@ const Diagnosis = (): JSX.Element => {
       } catch (err) {
         console.log(err.message);
         Alert.alert("Erro !", "Erro");
+        setOpenModalLoading(false);
         throw new Error("Erro ao Salvar Diagnosticos");
       }
     }
