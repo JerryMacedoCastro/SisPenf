@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
-import { NativeBaseProvider, Text } from "native-base";
+import { NativeBaseProvider } from "native-base";
 import { useAuth } from "../contexts/auth";
 import AppRoutes from "./app.routes";
 import AuthRoutes from "./auth.routes";

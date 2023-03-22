@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
-    marginTop: 20
+    marginTop: 20,
   },
   label: {
     margin: 10,

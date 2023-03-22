@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Alert, Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { styles } from "./styles";
 import { VStack, Box, Divider, Button, Radio, ScrollView } from "native-base";
 
@@ -95,7 +95,8 @@ const Diagnosis = (): JSX.Element => {
           ).then(() => {
             progress++;
             const percentage = Math.ceil(
-              ((progress + 1) / actionsFocus.length) * 100);
+              ((progress + 1) / actionsFocus.length) * 100
+            );
 
             console.log("Progresso " + progress + " indice " + index);
 
@@ -260,11 +261,11 @@ const Diagnosis = (): JSX.Element => {
         >
           {loadingInitial
             ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => {
-              return <SkeletonDiagnostic key={"Skeleton" + item} />;
-            })
+                return <SkeletonDiagnostic key={"Skeleton" + item} />;
+              })
             : Object.keys(DiagnosisJudgments).map((focusName) =>
-              cardToDiagnosis(focusName)
-            )}
+                cardToDiagnosis(focusName)
+              )}
         </ScrollView>
         <View
           style={{

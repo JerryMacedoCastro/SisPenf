@@ -16,7 +16,7 @@ import { IPsycologicalNeedsForm } from "../../../interfaces";
 import { useAuth } from "../../../contexts/auth";
 import { Controller, useForm } from "react-hook-form";
 import PickerSelect from "../../../components/PickerSelect";
-import { Button, Text } from "native-base";
+import { Button, Text, VStack } from "native-base";
 import { addAnswers } from "../../../services/answer.service";
 import CommonInput from "../../../components/Input/CommonInput";
 
@@ -36,7 +36,7 @@ const index = ({ route }: Props): JSX.Element => {
       const answeredQuestions = [
         {
           question: "Estado civil",
-          comment: data["Estado civil"],
+          option: data["Estado civil"],
         },
         {
           question: "Falta de apoio social",
@@ -44,21 +44,21 @@ const index = ({ route }: Props): JSX.Element => {
         },
         {
           question: "Escolaridade",
-          comment: data.Escolaridade,
+          option: data.Escolaridade,
         },
         {
           question: "Falta de conhecimento sobre a amamentação",
-          comment: data["Falta de conhecimento sobre a amamentação"],
+          option: data["Falta de conhecimento sobre a amamentação"],
         },
         {
           question: "Falta de conhecimento sobre a ordenha do leite materno",
-          comment:
+          option:
             data["Falta de conhecimento sobre a ordenha do leite materno"],
         },
         {
           question:
             "Falta de conhecimento sobre a situação clínica do recém-nascido",
-          comment:
+          option:
             data[
               "Falta de conhecimento sobre a situação clínica do recém-nascido"
             ],
@@ -66,24 +66,24 @@ const index = ({ route }: Props): JSX.Element => {
         {
           question:
             "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica",
-          comment:
+          option:
             data[
               "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica"
             ],
         },
         {
           question: "Falta de conhecimento sobre o autocuidado com as mamas",
-          comment:
+          option:
             data["Falta de conhecimento sobre o autocuidado com as mamas"],
         },
         {
           question: "Falta de conhecimento sobre os cuidados com recém-nascido",
-          comment:
+          option:
             data["Falta de conhecimento sobre os cuidados com recém-nascido"],
         },
         {
           question: "Falta de conhecimento sobre o planejamento familiar",
-          comment: data["Falta de conhecimento sobre o planejamento familiar"],
+          option: data["Falta de conhecimento sobre o planejamento familiar"],
         },
         {
           question: "Comunicação verbal prejudicada",
@@ -91,7 +91,7 @@ const index = ({ route }: Props): JSX.Element => {
         },
         {
           question: "Ansiedade",
-          comment: data.Ansiedade,
+          option: data.Ansiedade,
         },
         {
           question: "Atitude familiar conflitante",
@@ -99,15 +99,15 @@ const index = ({ route }: Props): JSX.Element => {
         },
         {
           question: "Maternidade/paternidade prejudicada",
-          comment: data["Maternidade/paternidade prejudicada"],
+          option: data["Maternidade/paternidade prejudicada"],
         },
         {
           question: "Risco de maternidade/paternidade prejudicada",
-          comment: data["Risco de maternidade/paternidade prejudicada"],
+          option: data["Risco de maternidade/paternidade prejudicada"],
         },
         {
           question: "Risco de vínculo mãe-filho prejudicado",
-          comment: data["Risco de vínculo mãe-filho prejudicado"],
+          option: data["Risco de vínculo mãe-filho prejudicado"],
         },
       ];
 
@@ -142,7 +142,7 @@ const index = ({ route }: Props): JSX.Element => {
       }
 
       if (user) {
-        //  await addAnswers(user.id, patientId, answeredQuestions);
+        await addAnswers(user.id, patientId, answeredQuestions);
         navigation.navigate("SpiritualNeeds", { patientId });
       }
     } catch (error) {
@@ -170,7 +170,13 @@ const index = ({ route }: Props): JSX.Element => {
               position: "relative",
             }}
           >
-            <View style={styles.formContainer}>
+            <VStack
+              bgColor={"white"}
+              flex={1}
+              px={10}
+              paddingTop={6}
+              paddingBottom={4}
+            >
               <Text fontSize="lg" bold mb={4}>
                 Gregária
               </Text>
@@ -421,7 +427,7 @@ const index = ({ route }: Props): JSX.Element => {
                   />
                 )}
               />
-            </View>
+            </VStack>
           </ScrollView>
         </KeyboardAvoidingView>
 

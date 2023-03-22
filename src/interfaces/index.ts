@@ -242,3 +242,32 @@ export interface IFocusDiagnosisForm {
   "Capacidade do cuidador para executar os cuidados com recém-nascido": IParamsDiagnosis;
   "Planejamento familiar ": IParamsDiagnosis;
 }
+export interface IFirstPhysicalExamForm {
+  "Condições gerais": string;
+  "Estado mental": string;
+  Pele: string;
+  Cabelo: string;
+  Cabeça: string;
+  Olhos: string;
+  Ouvidos: string;
+  "Nariz e seios nasais": string;
+  "Boca e garganta": string;
+  Pescoço: string;
+  Mamas: string;
+  Axila: string;
+}
+
+export interface ISecondPhysicalExamForm {
+  "Sistema respiratório": string;
+  "Sistema cardiovascular": string;
+  "Sistema vascular periférico": string;
+  "Sistema gastrointestinal": string;
+  "Sistema urinário": string;
+  "Sistema gincológico/obstétrico": string;
+  "Saúde sexual": string;
+  "Sistema musculoesquelético": string;
+  "Sistema neurológico": string;
+  "Sistema hematológico": string;
+  "Sistema endócrino": string;
+  Autocuidado: string;
+}
