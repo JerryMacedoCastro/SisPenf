@@ -17,6 +17,8 @@ import {
   getAnswers,
   IQuestionsWithAnswerDiagnoses,
 } from "../../services/answer.service";
+import { SkeletonDiagnostic } from "../../components/SkeletonDiagnostic";
+import { LoadingModal } from "../../components/LoadingModal";
 
 const MemoBox = React.memo(Box);
 const MemoRadio = React.memo(Radio);
@@ -34,6 +36,8 @@ const Diagnosis = (): JSX.Element => {
   }>({});
   const [loadingInitial, setLoadingInitial] = useState(true);
   const { user } = useAuth();
+  const [message, setMessage] = useState<string>("Enviando 0%");
+  const [openModalLoading, setOpenModalLoading] = useState<boolean>(false);
 
   const generateInitialDataJudgments = () => {
     const aux: {
@@ -54,10 +58,13 @@ const Diagnosis = (): JSX.Element => {
   }, []);
 
   const saveData = async () => {
-    const actionsFocus = Object.keys(selectedjudgments).slice(0, 1);
+    const actionsFocus = Object.keys(selectedjudgments);
+    setOpenModalLoading(true);
+    setMessage("Enviando 0%");
 
-    await actionsFocus.forEach(async (nameFocus) => {
+    for (let index = 0; index < actionsFocus.length; index++) {
       try {
+        const nameFocus = actionsFocus[index];
         const answeredQuestions = {
           question: nameFocus,
           option: [
@@ -75,8 +82,10 @@ const Diagnosis = (): JSX.Element => {
 
         if (patient.id && user) {
           await addAnswerDiagnostic(user.id, patient.id, answeredQuestions);
-          // console.log(answeredQuestions[0]);
-          Alert.alert("Sucesso !", "Diagnósticos salvos com sucesso");
+          const percentage = Math.ceil(
+            ((index + 1) / actionsFocus.length) * 100);
+          console.log(`Enviando ${percentage}%`);
+          setMessage(`Enviando ${percentage}%`);
         } else {
           Alert.alert("Erro !", "Erro");
           throw new Error("Erro ao Salvar Diagnosticos");
@@ -86,7 +95,10 @@ const Diagnosis = (): JSX.Element => {
         Alert.alert("Erro !", "Erro");
         throw new Error("Erro ao Salvar Diagnosticos");
       }
-    });
+    }
+    setTimeout(() => {
+      setOpenModalLoading(false);
+    }, 2000);
   };
 
   const getPatientDiagnosesInfo = async () => {
@@ -197,15 +209,16 @@ const Diagnosis = (): JSX.Element => {
     [selectedjudgments, checkedActions, dataJudgments]
   );
 
-  if (loadingInitial) {
-    return <ActivityIndicator size="large" />;
-  }
-
   return (
     <View style={styles.container}>
       <Gradient />
       {!isKeyboardShown && <DateHeader title="Diagnósticos/Resultados" />}
       <View style={styles.content}>
+        <LoadingModal
+          message={message}
+          isOpen={openModalLoading}
+          onClose={() => console.log("teste")}
+        />
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.label}>
             {`Diagnóstico de ${patient.name}`}
@@ -214,14 +227,20 @@ const Diagnosis = (): JSX.Element => {
         <ScrollView
           style={{
             display: "flex",
-            width: "100%",
+            width: "90%",
             padding: 10,
             marginBottom: 20,
+            backgroundColor: "rgba(255, 255, 255, 0.5)",
+            borderRadius: 20,
           }}
         >
-          {Object.keys(DiagnosisJudgments).map((focusName) =>
-            cardToDiagnosis(focusName)
-          )}
+          {loadingInitial
+            ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => {
+                return <SkeletonDiagnostic key={"Skeleton" + item} />;
+              })
+            : Object.keys(DiagnosisJudgments).map((focusName) =>
+                cardToDiagnosis(focusName)
+              )}
         </ScrollView>
         <View
           style={{
