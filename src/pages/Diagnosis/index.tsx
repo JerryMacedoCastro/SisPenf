@@ -59,18 +59,19 @@ const Diagnosis = (): JSX.Element => {
 
   const saveData = async () => {
     const actionsFocus = Object.keys(selectedjudgments);
-    if (actionsFocus.length <= 27) {
+
+    if (actionsFocus.length < 27) {
       // 27 is number of judgments
       Alert.alert("Oops !", "Selecione todos os julgamentos");
       return;
     }
+    let progress = 0;
 
     setOpenModalLoading(true);
     setMessage("Enviando 0%");
 
-    for (let index = 0; index < actionsFocus.length; index++) {
+    actionsFocus.forEach(async (nameFocus, index) => {
       try {
-        const nameFocus = actionsFocus[index];
         const answeredQuestions = {
           question: nameFocus,
           option: [
@@ -87,13 +88,28 @@ const Diagnosis = (): JSX.Element => {
         } as IQuestionsWithAnswerDiagnoses;
 
         if (patient.id && user) {
-          await addAnswerDiagnostic(user.id, patient.id, answeredQuestions);
-          const percentage = Math.ceil(
-            ((index + 1) / actionsFocus.length) * 100);
-          console.log(`Enviando ${percentage}%`);
-          setMessage(`Enviando ${percentage}%`);
+          await addAnswerDiagnostic(
+            user.id,
+            patient.id,
+            answeredQuestions
+          ).then(() => {
+            progress++;
+            const percentage = Math.ceil(
+              ((progress + 1) / actionsFocus.length) * 100);
+
+            console.log("Progresso " + progress + " indice " + index);
+
+            if (progress === actionsFocus.length) {
+              Alert.alert("Sucesso", "Diagnosticos enviados");
+              setOpenModalLoading(false);
+            } else {
+              if (percentage >= 100) setMessage("Diagnosticos enviados");
+              else setMessage(`Enviando ${percentage}%`);
+            }
+          });
         } else {
           Alert.alert("Erro !", "Erro");
+          setOpenModalLoading(false);
           throw new Error("Erro ao Salvar Diagnosticos");
         }
       } catch (err) {
@@ -102,10 +118,7 @@ const Diagnosis = (): JSX.Element => {
         setOpenModalLoading(false);
         throw new Error("Erro ao Salvar Diagnosticos");
       }
-    }
-    setTimeout(() => {
-      setOpenModalLoading(false);
-    }, 2000);
+    });
   };
 
   const getPatientDiagnosesInfo = async () => {
@@ -216,16 +229,20 @@ const Diagnosis = (): JSX.Element => {
     [selectedjudgments, checkedActions, dataJudgments]
   );
 
+  if (openModalLoading)
+    return (
+      <LoadingModal
+        message={message}
+        isOpen={openModalLoading}
+        onClose={() => console.log("teste")}
+      />
+    );
+
   return (
     <View style={styles.container}>
       <Gradient />
       {!isKeyboardShown && <DateHeader title="Diagnósticos/Resultados" />}
       <View style={styles.content}>
-        <LoadingModal
-          message={message}
-          isOpen={openModalLoading}
-          onClose={() => console.log("teste")}
-        />
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.label}>
             {`Diagnóstico de ${patient.name}`}
@@ -243,11 +260,11 @@ const Diagnosis = (): JSX.Element => {
         >
           {loadingInitial
             ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => {
-                return <SkeletonDiagnostic key={"Skeleton" + item} />;
-              })
+              return <SkeletonDiagnostic key={"Skeleton" + item} />;
+            })
             : Object.keys(DiagnosisJudgments).map((focusName) =>
-                cardToDiagnosis(focusName)
-              )}
+              cardToDiagnosis(focusName)
+            )}
         </ScrollView>
         <View
           style={{
