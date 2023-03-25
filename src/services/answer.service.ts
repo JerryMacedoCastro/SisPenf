@@ -55,9 +55,7 @@ export async function addAnswers(
       patientId,
       questions: answeredQuestions,
     };
-
     const json = JSON.stringify(data);
-    console.log(json);
     const { baseURL } = api;
     const response = await fetch(`${baseURL}/answers`, {
       method: "POST",
@@ -68,7 +66,6 @@ export async function addAnswers(
 
     if (!response.ok) {
       const message = await response.json();
-      console.log(response);
       throw new Error(message);
     }
     const result = await response.json();

@@ -29,7 +29,6 @@ import {
   IPatientResponse,
   INewPuerperalForm,
   IFormattedDate,
-  IAnswer,
 } from "../../interfaces";
 import Gradient from "../../components/Gradient";
 import { useAuth } from "../../contexts/auth";
@@ -75,8 +74,6 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
   });
   const { control, handleSubmit } = useForm<INewPuerperalForm>();
   const { user } = useAuth();
-
-  console.log(answers);
 
   const getPatientInfo = async (id: number) => {
     const patient = await getPatientById(id);
@@ -196,7 +193,6 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
         option: data["Dieta prescrita"],
       },
     ];
-    console.log(answeredQuestions);
     if (infirmary === 0 || hospitalBed === 0) {
       Alert.alert(
         "Preencha todos os campos",
@@ -205,7 +201,6 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
       setLoading(false);
       return;
     }
-    console.log(data);
     if (
       !data.Nome ||
       !birthDate.formattedDate ||
@@ -360,7 +355,9 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
                       { description: "Pós-parto imediato (cesariana)" },
                       { description: "Pós-parto vaginal imediato" },
                     ]}
-                    selectedValue={answers["Diagnóstico médico"]}
+                    selectedValue={
+                      patient ? answers["Diagnóstico médico"] : undefined
+                    }
                     placeholder={"Diagnóstico Médico"}
                     onValueChange={onChange}
                     addInfo
@@ -387,7 +384,9 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
                       { description: "Branda" },
                       { description: "Líquida" },
                     ]}
-                    selectedValue={answers["Dieta prescrita"]}
+                    selectedValue={
+                      patient ? answers["Dieta prescrita"] : undefined
+                    }
                     placeholder={"Dieta prescrita"}
                     onValueChange={onChange}
                     addInfo
