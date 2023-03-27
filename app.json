@@ -28,7 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5fe31ea3-aaa5-4128-bca1-08ec3ce5b99c"
+      }
     }
   },
-  "softwareKeyboardLayoutMode":"pan"
+  "softwareKeyboardLayoutMode": "pan"
 }
