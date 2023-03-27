@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Platform, KeyboardAvoidingView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 
-import { ISpiritualNeedsForm } from "../../../interfaces";
-import { addAnswers } from "../../../services/answer.service";
+import { ISpiritualNeedsForm, SpiritualneedsType } from "../../../interfaces";
+import { addAnswers, getAnswers } from "../../../services/answer.service";
 import { useAuth } from "../../../contexts/auth";
 import { styles } from "../styles";
 import DateHeader from "../../../components/DateHeader";
@@ -17,16 +17,22 @@ import { RootStackParamList } from "../../../Routes/app.routes";
 import { Controller, useForm } from "react-hook-form";
 import PickerSelect from "../../../components/PickerSelect";
 import { Button, Text, VStack } from "native-base";
+import { getAnswerByDescription } from "../../../helpers/answers";
 
 type Props = StackScreenProps<RootStackParamList, "SpiritualNeeds">;
 
-const index = ({ route }: Props): JSX.Element => {
+const SpiritualNeeds = ({ route }: Props): JSX.Element => {
   const { patientId } = route.params;
   const { user } = useAuth();
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
   const [loading, setLoading] = useState(false);
-  const { control, handleSubmit } = useForm<ISpiritualNeedsForm>();
+  const { control, handleSubmit, setValue, getValues } =
+    useForm<ISpiritualNeedsForm>();
+
+  const handleNext = () => {
+    navigation.navigate("PsychobiologicNeeds", { patientId });
+  };
 
   const submitForm = async (data: ISpiritualNeedsForm) => {
     try {
@@ -69,6 +75,26 @@ const index = ({ route }: Props): JSX.Element => {
     }
   };
 
+  const getPatientInfo = async (id: number) => {
+    const answersArray = await getAnswers(id, 3);
+
+    const psycoNeedsObj: ISpiritualNeedsForm = {
+      "Angústia espiritual": "",
+      "Sofrimento espiritual": "",
+      "Risco de sofrimento espiritual": "",
+    };
+    for (const [key] of Object.entries(psycoNeedsObj)) {
+      setValue(
+        key as SpiritualneedsType,
+        getAnswerByDescription(key, answersArray)
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (patientId) getPatientInfo(Number(patientId));
+  }, []);
+
   return (
     <>
       {!isKeyboardShown && (
@@ -110,6 +136,7 @@ const index = ({ route }: Props): JSX.Element => {
                     ]}
                     placeholder={"Angústia espiritual"}
                     onValueChange={onChange}
+                    selectedValue={getValues("Angústia espiritual")}
                   />
                 )}
               />
@@ -124,6 +151,7 @@ const index = ({ route }: Props): JSX.Element => {
                     ]}
                     placeholder={"Sofrimento espiritual"}
                     onValueChange={onChange}
+                    selectedValue={getValues("Sofrimento espiritual")}
                   />
                 )}
               />
@@ -136,8 +164,9 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Presente" },
                       { description: "Ausente" },
                     ]}
-                    placeholder={"Angústia espiritual"}
+                    placeholder={"Risco de sofrimento espiritual"}
                     onValueChange={onChange}
+                    selectedValue={getValues("Risco de sofrimento espiritual")}
                   />
                 )}
               />
@@ -156,6 +185,15 @@ const index = ({ route }: Props): JSX.Element => {
             >
               <Text style={globalStyles.primaryButtonText}>Continuar</Text>
             </Button>
+
+            {patientId !== null && (
+              <Button
+                style={[globalStyles.button, globalStyles.secondaryButton]}
+                onPress={handleNext}
+              >
+                <Text style={globalStyles.secondaryButtonText}>Próximo</Text>
+              </Button>
+            )}
           </View>
         )}
       </SafeAreaView>
@@ -163,4 +201,4 @@ const index = ({ route }: Props): JSX.Element => {
   );
 };
 
-export default index;
+export default SpiritualNeeds;

@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { View, Platform, KeyboardAvoidingView, Alert } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
@@ -14,14 +14,17 @@ import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import DateHeader from "../../../components/DateHeader";
 import Gradient from "../../../components/Gradient";
 import { globalStyles } from "../../../Assets/GlobalStyles";
-import { IFirstPhysicalExamForm } from "../../../interfaces";
+import {
+  FirstPhysicalExamType,
+  IFirstPhysicalExamForm,
+} from "../../../interfaces";
 import PickerSelect from "../../../components/PickerSelect";
 import reducer from "../../../helpers/reducer";
-import { addAnswers } from "../../../services/answer.service";
+import { addAnswers, getAnswers } from "../../../services/answer.service";
 import { useAuth } from "../../../contexts/auth";
+import { getAnswerByDescription } from "../../../helpers/answers";
 
 type Props = StackScreenProps<RootStackParamList, "PartOne">;
-
 const initialState: IFirstPhysicalExamForm = {
   "Condições gerais": "",
   "Estado mental": "",
@@ -41,10 +44,15 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
   const { patientId } = route.params;
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
-  const { control, handleSubmit } = useForm<IFirstPhysicalExamForm>();
+  const { control, handleSubmit, setValue, getValues } =
+    useForm<IFirstPhysicalExamForm>();
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
+
   const [reducerState, dispatch] = useReducer(reducer, initialState);
+  const handleNext = () => {
+    navigation.navigate("PartTwo", { patientId });
+  };
 
   const submitForm = async (data: IFirstPhysicalExamForm) => {
     setLoading(true);
@@ -133,8 +141,6 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
       setLoading(false);
       return;
     }
-
-    console.log(answeredQuestions);
     try {
       if (patientId && user) {
         await addAnswers(user.id, patientId, answeredQuestions);
@@ -150,11 +156,36 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
       setLoading(false);
     }
   };
+  const getPatientInfo = async (id: number) => {
+    const answersArray = await getAnswers(id, 5);
+
+    answersArray.forEach((answer) => {
+      dispatch({
+        type: "UPDATE",
+        value: answer.comment,
+        key: answer.description,
+      });
+    });
+
+    for (const [key] of Object.entries(initialState)) {
+      setValue(
+        key as FirstPhysicalExamType,
+        getAnswerByDescription(key, answersArray)
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (patientId) getPatientInfo(Number(patientId));
+  }, []);
 
   return (
     <>
       {!isKeyboardShown && (
-        <DateHeader title="Exame físico parte 1" destinyBack="ChildbirthData" />
+        <DateHeader
+          title="Exame físico parte 1"
+          destinyBack="PsychobiologicNeeds"
+        />
       )}
       <SafeAreaView style={styles.container}>
         <Gradient />
@@ -186,11 +217,19 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Grave" },
                       { description: "Muito grave" },
                     ]}
+                    selectedValue={getValues("Condições gerais")}
                     placeholder={"Condições gerais"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Condições gerais"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Condições gerais",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -219,11 +258,19 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Sono e repouso prejudicados" },
                       { description: "Transtorno mental (especificar)" },
                     ]}
+                    selectedValue={getValues("Estado mental")}
                     placeholder={"Estado mental"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Estado mental"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Estado mental",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -260,11 +307,19 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Temperatura corporal diminuída" },
                       { description: "Afebril" },
                     ]}
+                    selectedValue={getValues("Pele")}
                     placeholder={"Pele"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Pele"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Pele",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -286,11 +341,19 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Não higienizado" },
                       { description: "Queda do cabelo" },
                     ]}
+                    selectedValue={getValues("Cabelo")}
                     placeholder={"Cabelo"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Cabelo"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Cabelo",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -315,11 +378,19 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Síncope" },
                       { description: "Vertigem" },
                     ]}
+                    selectedValue={getValues("Cabeça")}
                     placeholder={"Cabeça"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Cabeça"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Cabeça",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -336,7 +407,8 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                 render={({ field: { onChange } }) => (
                   <PickerSelect
                     options={[
-                      { description: "Sem alterações Dificuldades visuais" },
+                      { description: "Sem alterações" },
+                      { description: "Dificuldades visuais" },
                       { description: "Dor ocular" },
                       { description: "Diplopia" },
                       { description: "Vermelhidão" },
@@ -349,11 +421,19 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Uso de óculos" },
                       { description: "Uso de lentes" },
                     ]}
+                    selectedValue={getValues("Olhos")}
                     placeholder={"Olhos"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Olhos"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Olhos",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -379,11 +459,19 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Perda auditiva" },
                       { description: "Uso de aparelho auditivo" },
                     ]}
+                    selectedValue={getValues("Ouvidos")}
                     placeholder={"Ouvidos"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Ouvidos"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Ouvidos",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -409,11 +497,19 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Dor sinusal" },
                       { description: "Anosmia" },
                     ]}
+                    selectedValue={getValues("Nariz e seios nasais")}
                     placeholder={"Nariz e seios nasais"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Nariz e seios nasais"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Nariz e seios nasais",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -442,11 +538,19 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Ausência de higienização oral" },
                       { description: "uso de prótese dentária" },
                     ]}
+                    selectedValue={getValues("Boca e garganta")}
                     placeholder={"Boca e garganta"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Boca e garganta"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Boca e garganta",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -471,6 +575,7 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Gânglios dolorosos" },
                       { description: "Presença de bócio" },
                     ]}
+                    selectedValue={getValues("Pescoço")}
                     placeholder={"Pescoço"}
                     onValueChange={onChange}
                     addInfo
@@ -483,6 +588,13 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       })
                     }
                     infoValue={reducerState["Pescoço"]}
+                    setValue={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Pescoço",
+                      })
+                    }
                   />
                 )}
               />
@@ -521,6 +633,7 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                           "Risco de amamentação exclusiva prejudicada",
                       },
                     ]}
+                    selectedValue={getValues("Mamas")}
                     placeholder={"Mamas"}
                     onValueChange={onChange}
                     addInfo
@@ -529,7 +642,14 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       dispatch({
                         type: "UPDATE",
                         value: value,
-                        key: "name",
+                        key: "Mamas",
+                      })
+                    }
+                    setValue={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Mamas",
                       })
                     }
                     infoValue={reducerState["Mamas"]}
@@ -548,11 +668,19 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Edema" },
                       { description: "Erupção cutânea" },
                     ]}
+                    selectedValue={getValues("Axila")}
                     placeholder={"Axila"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Axila"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Axila",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -578,6 +706,14 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
             >
               <Text style={globalStyles.primaryButtonText}>Continuar</Text>
             </Button>
+            {patientId !== null && (
+              <Button
+                style={[globalStyles.button, globalStyles.secondaryButton]}
+                onPress={handleNext}
+              >
+                <Text style={globalStyles.secondaryButtonText}>Próximo</Text>
+              </Button>
+            )}
           </View>
         )}
       </SafeAreaView>

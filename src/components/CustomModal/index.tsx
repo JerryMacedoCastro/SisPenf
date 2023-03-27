@@ -8,8 +8,8 @@ interface customModalProps {
   modalVisible: boolean;
   firstButtonText: string;
   secondButtonText: string;
-  actionFirstButton: VoidFunction;
-  actionSecondButton: VoidFunction;
+  actionFirstButton?: VoidFunction;
+  actionSecondButton?: VoidFunction;
   onClose: () => void;
 }
 
@@ -25,7 +25,7 @@ const index = (props: customModalProps): JSX.Element => {
   const navigation = useNavigation();
   const handleNavigation = () => {
     onClose();
-    navigation.navigate("NewPuerperal");
+    navigation.navigate("NewPuerperal", { patientId: null });
   };
   return (
     <Modal animationType="fade" transparent visible={modalVisible}>

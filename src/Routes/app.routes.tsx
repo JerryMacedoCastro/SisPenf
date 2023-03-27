@@ -10,14 +10,18 @@ import PsychobiologicNeeds from "../pages/MaternalHistory/PsychobiologicNeeds";
 import PartOne from "../pages/PhysicalExam/PartOne";
 import PartTwo from "../pages/PhysicalExam/PartTwo";
 import { colors } from "../Assets/GlobalStyles";
+import Diagnosis from "../pages/Diagnosis";
+import { IPatientResponse } from "../interfaces";
 
 export type RootStackParamList = {
   Home: undefined;
-  NewPuerperal: undefined;
+  NewPuerperal: { patientId: number | null };
   FindPatient: undefined;
-  PsychologicalNeeds: { patientId: number };
+  PsychologicalNeeds: { patientId: number; isNewPatient: boolean };
   SpiritualNeeds: { patientId: number };
   PsychobiologicNeeds: { patientId: number };
+  ChildbirthData: { patientId: number };
+  Diagnosis: IPatientResponse;
   PartOne: { patientId: number };
   PartTwo: { patientId: number };
 };
@@ -45,6 +49,7 @@ const AppRoutes = (): JSX.Element => {
       />
       <RootStack.Screen name="PartOne" component={PartOne} />
       <RootStack.Screen name="PartTwo" component={PartTwo} />
+      <RootStack.Screen name="Diagnosis" component={Diagnosis} />
     </RootStack.Navigator>
   );
 };

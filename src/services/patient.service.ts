@@ -6,18 +6,27 @@ const headers = {
 };
 
 export async function createPatient(
+  id: number | null,
   name: string,
   birthdate: Date,
-  admissionDate: Date,
-  hospitalBed: number
+  admissionDate: Date
 ): Promise<IPatientResponse> {
   try {
-    const data = {
-      name: name,
-      birthdate: birthdate,
-      admissionDate: admissionDate,
-      bed: hospitalBed,
-    };
+    let data = {};
+    if (id) {
+      data = {
+        name: name,
+        birthdate: birthdate,
+        admissionDate: admissionDate,
+        id: id,
+      };
+    } else {
+      data = {
+        name: name,
+        birthdate: birthdate,
+        admissionDate: admissionDate,
+      };
+    }
     const json = JSON.stringify(data);
     const { baseURL } = api;
     const response = await fetch(`${baseURL}/patient`, {
@@ -26,7 +35,6 @@ export async function createPatient(
       mode: "cors",
       body: json,
     });
-    console.log("chegou aqui 2");
 
     if (!response.ok) {
       const message = await response.json();
@@ -53,7 +61,23 @@ export async function getAllPatients(): Promise<IPatientResponse[]> {
 
     return patients;
   } catch (error) {
-    throw new Error("Error on patientService.createPatient: " + error.message);
+    throw new Error("Error on patientService.getAllPatients: " + error.message);
   }
+}
 
+export async function getPatientById(id: number): Promise<IPatientResponse> {
+  try {
+    const { baseURL } = api;
+    const response = await fetch(`${baseURL}/patient/${id}`, {
+      method: "GET",
+      headers: headers,
+      mode: "cors",
+    });
+
+    const patient: IPatientResponse[] = await response.json();
+
+    return patient[0];
+  } catch (error) {
+    throw new Error("Error on patientService.getPatient: " + error.message);
+  }
 }

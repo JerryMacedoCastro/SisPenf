@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from "react-native";
-import { RectButton, ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -16,14 +16,18 @@ import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import DateHeader from "../../../components/DateHeader";
 import Gradient from "../../../components/Gradient";
 import { globalStyles } from "../../../Assets/GlobalStyles";
-import { ISecondPhysicalExamForm } from "../../../interfaces";
+import {
+  ISecondPhysicalExamForm,
+  SecondPhysicalExamType,
+} from "../../../interfaces";
 import { RootStackParamList } from "../../../Routes/app.routes";
 import { useAuth } from "../../../contexts/auth";
 import { Controller, useForm } from "react-hook-form";
 import reducer from "../../../helpers/reducer";
-import { addAnswers } from "../../../services/answer.service";
+import { addAnswers, getAnswers } from "../../../services/answer.service";
 import { Button, VStack } from "native-base";
 import PickerSelect from "../../../components/PickerSelect";
+import { getAnswerByDescription } from "../../../helpers/answers";
 
 type Props = StackScreenProps<RootStackParamList, "PartTwo">;
 
@@ -33,7 +37,7 @@ const initialState: ISecondPhysicalExamForm = {
   "Sistema vascular periférico": "",
   "Sistema gastrointestinal": "",
   "Sistema urinário": "",
-  "Sistema gincológico/obstétrico": "",
+  "Sistema ginecológico/obstétrico": "",
   "Saúde sexual": "",
   "Sistema musculoesquelético": "",
   "Sistema neurológico": "",
@@ -42,15 +46,19 @@ const initialState: ISecondPhysicalExamForm = {
   Autocuidado: "",
 };
 
-const index = ({ route }: Props): JSX.Element => {
+const SecondPhysicalExam = ({ route }: Props): JSX.Element => {
   const { patientId } = route.params;
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
-  const { control, handleSubmit } = useForm<ISecondPhysicalExamForm>();
+  const { control, handleSubmit, setValue, getValues } =
+    useForm<ISecondPhysicalExamForm>();
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
   const [reducerState, dispatch] = useReducer(reducer, initialState);
 
+  const handleNext = () => {
+    navigation.navigate("Home", { patientId });
+  };
   const submitForm = async (data: ISecondPhysicalExamForm) => {
     setLoading(true);
 
@@ -61,8 +69,8 @@ const index = ({ route }: Props): JSX.Element => {
         option: data["Autocuidado"],
       },
       {
-        question: "Boca e garganta",
-        comment: reducerState[""],
+        question: "Saúde sexual",
+        comment: reducerState["Saúde sexual"],
         option: data["Saúde sexual"],
       },
       {
@@ -76,9 +84,9 @@ const index = ({ route }: Props): JSX.Element => {
         comment: reducerState["Sistema gastrointestinal"],
       },
       {
-        option: data["Sistema gincológico/obstétrico"],
-        question: "Sistema gincológico/obstétrico",
-        comment: reducerState["Sistema gincológico/obstétrico"],
+        option: data["Sistema ginecológico/obstétrico"],
+        question: "Sistema ginecológico/obstétrico",
+        comment: reducerState["Sistema ginecológico/obstétrico"],
       },
       {
         option: data["Sistema hematológico"],
@@ -122,7 +130,7 @@ const index = ({ route }: Props): JSX.Element => {
       !data["Saúde sexual"] ||
       !data["Sistema endócrino"] ||
       !data["Sistema gastrointestinal"] ||
-      !data["Sistema gincológico/obstétrico"] ||
+      !data["Sistema ginecológico/obstétrico"] ||
       !data["Sistema hematológico"] ||
       !data["Sistema musculoesquelético"] ||
       !data["Sistema neurológico"] ||
@@ -139,7 +147,6 @@ const index = ({ route }: Props): JSX.Element => {
       return;
     }
 
-    console.log(answeredQuestions);
     try {
       if (patientId && user) {
         await addAnswers(user.id, patientId, answeredQuestions);
@@ -153,6 +160,29 @@ const index = ({ route }: Props): JSX.Element => {
       setLoading(false);
     }
   };
+
+  const getPatientInfo = async (id: number) => {
+    const answersArray = await getAnswers(id, 6);
+
+    answersArray.forEach((answer) => {
+      dispatch({
+        type: "UPDATE",
+        value: answer.comment,
+        key: answer.description,
+      });
+    });
+
+    for (const [key] of Object.entries(initialState)) {
+      setValue(
+        key as SecondPhysicalExamType,
+        getAnswerByDescription(key, answersArray)
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (patientId) getPatientInfo(Number(patientId));
+  }, []);
 
   return (
     <>
@@ -199,11 +229,19 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Escarro" },
                       { description: "Hemoptise" },
                     ]}
+                    selectedValue={getValues("Sistema respiratório")}
                     placeholder={"Sistema respiratório"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Sistema respiratório"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Sistema respiratório",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -236,11 +274,19 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Doença coronariana" },
                       { description: "Anemia" },
                     ]}
+                    selectedValue={getValues("Sistema cardiovascular")}
                     placeholder={"Sistema cardiovascular"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Sistema cardiovascular"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Sistema cardiovascular",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -274,11 +320,19 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Perfusão tissular Eficaz  " },
                       { description: "Perfusão tissular Ineficaz" },
                     ]}
+                    selectedValue={getValues("Sistema vascular periférico")}
                     placeholder={"Sistema vascular periférico"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Sistema vascular periférico"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Sistema vascular periférico",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -323,11 +377,19 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Sangramento retal" },
                       { description: "Hemorroidas" },
                     ]}
+                    selectedValue={getValues("Sistema gastrointestinal")}
                     placeholder={"Sistema gastrointestinal"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Sistema gastrointestinal"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Sistema gastrointestinal",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -363,11 +425,19 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Dor em região suprapúbica" },
                       { description: "Dor lombar" },
                     ]}
+                    selectedValue={getValues("Sistema urinário")}
                     placeholder={"Sistema urinário"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Sistema urinário"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Sistema urinário",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -380,7 +450,7 @@ const index = ({ route }: Props): JSX.Element => {
               />
               <Controller
                 control={control}
-                name={"Sistema gincológico/obstétrico"}
+                name={"Sistema ginecológico/obstétrico"}
                 render={({ field: { onChange } }) => (
                   <PickerSelect
                     options={[
@@ -403,18 +473,26 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Prurido vaginal" },
                       { description: "Leucorréia" },
                     ]}
-                    placeholder={"Sistema gincológico/obstétrico"}
+                    selectedValue={getValues("Sistema ginecológico/obstétrico")}
+                    placeholder={"Sistema ginecológico/obstétrico"}
                     onValueChange={onChange}
                     addInfo
-                    modalTitle="Sistema gincológico/obstétrico"
+                    modalTitle="Sistema ginecológico/obstétrico"
                     onClickSave={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
-                        key: "Sistema gincológico/obstétrico",
+                        key: "Sistema ginecológico/obstétrico",
                       })
                     }
-                    infoValue={reducerState["Sistema gincológico/obstétrico"]}
+                    setValue={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Sistema ginecológico/obstétrico",
+                      })
+                    }
+                    infoValue={reducerState["Sistema ginecológico/obstétrico"]}
                   />
                 )}
               />
@@ -434,11 +512,19 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "HIV/AIDS" },
                       { description: "Sífilis" },
                     ]}
+                    selectedValue={getValues("Saúde sexual")}
                     placeholder={"Saúde sexual"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Saúde sexual"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Saúde sexual",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -478,11 +564,19 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Risco de queda diminuído" },
                       { description: "Deficiência física" },
                     ]}
+                    selectedValue={getValues("Sistema musculoesquelético")}
                     placeholder={"Sistema musculoesquelético"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Sistema musculoesquelético"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Sistema musculoesquelético",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -513,11 +607,19 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Depressão" },
                       { description: "Alucinação" },
                     ]}
+                    selectedValue={getValues("Sistema neurológico")}
                     placeholder={"Sistema neurológico"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Sistema neurológico"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Sistema neurológico",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -558,11 +660,19 @@ const index = ({ route }: Props): JSX.Element => {
                           "Risco de transmissão de infecção para o neonato ausente",
                       },
                     ]}
+                    selectedValue={getValues("Sistema hematológico")}
                     placeholder={"Sistema hematológico"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Sistema hematológico"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Sistema hematológico",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -588,11 +698,19 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Distribuição anormal de pelos" },
                       { description: "Necessidade de terapia hormonal" },
                     ]}
+                    selectedValue={getValues("Sistema endócrino")}
                     placeholder={"Sistema endócrino"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Sistema endócrino"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Sistema endócrino",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -623,11 +741,19 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Higiene íntima prejudicada" },
                       { description: "Higiene íntima eficaz" },
                     ]}
+                    selectedValue={getValues("Autocuidado")}
                     placeholder={"Autocuidado"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Autocuidado"
                     onClickSave={(value) =>
+                      dispatch({
+                        type: "UPDATE",
+                        value: value,
+                        key: "Autocuidado",
+                      })
+                    }
+                    setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
@@ -653,6 +779,14 @@ const index = ({ route }: Props): JSX.Element => {
             >
               <Text style={globalStyles.primaryButtonText}>Continuar</Text>
             </Button>
+            {patientId !== null && (
+              <Button
+                style={[globalStyles.button, globalStyles.secondaryButton]}
+                onPress={handleNext}
+              >
+                <Text style={globalStyles.secondaryButtonText}>Voltar</Text>
+              </Button>
+            )}
           </View>
         )}
       </SafeAreaView>
@@ -660,4 +794,4 @@ const index = ({ route }: Props): JSX.Element => {
   );
 };
 
-export default index;
+export default SecondPhysicalExam;

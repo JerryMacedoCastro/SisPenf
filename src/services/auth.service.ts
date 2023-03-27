@@ -33,7 +33,6 @@ export async function signIn(
 
     return result;
   } catch (error) {
-    console.log("Erro auth service: ", JSON.stringify(error.message));
     throw new Error("Error on authService.singIn: " + error.message);
   }
 }

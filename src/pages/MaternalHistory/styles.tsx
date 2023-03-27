@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   content: {
     width: "90%",
-    height: "80%",
+    height: "75%",
   },
   formContainer: {
     backgroundColor: colors.white,
@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     marginBottom: 4,
   },
   confirmButtonsContainer: {
+    flex: 0,
     width: "100%",
     alignItems: "center",
     bottom: 6,

@@ -68,7 +68,7 @@ export const physicalExam = [
   { id: 17, value: "Sistema urinário", isSelected: false, part: 2 },
   {
     id: 18,
-    value: "Sistema gincológico/obstétrico",
+    value: "Sistema ginecológico/obstétrico",
     isSelected: false,
     part: 2,
   },
