@@ -15,7 +15,7 @@ export type RootStackParamList = {
   Home: undefined;
   NewPuerperal: { patientId: number | null };
   FindPatient: undefined;
-  PsychologicalNeeds: { patientId: number };
+  PsychologicalNeeds: { patientId: number; isNewPatient: boolean };
   SpiritualNeeds: { patientId: number };
   PsychobiologicNeeds: { patientId: number };
   PartOne: { patientId: number };

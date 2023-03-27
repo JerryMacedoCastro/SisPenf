@@ -1,5 +1,3 @@
-import { IFirstPhysicalExamForm, ISecondPhysicalExamForm } from "../interfaces";
-
 type State = any;
 
 type Action = {

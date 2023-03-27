@@ -56,6 +56,7 @@ export async function addAnswers(
       questions: answeredQuestions,
     };
     const json = JSON.stringify(data);
+    console.log(json);
     const { baseURL } = api;
     const response = await fetch(`${baseURL}/answers`, {
       method: "POST",

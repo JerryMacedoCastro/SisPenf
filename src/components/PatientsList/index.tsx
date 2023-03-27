@@ -49,8 +49,6 @@ const PatientList = ({ search }: IPatientListProps): JSX.Element => {
             <Fieldset
               key={patient.id}
               value={patient.name}
-              label={`${patient.hospitalBed.infirmary.description} - ${patient.hospitalBed.description}`}
-              hospitalBed={patient.hospitalBed.id}
               patientId={patient.id}
             />
           );

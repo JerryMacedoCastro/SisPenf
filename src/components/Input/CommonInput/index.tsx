@@ -5,9 +5,13 @@ import {
   FormControl,
 } from "native-base";
 
-const CommonInput = ({ ...rest }: IInputProps): JSX.Element => {
+interface IProps extends IInputProps {
+  label: string;
+}
+const CommonInput = ({ label, ...rest }: IProps): JSX.Element => {
   return (
     <FormControl>
+      <FormControl.Label paddingLeft={2}>{label}</FormControl.Label>
       <NativeBaseInput
         variant={"rounded"}
         size={"full"}

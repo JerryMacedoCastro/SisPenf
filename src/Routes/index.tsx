@@ -18,7 +18,7 @@ const Routes = (): JSX.Element => {
   }
   return (
     <NativeBaseProvider>
-      {signed ? <AppRoutes /> : <AuthRoutes />}
+      <AppRoutes />
     </NativeBaseProvider>
   );
 };

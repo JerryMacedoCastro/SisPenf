@@ -155,12 +155,34 @@ export interface IPsycologicalNeedsForm {
   "Risco de maternidade/paternidade prejudicada": string;
   "Risco de vínculo mãe-filho prejudicado": string;
 }
+export type PsycologicalNeedsType =
+  | "Estado civil"
+  | "Falta de apoio social"
+  | "Escolaridade"
+  | "Falta de conhecimento sobre a amamentação"
+  | "Falta de conhecimento sobre a ordenha do leite materno"
+  | "Falta de conhecimento sobre a situação clínica do recém-nascido"
+  | "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica"
+  | "Falta de conhecimento sobre o autocuidado com as mamas"
+  | "Falta de conhecimento sobre os cuidados com recém-nascido"
+  | "Falta de conhecimento sobre o planejamento familiar"
+  | "Comunicação verbal prejudicada"
+  | "Ansiedade"
+  | "Atitude familiar conflitante"
+  | "Maternidade/paternidade prejudicada"
+  | "Risco de maternidade/paternidade prejudicada"
+  | "Risco de vínculo mãe-filho prejudicado";
 
 export interface ISpiritualNeedsForm {
   "Angústia espiritual": string;
   "Sofrimento espiritual": string;
   "Risco de sofrimento espiritual": string;
 }
+
+export type SpiritualneedsType =
+  | "Angústia espiritual"
+  | "Sofrimento espiritual"
+  | "Risco de sofrimento espiritual";
 
 export interface IPsycobiologicNeedsForm {
   Gesta: string;
@@ -186,6 +208,29 @@ export interface IPsycobiologicNeedsForm {
   "Tempo de bolsa rota até o parto": string;
 }
 
+export type PsycobiologicNeedstype =
+  | "Gesta"
+  | "Para"
+  | "Aborto"
+  | "Número de filhos vivos"
+  | "Pré-natal"
+  | "Número de consultas"
+  | "Intercorrências na gestação"
+  | "Doenças associadas"
+  | "Alergias"
+  | "Uso de medicamentos"
+  | "Anti-HIV"
+  | "VDRL"
+  | "Classificação sanguínea e fator RH"
+  | "Outro"
+  | "Uso de substâncias lícitas e/ou ilícitas"
+  | "Data do parto"
+  | "Hora do parto"
+  | "Gestação"
+  | "Tipo de parto"
+  | "RPMO"
+  | "Tempo de bolsa rota até o parto";
+
 export interface IFirstPhysicalExamForm {
   "Condições gerais": string;
   "Estado mental": string;
@@ -200,6 +245,20 @@ export interface IFirstPhysicalExamForm {
   Mamas: string;
   Axila: string;
 }
+
+export type FirstPhysicalExamType =
+  | "Condições gerais"
+  | "Estado mental"
+  | "Pele"
+  | "Cabelo"
+  | "Cabeça"
+  | "Olhos"
+  | "Ouvidos"
+  | "Nariz e seios nasais"
+  | "Boca e garganta"
+  | "Pescoço"
+  | "Mamas"
+  | "Axila";
 
 export interface IFirstPhysicalExamForm {
   "Condições gerais": string;
@@ -222,7 +281,7 @@ export interface ISecondPhysicalExamForm {
   "Sistema vascular periférico": string;
   "Sistema gastrointestinal": string;
   "Sistema urinário": string;
-  "Sistema gincológico/obstétrico": string;
+  "Sistema ginecológico/obstétrico": string;
   "Saúde sexual": string;
   "Sistema musculoesquelético": string;
   "Sistema neurológico": string;
@@ -230,3 +289,17 @@ export interface ISecondPhysicalExamForm {
   "Sistema endócrino": string;
   Autocuidado: string;
 }
+
+export type SecondPhysicalExamType =
+  | "Sistema respiratório"
+  | "Sistema cardiovascular"
+  | "Sistema vascular periférico"
+  | "Sistema gastrointestinal"
+  | "Sistema urinário"
+  | "Sistema ginecológico/obstétrico"
+  | "Saúde sexual"
+  | "Sistema musculoesquelético"
+  | "Sistema neurológico"
+  | "Sistema hematológico"
+  | "Sistema endócrino"
+  | "Autocuidado";

@@ -19,8 +19,8 @@ type Props = ISelectProps & {
   addInfo?: boolean;
   modalTitle?: string;
   onClickSave?: (value: string) => void;
-  infoValue: string;
-  setValue: (value: string) => void;
+  infoValue?: string;
+  setValue?: (value: string) => void;
 };
 
 export default function CustomSelect({
@@ -30,12 +30,14 @@ export default function CustomSelect({
   options,
   infoValue,
   setValue,
+  placeholder,
   ...rest
 }: Props): JSX.Element {
   const [showModal, setShowModal] = React.useState(false);
 
   return (
     <FormControl width={"full"}>
+      <FormControl.Label paddingLeft={2}>{placeholder}</FormControl.Label>
       <HStack space={2}>
         <Select
           _selectedItem={{
@@ -47,6 +49,7 @@ export default function CustomSelect({
           width={addInfo ? 64 : 72}
           fontSize="sm"
           mb={6}
+          placeholder={placeholder}
           {...rest}
         >
           {options.map((op) => {
@@ -83,7 +86,7 @@ export default function CustomSelect({
                 <Input
                   value={infoValue}
                   onChange={(event) => {
-                    setValue(event.nativeEvent.text);
+                    if (setValue) setValue(event.nativeEvent.text);
                   }}
                 />
               </FormControl>
@@ -101,7 +104,7 @@ export default function CustomSelect({
                 </Button>
                 <Button
                   onPress={() => {
-                    if (onClickSave) onClickSave(infoValue);
+                    if (onClickSave && infoValue) onClickSave(infoValue);
                     setShowModal(false);
                   }}
                   backgroundColor={"green.900"}

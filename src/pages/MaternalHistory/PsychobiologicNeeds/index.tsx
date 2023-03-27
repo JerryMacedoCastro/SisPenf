@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Platform, KeyboardAvoidingView, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,23 +15,29 @@ import { globalStyles } from "../../../Assets/GlobalStyles";
 import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../Routes/app.routes";
-import { IFormattedDate, IPsycobiologicNeedsForm } from "../../../interfaces";
-import { addAnswers } from "../../../services/answer.service";
+import {
+  IFormattedDate,
+  IPsycobiologicNeedsForm,
+  PsycobiologicNeedstype,
+} from "../../../interfaces";
+import { addAnswers, getAnswers } from "../../../services/answer.service";
 import { useAuth } from "../../../contexts/auth";
 import { Controller, useForm } from "react-hook-form";
 import PickerSelect from "../../../components/PickerSelect";
 import { Button, Text, VStack } from "native-base";
 import { format } from "date-fns";
+import { getAnswerByDescription } from "../../../helpers/answers";
 
 type Props = StackScreenProps<RootStackParamList, "PsychologicalNeeds">;
 
-const index = ({ route }: Props): JSX.Element => {
+const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
   const { patientId } = route.params;
   const { user } = useAuth();
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
   const [loading, setLoading] = useState(false);
-  const { control, handleSubmit } = useForm<IPsycobiologicNeedsForm>();
+  const { control, handleSubmit, setValue, getValues } =
+    useForm<IPsycobiologicNeedsForm>();
   const [childbirthDate, setChildbirthDate] = useState<IFormattedDate>({
     date: new Date(),
     formattedDate: "",
@@ -53,6 +59,7 @@ const index = ({ route }: Props): JSX.Element => {
   };
 
   const onChangeTime = (selectedDate: Date) => {
+    console.log(selectedDate);
     const currentDate = selectedDate || childbirthTime;
     setShowChildbirthTimeModal(Platform.OS === "ios");
     const formatted = currentDate.toLocaleTimeString();
@@ -150,6 +157,7 @@ const index = ({ route }: Props): JSX.Element => {
           comment: data["Tempo de bolsa rota até o parto"],
         },
       ];
+      console.log(data);
 
       if (
         !data.Gesta ||
@@ -167,8 +175,8 @@ const index = ({ route }: Props): JSX.Element => {
         !data["Classificação sanguínea e fator RH"] ||
         !data.Outro ||
         !data["Uso de substâncias lícitas e/ou ilícitas"] ||
-        !data["Data do parto"] ||
-        !data["Hora do parto"] ||
+        !childbirthDate.date ||
+        !childbirthTime.date ||
         !data.Gestação ||
         !data["Tipo de parto"] ||
         !data.RPMO ||
@@ -191,6 +199,67 @@ const index = ({ route }: Props): JSX.Element => {
       Alert.alert("Ops", error.message);
     }
   };
+
+  const getPatientInfo = async (id: number) => {
+    const answersArray = await getAnswers(id, 4);
+
+    const needsObj: IPsycobiologicNeedsForm = {
+      Aborto: "",
+      Gesta: "",
+      Para: "",
+      "Número de filhos vivos": "",
+      "Pré-natal": "",
+      "Número de consultas": "",
+      "Intercorrências na gestação": "",
+      "Doenças associadas": "",
+      Alergias: "",
+      "Uso de medicamentos": "",
+      "Anti-HIV": "",
+      VDRL: "",
+      "Classificação sanguínea e fator RH": "",
+      Outro: "",
+      "Uso de substâncias lícitas e/ou ilícitas": "",
+      "Data do parto": "",
+      "Hora do parto": "",
+      Gestação: "",
+      "Tipo de parto": "",
+      RPMO: "",
+      "Tempo de bolsa rota até o parto": "",
+    };
+    const drugsIndex = answersArray.findIndex(
+      (answer) =>
+        answer.description === "Uso de substâncias lícitas e/ou ilícitas"
+    );
+    setDrugsComment(answersArray[drugsIndex].comment);
+
+    const birthIndex = answersArray.findIndex(
+      (answer) => answer.description === "Tipo de parto"
+    );
+    setBirthComment(answersArray[birthIndex].comment);
+
+    const dateIndex = answersArray.findIndex(
+      (answer) => answer.description === "Data do parto"
+    );
+    onChangeDate(new Date(answersArray[dateIndex].comment));
+    setValue("Data do parto", childbirthDate.formattedDate);
+
+    const timeIndex = answersArray.findIndex(
+      (answer) => answer.description === "Hora do parto"
+    );
+    onChangeTime(new Date(answersArray[timeIndex].comment));
+    setValue("Hora do parto", childbirthTime.formattedDate);
+
+    for (const [key] of Object.entries(needsObj)) {
+      setValue(
+        key as PsycobiologicNeedstype,
+        getAnswerByDescription(key, answersArray)
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (patientId) getPatientInfo(Number(patientId));
+  }, []);
 
   return (
     <>
@@ -227,6 +296,8 @@ const index = ({ route }: Props): JSX.Element => {
                     placeholder={"Gesta"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    label={"Gesta"}
+                    value={getValues("Gesta")}
                   />
                 )}
               />
@@ -235,9 +306,11 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Para"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label={"Para"}
                     placeholder={"Para"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={getValues("Para")}
                   />
                 )}
               />
@@ -246,9 +319,11 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Aborto"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label={"Aborto"}
                     placeholder={"Aborto"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={getValues("Aborto")}
                   />
                 )}
               />
@@ -257,10 +332,12 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Número de filhos vivos"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label={"Número de filhos vivos"}
                     placeholder={"Número de filhos vivos"}
                     returnKeyType="next"
                     onChangeText={onChange}
                     keyboardType="decimal-pad"
+                    value={getValues("Número de filhos vivos")}
                   />
                 )}
               />
@@ -272,6 +349,7 @@ const index = ({ route }: Props): JSX.Element => {
                     options={[{ description: "Sim" }, { description: "Não" }]}
                     placeholder={"Pré-natal"}
                     onValueChange={onChange}
+                    selectedValue={getValues("Pré-natal")}
                   />
                 )}
               />
@@ -286,6 +364,7 @@ const index = ({ route }: Props): JSX.Element => {
                     ]}
                     placeholder={"Número de consultas"}
                     onValueChange={onChange}
+                    selectedValue={getValues("Número de consultas")}
                   />
                 )}
               />
@@ -294,9 +373,11 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Intercorrências na gestação"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label={"Intercorrências na gestação"}
                     placeholder={"Intercorrências na gestação"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={getValues("Intercorrências na gestação")}
                   />
                 )}
               />
@@ -305,9 +386,11 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Doenças associadas"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label={"Doenças associadas"}
                     placeholder={"Doenças associadas"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={getValues("Doenças associadas")}
                   />
                 )}
               />
@@ -316,9 +399,11 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Alergias"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label={"Alergias"}
                     placeholder={"Alergias"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={getValues("Alergias")}
                   />
                 )}
               />
@@ -327,9 +412,11 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Uso de medicamentos"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label={"Uso de medicamentos"}
                     placeholder={"Uso de medicamentos"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={getValues("Uso de medicamentos")}
                   />
                 )}
               />
@@ -341,9 +428,11 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Anti-HIV"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label="Anti-HIV"
                     placeholder={"Anti-HIV"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={getValues("Anti-HIV")}
                   />
                 )}
               />
@@ -352,9 +441,11 @@ const index = ({ route }: Props): JSX.Element => {
                 name="VDRL"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label={"VDRL"}
                     placeholder={"VDRL"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={getValues("VDRL")}
                   />
                 )}
               />
@@ -363,9 +454,11 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Classificação sanguínea e fator RH"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label="Classificação sanguínea e fator RH"
                     placeholder={"Classificação sanguínea e fator RH"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={getValues("Classificação sanguínea e fator RH")}
                   />
                 )}
               />
@@ -374,9 +467,11 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Outro"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label="Outro"
                     placeholder={"Outro"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={getValues("Outro")}
                   />
                 )}
               />
@@ -390,12 +485,16 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "cigarro" },
                       { description: "drogas" },
                     ]}
+                    selectedValue={getValues(
+                      "Uso de substâncias lícitas e/ou ilícitas"
+                    )}
                     placeholder={"Uso de substâncias lícitas e/ou ilícitas"}
                     onValueChange={onChange}
                     addInfo
+                    infoValue={drugsComment}
                     modalTitle="Uso de substâncias lícitas e/ou ilícitas"
                     onClickSave={(value) => setDrugsComment(value)}
-                    infoValue={drugsComment}
+                    setValue={(value) => setDrugsComment(value)}
                   />
                 )}
               />
@@ -404,6 +503,7 @@ const index = ({ route }: Props): JSX.Element => {
                 Dados do parto:
               </Text>
               <CommonInput
+                label="Data do parto"
                 placeholder={"Data do parto"}
                 value={childbirthDate.formattedDate}
                 returnKeyType="next"
@@ -415,13 +515,15 @@ const index = ({ route }: Props): JSX.Element => {
                   value={childbirthDate.date}
                   placeholderText="Data do parto"
                   mode={"date"}
-                  onChange={(_event: DateTimePickerEvent, date?: Date) =>
-                    date ? onChangeDate(date) : null
-                  }
+                  onChange={(_event: DateTimePickerEvent, date?: Date) => {
+                    console.log(date);
+                    date ? onChangeDate(date) : null;
+                  }}
                   dateFormat="day month year"
                 />
               )}
               <CommonInput
+                label="Hora do parto"
                 placeholder={"Hora do parto"}
                 value={childbirthTime.formattedDate}
                 returnKeyType="next"
@@ -448,6 +550,7 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Gemelar" },
                       { description: "Trigemelar" },
                     ]}
+                    selectedValue={getValues("Gestação")}
                     placeholder={"Gestação"}
                     onValueChange={onChange}
                   />
@@ -465,11 +568,13 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Laceração" },
                       { description: "Episiorrafia" },
                     ]}
+                    selectedValue={getValues("Tipo de parto")}
                     placeholder={"Tipo de parto"}
                     onValueChange={onChange}
                     addInfo
                     modalTitle="Tipo de parto"
                     onClickSave={(value) => setBirthComment(value)}
+                    setValue={(value) => setBirthComment(value)}
                     infoValue={birthComment}
                   />
                 )}
@@ -482,6 +587,7 @@ const index = ({ route }: Props): JSX.Element => {
                     options={[{ description: "Sim" }, { description: "Não" }]}
                     placeholder={"RPMO"}
                     onValueChange={onChange}
+                    selectedValue={getValues("RPMO")}
                   />
                 )}
               />
@@ -490,9 +596,11 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Tempo de bolsa rota até o parto"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label={"Tempo de bolsa rota até o parto"}
                     placeholder={"Tempo de bolsa rota até o parto"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={getValues("Tempo de bolsa rota até o parto")}
                   />
                 )}
               />
@@ -518,4 +626,4 @@ const index = ({ route }: Props): JSX.Element => {
   );
 };
 
-export default index;
+export default PsycobiologicNeeds;

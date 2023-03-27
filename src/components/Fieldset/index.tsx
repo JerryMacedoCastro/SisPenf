@@ -9,9 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import api from "../../services/api";
 
 interface FieldsetProps {
-  label: string;
   value: string;
-  hospitalBed: number;
   patientId: number;
 }
 
@@ -26,11 +24,10 @@ const Fieldset = (props: FieldsetProps): JSX.Element => {
     }
   };
 
-  const { label, value } = props;
+  const { value } = props;
   return (
     <View style={styles.fieldSet}>
       <RectButton style={styles.button} onPress={handlePress}>
-        <Text style={styles.legend}>{label}</Text>
         <Text style={styles.value}>{value}</Text>
         <Feather name="log-out" size={20} color={colors.darkGreen} />
       </RectButton>

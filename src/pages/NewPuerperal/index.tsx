@@ -23,9 +23,6 @@ import DateHeader from "../../components/DateHeader";
 import Picker from "../../components/Picker";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
 import {
-  keyValue,
-  IInfirmariesResponse,
-  IHospitalBedResponse,
   IPatientResponse,
   INewPuerperalForm,
   IFormattedDate,
@@ -34,8 +31,6 @@ import Gradient from "../../components/Gradient";
 import { useAuth } from "../../contexts/auth";
 import PickerSelect from "../../components/PickerSelect";
 import { createPatient, getPatientById } from "../../services/patient.service";
-import { getInfirmaries } from "../../services/infirmary.service";
-import { getHospitalbedByNumber } from "../../services/hospitalBed.service";
 import { addAnswers, getAnswers } from "../../services/answer.service";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../Routes/app.routes";
@@ -45,7 +40,6 @@ type Props = StackScreenProps<RootStackParamList, "NewPuerperal">;
 const NewPuerperal = ({ route }: Props): JSX.Element => {
   const { patientId } = route.params;
   const [patient, setPatient] = useState<IPatientResponse | null>(null);
-  const [infirmary, setInfirmary] = useState<number>(0);
   const [birthDate, setBirthDate] = useState<IFormattedDate>({
     date: new Date(1999, 1, 1),
     formattedDate: "",
@@ -57,12 +51,8 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
   const [showBirthDateModal, setShowBirthDateModal] = useState(false);
   const [showAdmissionDateModal, setShowAdmissionDateModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [bedsPickerDisabled, setBedPickerDisabled] = useState(true);
   const [dietComment, setDietComment] = useState("");
   const [diagnosticComment, setDiagnosticComment] = useState("");
-  const [hospitalBed, setHospitalBed] = useState(0);
-  const [infirmaries, setInfirmaries] = useState<keyValue[]>([]);
-  const [beds, setBeds] = useState<keyValue[]>([]);
   const isKeyboardShown = useKeyboardControll();
   const navigation = useNavigation();
   const [answers, setAnswers] = useState<INewPuerperalForm>({
@@ -72,9 +62,23 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
     "Dieta prescrita": "",
     Nome: "",
   });
-  const { control, handleSubmit } = useForm<INewPuerperalForm>();
+  const { control, handleSubmit, setValue, getValues } =
+    useForm<INewPuerperalForm>();
   const { user } = useAuth();
 
+  const onChangeBirthDate = (selectedDate: Date) => {
+    const currentDate = selectedDate || birthDate;
+    setShowBirthDateModal(Platform.OS === "ios");
+    const formatted = format(currentDate, "dd/MM/yyyy");
+    setBirthDate({ date: selectedDate, formattedDate: formatted });
+  };
+
+  const onChangeAdmissionDate = (selectedDate: Date) => {
+    const currentDate = selectedDate || admissionDate;
+    setShowAdmissionDateModal(Platform.OS === "ios");
+    const formatted = format(currentDate, "dd/MM/yyyy");
+    setAdmissionDate({ date: selectedDate, formattedDate: formatted });
+  };
   const getPatientInfo = async (id: number) => {
     const patient = await getPatientById(id);
     setPatient(patient);
@@ -104,78 +108,72 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
 
   if (patientId && !patient) {
     getPatientInfo(patientId);
+    console.log("hey");
   }
 
-  async function fetchInfirmariesData() {
-    let keyValueInfirmaries: keyValue[] = [];
-    try {
-      const infirmariesResponse: IInfirmariesResponse[] =
-        await getInfirmaries();
+  // async function fetchInfirmariesData() {
+  //   let keyValueInfirmaries: keyValue[] = [];
+  //   try {
+  //     const infirmariesResponse: IInfirmariesResponse[] =
+  //       await getInfirmaries();
 
-      infirmariesResponse.forEach((infirmary: IInfirmariesResponse) => {
-        const keyValueInfirmary: keyValue = {
-          label: infirmary.description,
-          value: infirmary.id,
-        };
-        keyValueInfirmaries = [...keyValueInfirmaries, keyValueInfirmary];
-      });
-      setInfirmaries(keyValueInfirmaries);
-    } catch (error) {
-      throw new Error("Erro ao buscar enfermarias", error.message);
-    }
-  }
+  //     infirmariesResponse.forEach((infirmary: IInfirmariesResponse) => {
+  //       const keyValueInfirmary: keyValue = {
+  //         label: infirmary.description,
+  //         value: infirmary.id,
+  //       };
+  //       keyValueInfirmaries = [...keyValueInfirmaries, keyValueInfirmary];
+  //     });
+  //     setInfirmaries(keyValueInfirmaries);
+  //   } catch (error) {
+  //     throw new Error("Erro ao buscar enfermarias", error.message);
+  //   }
+  // }
 
-  useEffect(() => {
-    try {
-      fetchInfirmariesData();
-    } catch (error) {
-      Alert.alert("Ops", error.message);
-    }
-  }, []);
+  // useEffect(() => {
+  //   try {
+  //     fetchInfirmariesData();
+  //   } catch (error) {
+  //     Alert.alert("Ops", error.message);
+  //   }
+  // }, []);
 
-  const handleChangeInfirmary = async (item: string) => {
-    const value = Number(item);
-    setBedPickerDisabled(true);
-    setBeds([]);
-    setHospitalBed(0);
-    setInfirmary(value);
+  // const handleChangeInfirmary = async (item: string) => {
+  //   const value = Number(item);
+  //   setBedPickerDisabled(true);
+  //   setBeds([]);
+  //   setHospitalBed(0);
+  //   setInfirmary(value);
 
-    let keyValueBeds: keyValue[] = [];
-    try {
-      const bedsResponse: IHospitalBedResponse[] = await getHospitalbedByNumber(
-        value
-      );
-      bedsResponse.forEach((bed: IHospitalBedResponse) => {
-        const keyValueBed: keyValue = {
-          label: bed.description,
-          value: bed.id,
-        };
-        if (!bed.isFilled) keyValueBeds = [...keyValueBeds, keyValueBed];
-      });
-      setBeds(keyValueBeds);
+  //   let keyValueBeds: keyValue[] = [];
+  //   try {
+  //     const bedsResponse: IHospitalBedResponse[] = await getHospitalbedByNumber(
+  //       value
+  //     );
+  //     bedsResponse.forEach((bed: IHospitalBedResponse) => {
+  //       const keyValueBed: keyValue = {
+  //         label: bed.description,
+  //         value: bed.id,
+  //       };
+  //       if (!bed.isFilled) {
+  //         keyValueBeds = [...keyValueBeds, keyValueBed];
+  //       } else if (patientId) {
+  //         keyValueBeds = [...keyValueBeds, keyValueBed];
+  //       }
+  //     });
+  //     setBeds(keyValueBeds);
 
-      setBedPickerDisabled(false);
-    } catch (error) {
-      Alert.alert("Problema de conexão!", error.message);
-    }
-  };
+  //     setBedPickerDisabled(false);
+  //   } catch (error) {
+  //     Alert.alert("Problema de conexão!", error.message);
+  //   }
+  // };
 
   const handleCancel = () => {
-    navigation.navigate("Home");
-  };
-
-  const onChangeBirthDate = (selectedDate: Date) => {
-    const currentDate = selectedDate || birthDate;
-    setShowBirthDateModal(Platform.OS === "ios");
-    const formatted = format(currentDate, "dd/MM/yyyy");
-    setBirthDate({ date: selectedDate, formattedDate: formatted });
-  };
-
-  const onChangeAdmissionDate = (selectedDate: Date) => {
-    const currentDate = selectedDate || admissionDate;
-    setShowAdmissionDateModal(Platform.OS === "ios");
-    const formatted = format(currentDate, "dd/MM/yyyy");
-    setAdmissionDate({ date: selectedDate, formattedDate: formatted });
+    navigation.navigate("PsychologicalNeeds", {
+      patientId: 1,
+      isNewPatient: patientId === null,
+    });
   };
 
   const submitForm = async (data: INewPuerperalForm) => {
@@ -193,14 +191,15 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
         option: data["Dieta prescrita"],
       },
     ];
-    if (infirmary === 0 || hospitalBed === 0) {
-      Alert.alert(
-        "Preencha todos os campos",
-        "Selecione o leito e a enfermaria!"
-      );
-      setLoading(false);
-      return;
-    }
+    // if (infirmary === 0 || hospitalBed === 0) {
+    //   Alert.alert(
+    //     "Preencha todos os campos",
+    //     "Selecione o leito e a enfermaria!"
+    //   );
+    //   setLoading(false);
+    //   return;
+    // }
+    console.log(data);
     if (
       !data.Nome ||
       !birthDate.formattedDate ||
@@ -217,17 +216,17 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
     }
     try {
       const patient: IPatientResponse = await createPatient(
+        patientId,
         data.Nome,
         birthDate.date,
-        admissionDate.date,
-        hospitalBed
+        admissionDate.date
       );
 
       if (patient.id && user) {
         await addAnswers(user.id, patient.id, answeredQuestions);
         navigation.navigate("PsychologicalNeeds", {
           patientId: patient.id,
-          infirmaryId: infirmary,
+          isNewPatient: patientId === null,
         });
       } else {
         throw new Error("Usuário ou paciente não encontrados");
@@ -241,25 +240,29 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
 
   useEffect(() => {
     if (patient) {
-      handleChangeInfirmary(patient.hospitalBed.infirmary.id.toString());
-      setHospitalBed(patient.hospitalBed.id);
+      console.log("n");
       onChangeBirthDate(new Date(patient.birthDate));
       onChangeAdmissionDate(new Date(patient.admissionDate));
+      setValue("Nome", patient.name);
+      setValue("Data de admissão", admissionDate.formattedDate);
+      setValue("Data de nascimento", birthDate.formattedDate);
+      setValue("Diagnóstico médico", answers["Diagnóstico médico"]);
+      setValue("Dieta prescrita", answers["Dieta prescrita"]);
     }
-  }, [patient]);
+  }, [answers]);
 
   return (
     <>
       {!isKeyboardShown && <DateHeader title="Admitir puérpera" />}
       <SafeAreaView style={styles.container}>
         <Gradient />
-        <View style={styles.buttonsContainer}>
+        {/* <View style={styles.buttonsContainer}>
           {infirmaries.length > 0 ? (
             <Picker
               placeholder="Enfermaria"
               items={infirmaries}
               onValueChange={async (item) => await handleChangeInfirmary(item)}
-              defaultValue={`Enfermaria 10 ${infirmary}`}
+              selectedValue={patient ? infirmary.toString() : undefined}
             />
           ) : (
             <ActivityIndicator size="small" color={colors.darkGreen} />
@@ -275,9 +278,12 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
               items={beds}
               onValueChange={(item) => setHospitalBed(Number(item))}
               isDisabled={bedsPickerDisabled || beds.length === 0}
+              selectedValue={
+                patient ? patient.hospitalBed.id.toString() : undefined
+              }
             />
           )}
-        </View>
+        </View> */}
 
         <KeyboardAvoidingView
           style={styles.content}
@@ -304,11 +310,13 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
                     placeholder={"Nome"}
                     returnKeyType="next"
                     onChangeText={onChange}
-                    value={patient?.name}
+                    label="Nome"
+                    value={getValues("Nome")}
                   />
                 )}
               />
               <CommonInput
+                label="Data de nascimento"
                 placeholder={"Data de nascimento"}
                 value={birthDate.formattedDate}
                 returnKeyType="next"
@@ -328,6 +336,7 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
               )}
 
               <CommonInput
+                label="Data de admissão"
                 placeholder={"Data de admissão"}
                 value={admissionDate.formattedDate}
                 returnKeyType="next"

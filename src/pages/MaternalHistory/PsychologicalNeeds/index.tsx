@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Platform, KeyboardAvoidingView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -11,24 +11,29 @@ import { ScrollView } from "react-native-gesture-handler";
 import { globalStyles } from "../../../Assets/GlobalStyles";
 import useKeyboardControll from "../../../hooks/useKeyboardControll";
 import { RootStackParamList } from "../../../Routes/app.routes";
-import { IPsycologicalNeedsForm } from "../../../interfaces";
+import {
+  IPsycologicalNeedsForm,
+  PsycologicalNeedsType,
+} from "../../../interfaces";
 
 import { useAuth } from "../../../contexts/auth";
 import { Controller, useForm } from "react-hook-form";
 import PickerSelect from "../../../components/PickerSelect";
 import { Button, Text, VStack } from "native-base";
-import { addAnswers } from "../../../services/answer.service";
+import { addAnswers, getAnswers } from "../../../services/answer.service";
 import CommonInput from "../../../components/Input/CommonInput";
+import { getAnswerByDescription } from "../../../helpers/answers";
 
 type Props = StackScreenProps<RootStackParamList, "PsychologicalNeeds">;
 
-const index = ({ route }: Props): JSX.Element => {
+const PsycologicalNeeds = ({ route }: Props): JSX.Element => {
   const { user } = useAuth();
-  const { patientId } = route.params;
+  const { patientId, isNewPatient } = route.params;
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
   const [loading, setLoading] = useState(false);
-  const { control, handleSubmit } = useForm<IPsycologicalNeedsForm>();
+  const { control, handleSubmit, getValues, setValue } =
+    useForm<IPsycologicalNeedsForm>();
 
   const submitForm = async (data: IPsycologicalNeedsForm) => {
     try {
@@ -143,12 +148,48 @@ const index = ({ route }: Props): JSX.Element => {
 
       if (user) {
         await addAnswers(user.id, patientId, answeredQuestions);
+        setLoading(false);
         navigation.navigate("SpiritualNeeds", { patientId });
       }
     } catch (error) {
+      setLoading(false);
+      console.log(error.message);
       Alert.alert("Ops", error.message);
     }
   };
+
+  const getPatientInfo = async (id: number) => {
+    const answersArray = await getAnswers(id, 1);
+
+    const psycoNeedsObj: IPsycologicalNeedsForm = {
+      "Atitude familiar conflitante": "",
+      "Estado civil": "",
+      "Falta de apoio social": "",
+      Escolaridade: "",
+      "Falta de conhecimento sobre a amamentação": "",
+      "Falta de conhecimento sobre a ordenha do leite materno": "",
+      "Falta de conhecimento sobre a situação clínica do recém-nascido": "",
+      "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica": "",
+      "Falta de conhecimento sobre o autocuidado com as mamas": "",
+      "Falta de conhecimento sobre os cuidados com recém-nascido": "",
+      "Falta de conhecimento sobre o planejamento familiar": "",
+      "Comunicação verbal prejudicada": "",
+      Ansiedade: "",
+      "Maternidade/paternidade prejudicada": "",
+      "Risco de maternidade/paternidade prejudicada": "",
+      "Risco de vínculo mãe-filho prejudicado": "",
+    };
+    for (const [key] of Object.entries(psycoNeedsObj)) {
+      setValue(
+        key as PsycologicalNeedsType,
+        getAnswerByDescription(key, answersArray)
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (patientId) getPatientInfo(Number(patientId));
+  }, []);
 
   return (
     <>
@@ -191,6 +232,9 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "União estável" },
                       { description: "Divorciada" },
                     ]}
+                    selectedValue={
+                      !isNewPatient ? getValues("Estado civil") : undefined
+                    }
                     placeholder={"Estado civil"}
                     onValueChange={onChange}
                   />
@@ -201,9 +245,15 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Falta de apoio social"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label="Falta de apoio social"
                     placeholder={"Falta de apoio social"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={
+                      !isNewPatient
+                        ? getValues("Falta de apoio social")
+                        : undefined
+                    }
                   />
                 )}
               />
@@ -224,6 +274,9 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Ensino superior incompleto" },
                       { description: "Ensino superior completo" },
                     ]}
+                    selectedValue={
+                      !isNewPatient ? getValues("Escolaridade") : undefined
+                    }
                     placeholder={"Escolaridade"}
                     onValueChange={onChange}
                   />
@@ -241,6 +294,11 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Presente" },
                       { description: "Ausente" },
                     ]}
+                    selectedValue={
+                      !isNewPatient
+                        ? getValues("Falta de conhecimento sobre a amamentação")
+                        : undefined
+                    }
                     placeholder={"Amamentação"}
                     onValueChange={onChange}
                   />
@@ -255,6 +313,13 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Presente" },
                       { description: "Ausente" },
                     ]}
+                    selectedValue={
+                      !isNewPatient
+                        ? getValues(
+                            "Falta de conhecimento sobre a ordenha do leite materno"
+                          )
+                        : undefined
+                    }
                     placeholder={"Ordenha do leite materno"}
                     onValueChange={onChange}
                   />
@@ -271,6 +336,13 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Presente" },
                       { description: "Ausente" },
                     ]}
+                    selectedValue={
+                      !isNewPatient
+                        ? getValues(
+                            "Falta de conhecimento sobre a situação clínica do recém-nascido"
+                          )
+                        : undefined
+                    }
                     placeholder={"Situação clínica do recém-nascido"}
                     onValueChange={onChange}
                   />
@@ -287,6 +359,13 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Presente" },
                       { description: "Ausente" },
                     ]}
+                    selectedValue={
+                      !isNewPatient
+                        ? getValues(
+                            "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica"
+                          )
+                        : undefined
+                    }
                     placeholder={"Autocuidado com a ferida cirúrgica"}
                     onValueChange={onChange}
                   />
@@ -301,6 +380,13 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Presente" },
                       { description: "Ausente" },
                     ]}
+                    selectedValue={
+                      !isNewPatient
+                        ? getValues(
+                            "Falta de conhecimento sobre o autocuidado com as mamas"
+                          )
+                        : undefined
+                    }
                     placeholder={"Autocuidado com as mamas"}
                     onValueChange={onChange}
                   />
@@ -317,6 +403,13 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Presente" },
                       { description: "Ausente" },
                     ]}
+                    selectedValue={
+                      !isNewPatient
+                        ? getValues(
+                            "Falta de conhecimento sobre os cuidados com recém-nascido"
+                          )
+                        : undefined
+                    }
                     placeholder={"Cuidados com recém-nascido"}
                     onValueChange={onChange}
                   />
@@ -331,6 +424,13 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Presente" },
                       { description: "Ausente" },
                     ]}
+                    selectedValue={
+                      !isNewPatient
+                        ? getValues(
+                            "Falta de conhecimento sobre o planejamento familiar"
+                          )
+                        : undefined
+                    }
                     placeholder={"Planejamento familiar"}
                     onValueChange={onChange}
                   />
@@ -344,9 +444,15 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Comunicação verbal prejudicada"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label="Comunicação verbal prejudicada"
                     placeholder={"Comunicação verbal prejudicada"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={
+                      !isNewPatient
+                        ? getValues("Comunicação verbal prejudicada")
+                        : undefined
+                    }
                   />
                 )}
               />
@@ -364,6 +470,9 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Moderada" },
                       { description: "Grave" },
                     ]}
+                    selectedValue={
+                      !isNewPatient ? getValues("Ansiedade") : undefined
+                    }
                     placeholder={"Ansiedade"}
                     onValueChange={onChange}
                   />
@@ -377,9 +486,15 @@ const index = ({ route }: Props): JSX.Element => {
                 name="Atitude familiar conflitante"
                 render={({ field: { onChange } }) => (
                   <CommonInput
+                    label="Atitude familiar conflitante"
                     placeholder={"Atitude familiar conflitante"}
                     returnKeyType="next"
                     onChangeText={onChange}
+                    value={
+                      !isNewPatient
+                        ? getValues("Atitude familiar conflitante")
+                        : undefined
+                    }
                   />
                 )}
               />
@@ -392,6 +507,11 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Presente" },
                       { description: "Ausente" },
                     ]}
+                    selectedValue={
+                      !isNewPatient
+                        ? getValues("Maternidade/paternidade prejudicada")
+                        : undefined
+                    }
                     placeholder={"Maternidade/paternidade prejudicada"}
                     onValueChange={onChange}
                   />
@@ -407,6 +527,13 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Diminuído" },
                       { description: "Ausente" },
                     ]}
+                    selectedValue={
+                      !isNewPatient
+                        ? getValues(
+                            "Risco de maternidade/paternidade prejudicada"
+                          )
+                        : undefined
+                    }
                     placeholder={"Risco de maternidade/paternidade prejudicada"}
                     onValueChange={onChange}
                   />
@@ -422,6 +549,11 @@ const index = ({ route }: Props): JSX.Element => {
                       { description: "Diminuído" },
                       { description: "Ausente" },
                     ]}
+                    selectedValue={
+                      !isNewPatient
+                        ? getValues("Risco de vínculo mãe-filho prejudicado")
+                        : undefined
+                    }
                     placeholder={"Risco de vínculo mãe-filho prejudicado"}
                     onValueChange={onChange}
                   />
@@ -449,4 +581,4 @@ const index = ({ route }: Props): JSX.Element => {
   );
 };
 
-export default index;
+export default PsycologicalNeeds;
