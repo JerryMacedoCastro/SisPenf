@@ -34,7 +34,6 @@ const Login = (): JSX.Element => {
       });
     } catch (error) {
       setLoading(false);
-      console.log(error.message);
       Alert.alert(
         "Dados inválidos",
         "Verifique e-mail e senha e tente novamente"

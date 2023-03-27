@@ -45,7 +45,6 @@ const AuthProvider = ({ children }: Props): JSX.Element => {
       };
       setUser(user);
       //api.defaults.headers.Authorization = `Baerer ${response.token}`;
-      console.log(response.token);
       await AsyncStorage.setItem("@RNAuth:user", JSON.stringify(user));
       await AsyncStorage.setItem("@RNAuth:token", response.token);
       setLoading(false);

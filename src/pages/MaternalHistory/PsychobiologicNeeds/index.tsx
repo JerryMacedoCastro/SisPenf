@@ -28,7 +28,7 @@ import { Button, Text, VStack } from "native-base";
 import { format } from "date-fns";
 import { getAnswerByDescription } from "../../../helpers/answers";
 
-type Props = StackScreenProps<RootStackParamList, "PsychologicalNeeds">;
+type Props = StackScreenProps<RootStackParamList, "PsychobiologicNeeds">;
 
 const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
   const { patientId } = route.params;
@@ -59,11 +59,13 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
   };
 
   const onChangeTime = (selectedDate: Date) => {
-    console.log(selectedDate);
     const currentDate = selectedDate || childbirthTime;
     setShowChildbirthTimeModal(Platform.OS === "ios");
     const formatted = currentDate.toLocaleTimeString();
     setChildbirthTime({ date: selectedDate, formattedDate: formatted });
+  };
+  const handleNext = () => {
+    navigation.navigate("PartOne", { patientId });
   };
 
   const submitForm = async (data: IPsycobiologicNeedsForm) => {
@@ -84,15 +86,15 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
         },
         {
           question: "Número de filhos vivos",
-          option: data["Número de filhos vivos"],
+          setDrugsComment: data["Número de filhos vivos"],
         },
         {
           question: "Pré-natal",
-          optopn: data["Pré-natal"],
+          option: data["Pré-natal"],
         },
         {
           question: "Número de consultas",
-          comment: data["Número de consultas"],
+          option: data["Número de consultas"],
         },
         {
           question: "Intercorrências na gestação",
@@ -157,7 +159,6 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
           comment: data["Tempo de bolsa rota até o parto"],
         },
       ];
-      console.log(data);
 
       if (
         !data.Gesta ||
@@ -240,13 +241,19 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
     const dateIndex = answersArray.findIndex(
       (answer) => answer.description === "Data do parto"
     );
-    onChangeDate(new Date(answersArray[dateIndex].comment));
-    setValue("Data do parto", childbirthDate.formattedDate);
+
+    const dateArray = answersArray[dateIndex].comment.split("/");
+    onChangeDate(new Date(`${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`));
+    setValue("Data do parto", answersArray[dateIndex].comment);
 
     const timeIndex = answersArray.findIndex(
       (answer) => answer.description === "Hora do parto"
     );
-    onChangeTime(new Date(answersArray[timeIndex].comment));
+    onChangeTime(
+      new Date(
+        `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}T${answersArray[timeIndex].comment}`
+      )
+    );
     setValue("Hora do parto", childbirthTime.formattedDate);
 
     for (const [key] of Object.entries(needsObj)) {
@@ -618,6 +625,14 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
             >
               <Text style={globalStyles.primaryButtonText}>Continuar</Text>
             </Button>
+            {patientId !== null && (
+              <Button
+                style={[globalStyles.button, globalStyles.secondaryButton]}
+                onPress={handleNext}
+              >
+                <Text style={globalStyles.secondaryButtonText}>Próximo</Text>
+              </Button>
+            )}
           </View>
         )}
       </SafeAreaView>

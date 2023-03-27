@@ -56,6 +56,9 @@ const SecondPhysicalExam = ({ route }: Props): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
   const [reducerState, dispatch] = useReducer(reducer, initialState);
 
+  const handleNext = () => {
+    navigation.navigate("Home", { patientId });
+  };
   const submitForm = async (data: ISecondPhysicalExamForm) => {
     setLoading(true);
 
@@ -152,7 +155,6 @@ const SecondPhysicalExam = ({ route }: Props): JSX.Element => {
         throw new Error("Usuário ou paciente não encontrados");
       }
     } catch (error) {
-      console.log(error.message);
       Alert.alert("Ops...", error.message);
     } finally {
       setLoading(false);
@@ -777,6 +779,14 @@ const SecondPhysicalExam = ({ route }: Props): JSX.Element => {
             >
               <Text style={globalStyles.primaryButtonText}>Continuar</Text>
             </Button>
+            {patientId !== null && (
+              <Button
+                style={[globalStyles.button, globalStyles.secondaryButton]}
+                onPress={handleNext}
+              >
+                <Text style={globalStyles.secondaryButtonText}>Voltar</Text>
+              </Button>
+            )}
           </View>
         )}
       </SafeAreaView>

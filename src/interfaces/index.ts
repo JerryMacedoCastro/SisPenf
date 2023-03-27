@@ -46,6 +46,7 @@ export interface IHospitalBedResponse {
     isActive: boolean;
   };
 }
+
 export interface IPatient {
   id: number;
   name: string;
@@ -53,6 +54,7 @@ export interface IPatient {
   admissionDate: Date;
   isActive: boolean;
 }
+
 export interface IPatientResponse {
   id: number;
   name: string;
@@ -94,6 +96,11 @@ export interface IQuestionAnswer {
 
 export interface IOption {
   description: string;
+}
+
+export interface IOptionChecked {
+  description: string;
+  checked: boolean;
 }
 
 export interface IQuesttionType {
@@ -260,6 +267,40 @@ export type FirstPhysicalExamType =
   | "Mamas"
   | "Axila";
 
+export interface IParamsDiagnosis {
+  judgments: string[];
+  actions: string[];
+}
+
+export interface IFocusDiagnosisForm {
+  "Edema periférico": IParamsDiagnosis;
+  "Amamentação exclusiva": IParamsDiagnosis;
+  Constipação: IParamsDiagnosis;
+  "Eliminação urinária": IParamsDiagnosis;
+  Sono: IParamsDiagnosis;
+  "Comportamento de repouso": IParamsDiagnosis;
+  Deambulação: IParamsDiagnosis;
+  "Exaustão no período pós-parto": IParamsDiagnosis;
+  "Fadiga no período pós-parto": IParamsDiagnosis;
+  "Higiene pessoal": IParamsDiagnosis;
+  "Ferida cirúrgica (cicatrização)": IParamsDiagnosis;
+  "Fissura na mama": IParamsDiagnosis;
+  "Ingurgitamento mamário": IParamsDiagnosis;
+  "Pressão sanguínea": IParamsDiagnosis;
+  "Risco de processo hemorrágico": IParamsDiagnosis;
+  "Risco de infecção": IParamsDiagnosis;
+  "Dor no período pós-parto": IParamsDiagnosis;
+  Ansiedade: IParamsDiagnosis;
+  "Risco de parentalidade prejudicada": IParamsDiagnosis;
+  "Risco de ligação afetiva pais-criança prejudicada": IParamsDiagnosis;
+  "Conhecimento sobre amamentação": IParamsDiagnosis;
+  "Conhecimento sobre ordenha": IParamsDiagnosis;
+  "Conhecimento sobre recém-nascido": IParamsDiagnosis;
+  "Conhecimento sobre o cuidado com a ferida ": IParamsDiagnosis;
+  "Regime de cuidados com as mamas": IParamsDiagnosis;
+  "Capacidade do cuidador para executar os cuidados com recém-nascido": IParamsDiagnosis;
+  "Planejamento familiar ": IParamsDiagnosis;
+}
 export interface IFirstPhysicalExamForm {
   "Condições gerais": string;
   "Estado mental": string;

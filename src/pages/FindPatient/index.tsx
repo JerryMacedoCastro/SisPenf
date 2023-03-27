@@ -13,7 +13,6 @@ import { colors } from "../../Assets/GlobalStyles";
 const FindPatient = (): JSX.Element => {
   const isKeyboardShown = useKeyboardControll();
   const [searchPatient, setSearchPatient] = useState("");
-
   const handleChangeInput = (value: string) => {
     setSearchPatient(value);
   };

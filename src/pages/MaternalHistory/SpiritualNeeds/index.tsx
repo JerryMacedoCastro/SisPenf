@@ -30,6 +30,10 @@ const SpiritualNeeds = ({ route }: Props): JSX.Element => {
   const { control, handleSubmit, setValue, getValues } =
     useForm<ISpiritualNeedsForm>();
 
+  const handleNext = () => {
+    navigation.navigate("PsychobiologicNeeds", { patientId });
+  };
+
   const submitForm = async (data: ISpiritualNeedsForm) => {
     try {
       setLoading(true);
@@ -181,6 +185,15 @@ const SpiritualNeeds = ({ route }: Props): JSX.Element => {
             >
               <Text style={globalStyles.primaryButtonText}>Continuar</Text>
             </Button>
+
+            {patientId !== null && (
+              <Button
+                style={[globalStyles.button, globalStyles.secondaryButton]}
+                onPress={handleNext}
+              >
+                <Text style={globalStyles.secondaryButtonText}>Próximo</Text>
+              </Button>
+            )}
           </View>
         )}
       </SafeAreaView>

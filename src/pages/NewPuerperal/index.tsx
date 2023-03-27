@@ -108,7 +108,6 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
 
   if (patientId && !patient) {
     getPatientInfo(patientId);
-    console.log("hey");
   }
 
   // async function fetchInfirmariesData() {
@@ -170,10 +169,14 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
   // };
 
   const handleCancel = () => {
-    navigation.navigate("PsychologicalNeeds", {
-      patientId: 1,
-      isNewPatient: patientId === null,
-    });
+    if (patientId) {
+      navigation.navigate("PsychologicalNeeds", {
+        patientId: patientId,
+        isNewPatient: patientId === null,
+      });
+    } else {
+      navigation.navigate("Home");
+    }
   };
 
   const submitForm = async (data: INewPuerperalForm) => {
@@ -199,7 +202,6 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
     //   setLoading(false);
     //   return;
     // }
-    console.log(data);
     if (
       !data.Nome ||
       !birthDate.formattedDate ||
@@ -240,7 +242,6 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
 
   useEffect(() => {
     if (patient) {
-      console.log("n");
       onChangeBirthDate(new Date(patient.birthDate));
       onChangeAdmissionDate(new Date(patient.admissionDate));
       setValue("Nome", patient.name);
@@ -420,14 +421,16 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
               isLoadingText="Carregando"
             >
               <Text style={globalStyles.primaryButtonText}>
-                Iniciar processo de enfermagem
+                {patientId ? "Atualizar" : "Iniciar processo de enfermagem"}
               </Text>
             </Button>
             <Button
               style={[globalStyles.button, globalStyles.secondaryButton]}
               onPress={handleCancel}
             >
-              <Text style={globalStyles.secondaryButtonText}>Cancelar</Text>
+              <Text style={globalStyles.secondaryButtonText}>
+                {patientId ? "Próximo" : "Cancelar"}
+              </Text>
             </Button>
           </View>
         )}

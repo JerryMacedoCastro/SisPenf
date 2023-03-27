@@ -35,6 +35,10 @@ const PsycologicalNeeds = ({ route }: Props): JSX.Element => {
   const { control, handleSubmit, getValues, setValue } =
     useForm<IPsycologicalNeedsForm>();
 
+  const handleNext = () => {
+    navigation.navigate("SpiritualNeeds", { patientId });
+  };
+
   const submitForm = async (data: IPsycologicalNeedsForm) => {
     try {
       setLoading(true);
@@ -153,7 +157,6 @@ const PsycologicalNeeds = ({ route }: Props): JSX.Element => {
       }
     } catch (error) {
       setLoading(false);
-      console.log(error.message);
       Alert.alert("Ops", error.message);
     }
   };
@@ -574,6 +577,14 @@ const PsycologicalNeeds = ({ route }: Props): JSX.Element => {
             >
               <Text style={globalStyles.primaryButtonText}>Continuar</Text>
             </Button>
+            {patientId !== null && (
+              <Button
+                style={[globalStyles.button, globalStyles.secondaryButton]}
+                onPress={handleNext}
+              >
+                <Text style={globalStyles.secondaryButtonText}>Próximo</Text>
+              </Button>
+            )}
           </View>
         )}
       </SafeAreaView>

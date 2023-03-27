@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   content: {
     width: "90%",
-    height: "80%",
+    height: "75%",
   },
   formContainer: {
     backgroundColor: colors.white,

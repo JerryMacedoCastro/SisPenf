@@ -25,6 +25,20 @@ import { useAuth } from "../../../contexts/auth";
 import { getAnswerByDescription } from "../../../helpers/answers";
 
 type Props = StackScreenProps<RootStackParamList, "PartOne">;
+const initialState: IFirstPhysicalExamForm = {
+  "Condições gerais": "",
+  "Estado mental": "",
+  Pele: "",
+  Cabelo: "",
+  Cabeça: "",
+  Olhos: "",
+  Ouvidos: "",
+  "Nariz e seios nasais": "",
+  "Boca e garganta": "",
+  Pescoço: "",
+  Mamas: "",
+  Axila: "",
+};
 
 const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
   const { patientId } = route.params;
@@ -35,22 +49,10 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
   const navigation = useNavigation();
   const isKeyboardShown = useKeyboardControll();
 
-  const initialState: IFirstPhysicalExamForm = {
-    "Condições gerais": "",
-    "Estado mental": "",
-    Pele: "",
-    Cabelo: "",
-    Cabeça: "",
-    Olhos: "",
-    Ouvidos: "",
-    "Nariz e seios nasais": "",
-    "Boca e garganta": "",
-    Pescoço: "",
-    Mamas: "",
-    Axila: "",
-  };
-
   const [reducerState, dispatch] = useReducer(reducer, initialState);
+  const handleNext = () => {
+    navigation.navigate("PartTwo", { patientId });
+  };
 
   const submitForm = async (data: IFirstPhysicalExamForm) => {
     setLoading(true);
@@ -180,7 +182,10 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
   return (
     <>
       {!isKeyboardShown && (
-        <DateHeader title="Exame físico parte 1" destinyBack="ChildbirthData" />
+        <DateHeader
+          title="Exame físico parte 1"
+          destinyBack="PsychobiologicNeeds"
+        />
       )}
       <SafeAreaView style={styles.container}>
         <Gradient />
@@ -701,6 +706,14 @@ const FirstPhysicalExam = ({ route }: Props): JSX.Element => {
             >
               <Text style={globalStyles.primaryButtonText}>Continuar</Text>
             </Button>
+            {patientId !== null && (
+              <Button
+                style={[globalStyles.button, globalStyles.secondaryButton]}
+                onPress={handleNext}
+              >
+                <Text style={globalStyles.secondaryButtonText}>Próximo</Text>
+              </Button>
+            )}
           </View>
         )}
       </SafeAreaView>
