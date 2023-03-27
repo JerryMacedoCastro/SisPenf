@@ -515,10 +515,9 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
                   value={childbirthDate.date}
                   placeholderText="Data do parto"
                   mode={"date"}
-                  onChange={(_event: DateTimePickerEvent, date?: Date) => {
-                    console.log(date);
-                    date ? onChangeDate(date) : null;
-                  }}
+                  onChange={(_event: DateTimePickerEvent, date?: Date) =>
+                    date ? onChangeDate(date) : null
+                  }
                   dateFormat="day month year"
                 />
               )}

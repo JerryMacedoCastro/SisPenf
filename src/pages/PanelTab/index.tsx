@@ -8,7 +8,7 @@ import Button from "../../components/Button";
 import { colors } from "../../Assets/GlobalStyles";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image, Text } from "native-base";
+import { Text } from "native-base";
 
 const PanelTab = (): JSX.Element => {
   const navigation = useNavigation();

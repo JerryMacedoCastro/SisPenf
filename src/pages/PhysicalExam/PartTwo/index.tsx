@@ -82,8 +82,8 @@ const SecondPhysicalExam = ({ route }: Props): JSX.Element => {
       },
       {
         option: data["Sistema ginecológico/obstétrico"],
-        question: "Sistema gincológico/obstétrico",
-        comment: reducerState["Sistema gincológico/obstétrico"],
+        question: "Sistema ginecológico/obstétrico",
+        comment: reducerState["Sistema ginecológico/obstétrico"],
       },
       {
         option: data["Sistema hematológico"],
@@ -152,6 +152,7 @@ const SecondPhysicalExam = ({ route }: Props): JSX.Element => {
         throw new Error("Usuário ou paciente não encontrados");
       }
     } catch (error) {
+      console.log(error.message);
       Alert.alert("Ops...", error.message);
     } finally {
       setLoading(false);
@@ -471,25 +472,25 @@ const SecondPhysicalExam = ({ route }: Props): JSX.Element => {
                       { description: "Leucorréia" },
                     ]}
                     selectedValue={getValues("Sistema ginecológico/obstétrico")}
-                    placeholder={"Sistema gincológico/obstétrico"}
+                    placeholder={"Sistema ginecológico/obstétrico"}
                     onValueChange={onChange}
                     addInfo
-                    modalTitle="Sistema gincológico/obstétrico"
+                    modalTitle="Sistema ginecológico/obstétrico"
                     onClickSave={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
-                        key: "Sistema gincológico/obstétrico",
+                        key: "Sistema ginecológico/obstétrico",
                       })
                     }
                     setValue={(value) =>
                       dispatch({
                         type: "UPDATE",
                         value: value,
-                        key: "Sistema gincológico/obstétrico",
+                        key: "Sistema ginecológico/obstétrico",
                       })
                     }
-                    infoValue={reducerState["Sistema gincológico/obstétrico"]}
+                    infoValue={reducerState["Sistema ginecológico/obstétrico"]}
                   />
                 )}
               />

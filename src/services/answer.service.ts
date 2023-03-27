@@ -1,4 +1,4 @@
-import { IAnswer, IPatient } from "../interfaces";
+import { IAnswer } from "../interfaces";
 import api from "./api";
 const headers = {
   "Content-type": "application/json;charset=UTF-8",
