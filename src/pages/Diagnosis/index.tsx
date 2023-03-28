@@ -70,7 +70,7 @@ const Diagnosis = (): JSX.Element => {
     setOpenModalLoading(true);
     setMessage("Enviando 0%");
 
-    actionsFocus.forEach(async (nameFocus, index) => {
+    actionsFocus.forEach(async (nameFocus) => {
       try {
         const answeredQuestions = {
           question: nameFocus,

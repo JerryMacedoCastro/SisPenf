@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Alert, Text, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { RectButton } from "react-native-gesture-handler";
 import { Form } from "@unform/mobile";
 import { SubmitHandler, FormHandles } from "@unform/core";
@@ -19,16 +18,16 @@ interface FormData {
 }
 
 const Login = (): JSX.Element => {
-  const { signIn, signed } = useAuth();
+  const { signIn } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
 
   const handleFormSubmit: SubmitHandler<FormData> = async (info) => {
     try {
       setLoading(true);
       const { user, password } = info;
+      if (!user || !password) throw new Error();
       await signIn(user, password).finally(() => {
         setLoading(false);
       });
@@ -36,13 +35,16 @@ const Login = (): JSX.Element => {
       setLoading(false);
       Alert.alert(
         "Dados inválidos",
-        "Verifique e-mail e senha e tente novamente"
+        "Cheque os dados ou entre em contato com os resposáveis"
       );
     }
   };
 
-  const handleNavigateToRegister = () => {
-    navigation.navigate("Register");
+  const handleRequestAccess = () => {
+    Alert.alert(
+      "Ops",
+      "Estamos trabalhando nisso. Procure um administrador do sistema para receber os dados de acesso"
+    );
   };
 
   return (
@@ -71,14 +73,15 @@ const Login = (): JSX.Element => {
             secureTextEntry
           />
           {/* {error !== "" && <TextInput style={styles.error}>{error}</TextInput>} */}
-          <RectButton style={{ height: 26, marginBottom: 20, marginTop: 20 }}>
+          {/* <RectButton style={{ height: 26, marginBottom: 20, marginTop: 20 }}>
             <Text
               onPress={() => navigation.navigate("PasswordRecover")}
               style={styles.inputStyle}
             >
               Esqueceu a senha? Clique aqui.
             </Text>
-          </RectButton>
+          </RectButton> */}
+
           <RectButton
             onPress={() => formRef?.current?.submitForm()}
             style={[globalStyles.button, globalStyles.primaryButton]}
@@ -87,7 +90,7 @@ const Login = (): JSX.Element => {
           </RectButton>
           <RectButton
             style={[globalStyles.button, globalStyles.secondaryButton]}
-            onPress={handleNavigateToRegister}
+            onPress={handleRequestAccess}
           >
             <Text style={globalStyles.secondaryButtonText}>
               Solicitar Acesso

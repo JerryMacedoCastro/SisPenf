@@ -5,8 +5,6 @@ import { useAuth } from "../contexts/auth";
 import AppRoutes from "./app.routes";
 import AuthRoutes from "./auth.routes";
 
-// import AppRoutes from '../routes/app.routes';
-
 const Routes = (): JSX.Element => {
   const { signed, loading } = useAuth();
   if (loading) {
@@ -18,7 +16,7 @@ const Routes = (): JSX.Element => {
   }
   return (
     <NativeBaseProvider>
-      <AppRoutes />
+      {signed ? <AppRoutes /> : <AuthRoutes />}
     </NativeBaseProvider>
   );
 };

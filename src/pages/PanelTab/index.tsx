@@ -9,8 +9,10 @@ import { colors } from "../../Assets/GlobalStyles";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text } from "native-base";
+import { useAuth } from "../../contexts/auth";
 
 const PanelTab = (): JSX.Element => {
+  const { signOut } = useAuth();
   const navigation = useNavigation();
   const handleNavigate = (to: string) => {
     navigation.navigate(to);
@@ -34,7 +36,7 @@ const PanelTab = (): JSX.Element => {
       >
         <Button
           title="Admitir paciente"
-          icon="log-in"
+          icon="user-plus"
           color={colors.white}
           size={24}
           handlePress={() =>
@@ -47,6 +49,16 @@ const PanelTab = (): JSX.Element => {
           color={colors.white}
           size={24}
           handlePress={() => handleNavigate("FindPatient")}
+        />
+
+        <Button
+          title="Sair"
+          icon="log-out"
+          color={colors.white}
+          size={24}
+          handlePress={() => {
+            signOut();
+          }}
         />
       </ScrollView>
     </SafeAreaView>
