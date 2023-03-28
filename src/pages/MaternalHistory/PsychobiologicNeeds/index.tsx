@@ -488,9 +488,10 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
                 render={({ field: { onChange } }) => (
                   <PickerSelect
                     options={[
-                      { description: "álcool" },
-                      { description: "cigarro" },
-                      { description: "drogas" },
+                      { description: "Nenhuma" },
+                      { description: "Álcool" },
+                      { description: "Cigarro" },
+                      { description: "Outras drogas" },
                     ]}
                     selectedValue={getValues(
                       "Uso de substâncias lícitas e/ou ilícitas"
@@ -570,9 +571,6 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
                     options={[
                       { description: "Cesariana" },
                       { description: "Vaginal" },
-                      { description: "Episiotomia" },
-                      { description: "Laceração" },
-                      { description: "Episiorrafia" },
                     ]}
                     selectedValue={getValues("Tipo de parto")}
                     placeholder={"Tipo de parto"}
