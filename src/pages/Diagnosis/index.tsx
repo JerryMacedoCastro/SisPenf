@@ -74,6 +74,7 @@ const Diagnosis = (): JSX.Element => {
       try {
         const answeredQuestions = {
           question: nameFocus,
+          comment: "",
           option: [
             {
               description: selectedjudgments[nameFocus],
@@ -99,10 +100,10 @@ const Diagnosis = (): JSX.Element => {
             );
 
             if (progress === actionsFocus.length) {
-              Alert.alert("Sucesso", "Diagnosticos enviados");
+              Alert.alert("Sucesso", "Diagnósticos enviados");
               setOpenModalLoading(false);
             } else {
-              if (percentage >= 100) setMessage("Diagnosticos enviados");
+              if (percentage >= 100) setMessage("Diagnósticos enviados");
               else setMessage(`Enviando ${percentage}%`);
             }
           });
@@ -112,9 +113,10 @@ const Diagnosis = (): JSX.Element => {
           throw new Error("Erro ao Salvar Diagnosticos");
         }
       } catch (err) {
-        Alert.alert("Erro !", "Erro");
+        console.log("Erro em ", err.message);
         setOpenModalLoading(false);
-        throw new Error("Erro ao Salvar Diagnosticos");
+        Alert.alert("Erro !", "Erro");
+        return;
       }
     });
   };
