@@ -11,7 +11,7 @@ interface IOptionsCheck {
   options: {
     label: string;
     value: string;
-  }[]
+  }[];
 }
 
 const ModalWithChecklist = ({
@@ -19,10 +19,11 @@ const ModalWithChecklist = ({
   textButton,
   titleChecklist,
   dataCheckedInitial,
-  saveDataCheckedFinal
+  saveDataCheckedFinal,
 }: IOptionsCheck) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalChecked, setModalChecked] = useState<string[]>(dataCheckedInitial);
+  const [modalChecked, setModalChecked] =
+    useState<string[]>(dataCheckedInitial);
 
   return (
     <>
@@ -49,11 +50,10 @@ const ModalWithChecklist = ({
                       onChange={(checked) => {
                         setModalChecked((aux) => {
                           if (checked) aux.push(item.value);
-                          else
-                            aux = aux.filter(
-                              (itemAux) => itemAux !== item.value
-                            );
-
+                          else {
+                            const index = aux.indexOf(item.value);
+                            aux.splice(index, 1);
+                          }
                           return aux;
                         });
                       }}
@@ -65,7 +65,7 @@ const ModalWithChecklist = ({
                   </View>
                   <Divider marginBottom={5} marginTop={5} />
                 </View>
-              )
+              );
             })}
           </Modal.Body>
           <Modal.Footer>

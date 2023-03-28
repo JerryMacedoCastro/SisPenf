@@ -131,9 +131,9 @@ export async function addAnswerDiagnostic(
       question: answeredQuestions.question,
       options: answeredQuestions.option,
       diagnoses: answeredQuestions.diagnoses,
+      comment: "",
     };
 
-    console.log(data);
     const json = JSON.stringify(data);
     const { baseURL } = api;
     const response = await fetch(`${baseURL}/answer`, {
@@ -151,6 +151,15 @@ export async function addAnswerDiagnostic(
     const result = await response.json();
     return result;
   } catch (error) {
-    throw new Error("Error on answerService.answer: " + error.message);
+    const data = {
+      userId,
+      patientId,
+      question: answeredQuestions.question,
+      options: answeredQuestions.option,
+      diagnoses: answeredQuestions.diagnoses,
+      comment: "",
+    };
+    throw new Error(JSON.stringify(data));
+    // throw new Error("Error on answerService.answer: " + error.message);
   }
 }

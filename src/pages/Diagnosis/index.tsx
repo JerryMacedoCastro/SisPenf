@@ -60,11 +60,11 @@ const Diagnosis = (): JSX.Element => {
   const saveData = async () => {
     const actionsFocus = Object.keys(selectedjudgments);
 
-    if (actionsFocus.length < 27) {
-      // 27 is number of judgments
-      Alert.alert("Oops !", "Selecione todos os julgamentos");
-      return;
-    }
+    // if (actionsFocus.length < 27) {
+    //   // 27 is number of judgments
+    //   Alert.alert("Oops !", "Selecione todos os julgamentos");
+    //   return;
+    // }
     let progress = 0;
 
     setOpenModalLoading(true);
@@ -74,6 +74,7 @@ const Diagnosis = (): JSX.Element => {
       try {
         const answeredQuestions = {
           question: nameFocus,
+          comment: "",
           option: [
             {
               description: selectedjudgments[nameFocus],
@@ -97,8 +98,6 @@ const Diagnosis = (): JSX.Element => {
             const percentage = Math.ceil(
               ((progress + 1) / actionsFocus.length) * 100);
 
-            console.log("Progresso " + progress + " indice " + index);
-
             if (progress === actionsFocus.length) {
               Alert.alert("Sucesso", "Diagnosticos enviados");
               setOpenModalLoading(false);
@@ -113,10 +112,10 @@ const Diagnosis = (): JSX.Element => {
           throw new Error("Erro ao Salvar Diagnosticos");
         }
       } catch (err) {
-        console.log(err.message);
-        Alert.alert("Erro !", "Erro");
+        console.log("Erro em ", err.message);
         setOpenModalLoading(false);
-        throw new Error("Erro ao Salvar Diagnosticos");
+        Alert.alert("Erro !", "Erro");
+        return;
       }
     });
   };
