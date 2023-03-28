@@ -87,7 +87,7 @@ const ModalWithChecklist = ({
                     setModalVisible(false);
                   }}
                 >
-                  Fechar
+                  Aplicar
                 </Text>
               </Button>
             </View>

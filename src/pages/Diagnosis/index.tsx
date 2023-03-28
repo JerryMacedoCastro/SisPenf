@@ -60,11 +60,11 @@ const Diagnosis = (): JSX.Element => {
   const saveData = async () => {
     const actionsFocus = Object.keys(selectedjudgments);
 
-    // if (actionsFocus.length < 27) {
-    //   // 27 is number of judgments
-    //   Alert.alert("Oops !", "Selecione todos os julgamentos");
-    //   return;
-    // }
+    if (actionsFocus.length < 27) {
+      // 27 is number of judgments
+      Alert.alert("Oops !", "Selecione todos os julgamentos");
+      return;
+    }
     let progress = 0;
 
     setOpenModalLoading(true);
@@ -99,10 +99,10 @@ const Diagnosis = (): JSX.Element => {
               ((progress + 1) / actionsFocus.length) * 100);
 
             if (progress === actionsFocus.length) {
-              Alert.alert("Sucesso", "Diagnosticos enviados");
+              Alert.alert("Sucesso", "Diagnósticos enviados");
               setOpenModalLoading(false);
             } else {
-              if (percentage >= 100) setMessage("Diagnosticos enviados");
+              if (percentage >= 100) setMessage("Diagnósticos enviados");
               else setMessage(`Enviando ${percentage}%`);
             }
           });

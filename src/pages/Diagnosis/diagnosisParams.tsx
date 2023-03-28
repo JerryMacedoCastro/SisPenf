@@ -45,7 +45,7 @@ export const DiagnosisJudgments = {
     judgments: ["Presente", "Ausente"],
   },
   "Pressão sanguínea": {
-    judgments: ["Eficaz", "Alterada - Elevada", "Alterada - Diminuída"],
+    judgments: ["Eficaz", "Alterada - elevada", "Alterada - diminuída"],
   },
   "Risco de processo hemorrágico": {
     judgments: ["Baixo", "Elevado", "Ausente"],
@@ -288,7 +288,7 @@ export const DiagnosisActions = {
     actions: [
       "Avaliar cicatrização da ferida",
       "Orientar sobre cicatrização da ferida",
-      "Orientar sobre cuidados com a ferida",
+      "Orientar sobre cuidados com a ferida ",
       "Educar sobre cuidados perineais",
       "Monitorar sinais e sintomas de infecção",
       "Orientar quanto à importância da higiene corporal e íntima",
