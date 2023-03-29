@@ -9,8 +9,10 @@ import SpiritualNeeds from "../pages/MaternalHistory/SpiritualNeeds";
 import PsychobiologicNeeds from "../pages/MaternalHistory/PsychobiologicNeeds";
 import PartOne from "../pages/PhysicalExam/PartOne";
 import PartTwo from "../pages/PhysicalExam/PartTwo";
-import { colors } from "../Assets/GlobalStyles";
 import Diagnosis from "../pages/Diagnosis";
+import Evolution from "../pages/Evolution";
+
+import { colors } from "../Assets/GlobalStyles";
 import { IPatientResponse } from "../interfaces";
 
 export type RootStackParamList = {
@@ -24,6 +26,7 @@ export type RootStackParamList = {
   Diagnosis: IPatientResponse;
   PartOne: { patientId: number };
   PartTwo: { patientId: number };
+  Evolution: { patientId: number };
 };
 
 const AppRoutes = (): JSX.Element => {
@@ -50,6 +53,7 @@ const AppRoutes = (): JSX.Element => {
       <RootStack.Screen name="PartOne" component={PartOne} />
       <RootStack.Screen name="PartTwo" component={PartTwo} />
       <RootStack.Screen name="Diagnosis" component={Diagnosis} />
+      <RootStack.Screen name="Evolution" component={Evolution} />
     </RootStack.Navigator>
   );
 };

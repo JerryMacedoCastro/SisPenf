@@ -22,12 +22,16 @@ const Fieldset = (props: FieldsetProps): JSX.Element => {
     setModalIsVisible(!modalIsVisible);
   };
 
-  const goEditPuerperal = () => {
+  const goToEditPuerperal = () => {
     navigation.navigate("NewPuerperal", { patientId: props.patient.id });
   };
 
-  const goDiagnosis = () => {
+  const goToDiagnosis = () => {
     navigation.navigate("Diagnosis", props.patient);
+  };
+
+  const goToEvolution = () => {
+    navigation.navigate("Evolution", { patientId: props.patient.id });
   };
 
   return (
@@ -36,9 +40,11 @@ const Fieldset = (props: FieldsetProps): JSX.Element => {
         modalVisible={modalIsVisible}
         onClose={handleNewPatientClick}
         firstButtonText="Editar puérpera"
-        secondButtonText="Realizar Diagnóstico"
-        actionFirstButton={goEditPuerperal}
-        actionSecondButton={goDiagnosis}
+        secondButtonText="Realizar diagnóstico"
+        thirdButtonText="Evoluir paciente"
+        actionFirstButton={goToEditPuerperal}
+        actionSecondButton={goToDiagnosis}
+        actionThirdButton={goToEvolution}
       />
       <RectButton style={styles.button} onPress={handleNewPatientClick}>
         <Text style={styles.value}>{props.value}</Text>
