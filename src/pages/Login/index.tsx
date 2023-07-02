@@ -1,16 +1,16 @@
+import { FormHandles, SubmitHandler } from "@unform/core";
+import { Form } from "@unform/mobile";
 import React, { useRef, useState } from "react";
 import { Alert, Text, View } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
-import { Form } from "@unform/mobile";
-import { SubmitHandler, FormHandles } from "@unform/core";
 // import api from "../../services/api";
 
-import { styles } from "./styles";
-import Gradient from "../../components/Gradient";
 import { globalStyles } from "../../Assets/GlobalStyles";
+import Gradient from "../../components/Gradient";
 import Header from "../../components/Header";
 import SquareInput from "../../components/SquareInput";
 import { useAuth } from "../../contexts/auth";
+import { styles } from "./styles";
 
 interface FormData {
   user: string;
@@ -35,7 +35,7 @@ const Login = (): JSX.Element => {
       setLoading(false);
       Alert.alert(
         "Dados inválidos",
-        "Cheque os dados ou entre em contato com os resposáveis"
+        "Cheque os dados ou entre em contato com os responsáveis"
       );
     }
   };
