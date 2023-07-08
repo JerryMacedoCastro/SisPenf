@@ -14,10 +14,12 @@ import Evolution from "../pages/Evolution";
 
 import { colors } from "../Assets/GlobalStyles";
 import { IPatientResponse } from "../interfaces";
+import ViewPuerperal from "../pages/ViewPuerperal";
 
 export type RootStackParamList = {
   Home: undefined;
   NewPuerperal: { patientId: number | null };
+  ViewPuerperal: { patientId: number | null };
   FindPatient: undefined;
   PsychologicalNeeds: { patientId: number; isNewPatient: boolean };
   SpiritualNeeds: { patientId: number };
@@ -40,6 +42,7 @@ const AppRoutes = (): JSX.Element => {
     >
       <RootStack.Screen name="Home" component={Home} />
       <RootStack.Screen name="NewPuerperal" component={NewPuerperal} />
+      <RootStack.Screen name="ViewPuerperal" component={ViewPuerperal} />
       <RootStack.Screen name="FindPatient" component={FindPatient} />
       <RootStack.Screen
         name="PsychologicalNeeds"

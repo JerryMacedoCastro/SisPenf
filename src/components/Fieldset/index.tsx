@@ -22,6 +22,10 @@ const Fieldset = (props: FieldsetProps): JSX.Element => {
     setModalIsVisible(!modalIsVisible);
   };
 
+  const goViewPuerperal = () => {
+    navigation.navigate("ViewPuerperal", { patientId: props.patient.id });
+  };
+
   const goToEditPuerperal = () => {
     navigation.navigate("NewPuerperal", { patientId: props.patient.id });
   };
@@ -39,12 +43,14 @@ const Fieldset = (props: FieldsetProps): JSX.Element => {
       <CustomModal
         modalVisible={modalIsVisible}
         onClose={handleNewPatientClick}
-        firstButtonText="Editar puérpera"
-        secondButtonText="Realizar diagnóstico"
-        thirdButtonText="Evoluir paciente"
-        actionFirstButton={goToEditPuerperal}
-        actionSecondButton={goToDiagnosis}
-        actionThirdButton={goToEvolution}
+        firstButtonText="Visualizar status"
+        secondButtonText="Editar puérpera"
+        thirdButtonText="Realizar diagnóstico"
+        fourthButtonText="Evoluir paciente"
+        actionFirstButton={goViewPuerperal}
+        actionSecondButton={goToEditPuerperal}
+        actionThirdButton={goToDiagnosis}
+        actionFourthButton={goToEvolution}
       />
       <RectButton style={styles.button} onPress={handleNewPatientClick}>
         <Text style={styles.value}>{props.value}</Text>

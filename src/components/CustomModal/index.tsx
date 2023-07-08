@@ -9,9 +9,11 @@ interface customModalProps {
   firstButtonText: string;
   secondButtonText: string;
   thirdButtonText: string;
+  fourthButtonText: string;
   actionFirstButton?: () => void;
   actionSecondButton?: () => void;
   actionThirdButton?: () => void;
+  actionFourthButton?: () => void;
   onClose: () => void;
 }
 
@@ -49,6 +51,14 @@ const CustomModal = (props: customModalProps): JSX.Element => {
           >
             <Text style={globalStyles.secondaryButtonText}>
               {secondButtonText}
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[globalStyles.button, globalStyles.secondaryButton]}
+            onPress={actionThirdButton || onClose}
+          >
+            <Text style={globalStyles.secondaryButtonText}>
+              {thirdButtonText}
             </Text>
           </Pressable>
           <Pressable
