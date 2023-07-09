@@ -40,6 +40,16 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
     bottom: 0,
   },
+  titleMain: {
+    width: "100%",
+    padding: 10,
+  },
+  labelTitleMainForm: {
+    fontWeight: "bold",
+    fontSize: 20,
+    marginRight: 10,
+    textAlign: "center",
+  },
   labelTitleContentForm: {
     fontWeight: "bold",
     fontSize: 15,

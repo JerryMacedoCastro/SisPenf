@@ -1,8 +1,6 @@
 import * as React from "react";
 import { List } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "native-base";
-// import { convertedDates } from "../../util/formatDate";
 
 export interface IAccordion {
   title: string;
@@ -12,15 +10,11 @@ export interface IAccordion {
 const Accordion = ({ title, children }: IAccordion) => {
   const [numberExpanded, setNumberExpanded] = React.useState<number>(-1);
 
-  function onClick() {
-    // navigation.navigate("EditSheep", sheep);
-  }
-
   return (
     <ScrollView>
       <List.Accordion
         title={title}
-        left={(props: any) => <List.Icon {...props} icon="calendar" />}
+        left={(props: any) => <List.Icon {...props} icon="information" />}
         expanded={numberExpanded === 1}
         onPress={() => {
           if (numberExpanded === 1) setNumberExpanded(-1);
