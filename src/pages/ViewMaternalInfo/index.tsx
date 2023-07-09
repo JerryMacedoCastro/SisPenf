@@ -35,9 +35,9 @@ import { format } from "date-fns";
 import Accordion from "../../components/Accordion";
 import { useFocusEffect } from "@react-navigation/native";
 
-type Props = StackScreenProps<RootStackParamList, "ViewPuerperal">;
+type Props = StackScreenProps<RootStackParamList, "ViewMaternalInfo">;
 
-const ViewPuerperal = ({ route }: Props): JSX.Element => {
+const ViewMaternalInfo = ({ route }: Props): JSX.Element => {
   const { patientId } = route.params;
   const [patient, setPatient] = useState<IPatientResponse | null>(null);
   const [answers, setAnswers] = useState<INewPuerperalForm>({
@@ -239,14 +239,6 @@ const ViewPuerperal = ({ route }: Props): JSX.Element => {
       }
     }, [])
   );
-
-  // useEffect(() => {
-  //   if (patientId && !patient) {
-  //     getPatientInfo(patientId);
-  //     getPatientInfoPsycologicalNeeds(patientId);
-  //     getPatientInfoPsycobiologicNeeds(patientId);
-  //   }
-  // }, []);
 
   return (
     <>
@@ -626,4 +618,4 @@ const ViewPuerperal = ({ route }: Props): JSX.Element => {
   );
 };
 
-export default ViewPuerperal;
+export default ViewMaternalInfo;
