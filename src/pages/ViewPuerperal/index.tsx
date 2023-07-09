@@ -11,6 +11,8 @@ import {
   VStack,
   View,
 } from "native-base";
+import DateHeader from "../../components/DateHeader";
+
 import {
   IFormattedDate,
   INewPuerperalForm,
@@ -247,61 +249,22 @@ const ViewPuerperal = ({ route }: Props): JSX.Element => {
   // }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Gradient />
+    <>
+      <DateHeader title="Informações do Paciente" />
 
-      <KeyboardAvoidingView
-        style={styles.content}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={50}
-      >
-        <View style={styles.titleMain}>
-          <Text style={styles.labelTitleMainForm}>STATUS DO PACIENTE</Text>
-        </View>
-        <ScrollView
-          contentContainerStyle={{
-            position: "relative",
-          }}
+      <SafeAreaView style={styles.container}>
+        <Gradient />
+
+        <KeyboardAvoidingView
+          style={styles.content}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={50}
         >
-          <VStack
-            bgColor={"white"}
-            flex={1}
-            px={10}
-            paddingTop={6}
-            paddingBottom={4}
+          <ScrollView
+            contentContainerStyle={{
+              position: "relative",
+            }}
           >
-            <VStack>
-              <Text style={styles.labelTitleContentForm}>Nome:</Text>
-              <Text style={styles.labelContentForm}>{patient?.name}</Text>
-            </VStack>
-            <VStack>
-              <Text style={styles.labelTitleContentForm}>
-                Data de Nascimento:
-              </Text>
-              <Text>
-                {patient?.birthDate
-                  ? format(new Date(patient?.birthDate), "dd/MM/yyyy")
-                  : ""}
-              </Text>
-            </VStack>
-            <VStack>
-              <Text style={styles.labelTitleContentForm}>
-                Data de Admissão:
-              </Text>
-              <Text>
-                {patient?.admissionDate
-                  ? format(new Date(patient?.admissionDate), "dd/MM/yyyy")
-                  : ""}
-              </Text>
-            </VStack>
-            <VStack>
-              <Text style={styles.labelTitleContentForm}>Leito:</Text>
-              <Text>
-                {patient?.hospitalBed?.description || "Não cadastrado"}
-              </Text>
-            </VStack>
-          </VStack>
-          <Accordion title="Necessidades Psicobiológicas">
             <VStack
               bgColor={"white"}
               flex={1}
@@ -310,300 +273,356 @@ const ViewPuerperal = ({ route }: Props): JSX.Element => {
               paddingBottom={4}
             >
               <VStack>
-                <Text style={styles.labelTitleContentForm}>Gesta:</Text>
-                <Text style={styles.labelContentForm}>
-                  {getValuesPsycobiologicNeeds("Gesta")}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Para:</Text>
-                <Text>{getValuesPsycobiologicNeeds("Para")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Aborto:</Text>
-                <Text>{getValuesPsycobiologicNeeds("Aborto")}</Text>
+                <Text style={styles.labelTitleContentForm}>Nome:</Text>
+                <Text style={styles.labelContentForm}>{patient?.name}</Text>
               </VStack>
               <VStack>
                 <Text style={styles.labelTitleContentForm}>
-                  Número de filhos vivos:
+                  Data de Nascimento:
                 </Text>
                 <Text>
-                  {getValuesPsycobiologicNeeds("Número de filhos vivos")}
+                  {patient?.birthDate
+                    ? format(new Date(patient?.birthDate), "dd/MM/yyyy")
+                    : ""}
                 </Text>
               </VStack>
               <VStack>
-                <Text style={styles.labelTitleContentForm}>Pré-natal:</Text>
-                <Text>{getValuesPsycobiologicNeeds("Pré-natal")}</Text>
-              </VStack>
-              <VStack>
                 <Text style={styles.labelTitleContentForm}>
-                  Número de consultas:
+                  Data de Admissão:
                 </Text>
                 <Text>
-                  {getValuesPsycobiologicNeeds("Número de consultas")}
+                  {patient?.admissionDate
+                    ? format(new Date(patient?.admissionDate), "dd/MM/yyyy")
+                    : ""}
                 </Text>
               </VStack>
               <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Intercorrências na gestação:
-                </Text>
+                <Text style={styles.labelTitleContentForm}>Leito:</Text>
                 <Text>
-                  {getValuesPsycobiologicNeeds("Intercorrências na gestação")}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Doenças associadas:
-                </Text>
-                <Text>{getValuesPsycobiologicNeeds("Doenças associadas")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Alergias:</Text>
-                <Text>{getValuesPsycobiologicNeeds("Alergias")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Uso de medicamentos:
-                </Text>
-                <Text>
-                  {getValuesPsycobiologicNeeds("Uso de medicamentos")}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Anti-HIV:</Text>
-                <Text>{getValuesPsycobiologicNeeds("Anti-HIV")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>VDRL:</Text>
-                <Text>{getValuesPsycobiologicNeeds("VDRL")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Classificação sanguínea e fator RH:
-                </Text>
-                <Text>
-                  {getValuesPsycobiologicNeeds(
-                    "Classificação sanguínea e fator RH"
-                  )}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Outro:</Text>
-                <Text>{getValuesPsycobiologicNeeds("Outro")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Uso de substâncias lícitas e/ou ilícitas:
-                </Text>
-                <Text>
-                  {getValuesPsycobiologicNeeds(
-                    "Uso de substâncias lícitas e/ou ilícitas"
-                  )}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Data do parto:</Text>
-                <Text>{getValuesPsycobiologicNeeds("Data do parto")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Hora do parto:</Text>
-                <Text>{getValuesPsycobiologicNeeds("Hora do parto")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Gestação:</Text>
-                <Text>{getValuesPsycobiologicNeeds("Gestação")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Tipo de parto:</Text>
-                <Text>{getValuesPsycobiologicNeeds("Tipo de parto")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>RPMO:</Text>
-                <Text>{getValuesPsycobiologicNeeds("RPMO")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Tempo de bolsa rota até o parto:
-                </Text>
-                <Text>
-                  {getValuesPsycobiologicNeeds(
-                    "Tempo de bolsa rota até o parto"
-                  )}
+                  {patient?.hospitalBed?.description || "Não cadastrado"}
                 </Text>
               </VStack>
             </VStack>
-          </Accordion>
-          <Accordion title="Necessidades Psicossociais">
-            <VStack
-              bgColor={"white"}
-              flex={1}
-              px={10}
-              paddingTop={6}
-              paddingBottom={4}
-            >
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Estado civil:</Text>
-                <Text>{getValuesPsycologicalNeeds("Estado civil")}</Text>
+            <Accordion title="Necessidades Psicobiológicas">
+              <VStack
+                bgColor={"white"}
+                flex={1}
+                px={10}
+                paddingTop={6}
+                paddingBottom={4}
+              >
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>Gesta:</Text>
+                  <Text style={styles.labelContentForm}>
+                    {getValuesPsycobiologicNeeds("Gesta")}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>Para:</Text>
+                  <Text>{getValuesPsycobiologicNeeds("Para")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>Aborto:</Text>
+                  <Text>{getValuesPsycobiologicNeeds("Aborto")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Número de filhos vivos:
+                  </Text>
+                  <Text>
+                    {getValuesPsycobiologicNeeds("Número de filhos vivos")}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>Pré-natal:</Text>
+                  <Text>{getValuesPsycobiologicNeeds("Pré-natal")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Número de consultas:
+                  </Text>
+                  <Text>
+                    {getValuesPsycobiologicNeeds("Número de consultas")}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Intercorrências na gestação:
+                  </Text>
+                  <Text>
+                    {getValuesPsycobiologicNeeds("Intercorrências na gestação")}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Doenças associadas:
+                  </Text>
+                  <Text>
+                    {getValuesPsycobiologicNeeds("Doenças associadas")}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>Alergias:</Text>
+                  <Text>{getValuesPsycobiologicNeeds("Alergias")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Uso de medicamentos:
+                  </Text>
+                  <Text>
+                    {getValuesPsycobiologicNeeds("Uso de medicamentos")}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>Anti-HIV:</Text>
+                  <Text>{getValuesPsycobiologicNeeds("Anti-HIV")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>VDRL:</Text>
+                  <Text>{getValuesPsycobiologicNeeds("VDRL")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Classificação sanguínea e fator RH:
+                  </Text>
+                  <Text>
+                    {getValuesPsycobiologicNeeds(
+                      "Classificação sanguínea e fator RH"
+                    )}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>Outro:</Text>
+                  <Text>{getValuesPsycobiologicNeeds("Outro")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Uso de substâncias lícitas e/ou ilícitas:
+                  </Text>
+                  <Text>
+                    {getValuesPsycobiologicNeeds(
+                      "Uso de substâncias lícitas e/ou ilícitas"
+                    )}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Data do parto:
+                  </Text>
+                  <Text>{getValuesPsycobiologicNeeds("Data do parto")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Hora do parto:
+                  </Text>
+                  <Text>{getValuesPsycobiologicNeeds("Hora do parto")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>Gestação:</Text>
+                  <Text>{getValuesPsycobiologicNeeds("Gestação")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Tipo de parto:
+                  </Text>
+                  <Text>{getValuesPsycobiologicNeeds("Tipo de parto")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>RPMO:</Text>
+                  <Text>{getValuesPsycobiologicNeeds("RPMO")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Tempo de bolsa rota até o parto:
+                  </Text>
+                  <Text>
+                    {getValuesPsycobiologicNeeds(
+                      "Tempo de bolsa rota até o parto"
+                    )}
+                  </Text>
+                </VStack>
               </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Falta de apoio social:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds("Falta de apoio social")}
-                </Text>
+            </Accordion>
+            <Accordion title="Necessidades Psicossociais">
+              <VStack
+                bgColor={"white"}
+                flex={1}
+                px={10}
+                paddingTop={6}
+                paddingBottom={4}
+              >
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Estado civil:
+                  </Text>
+                  <Text>{getValuesPsycologicalNeeds("Estado civil")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Falta de apoio social:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds("Falta de apoio social")}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Escolaridade:
+                  </Text>
+                  <Text>{getValuesPsycologicalNeeds("Escolaridade")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Falta de conhecimento sobre a amamentação:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds(
+                      "Falta de conhecimento sobre a amamentação"
+                    )}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Falta de conhecimento sobre a ordenha do leite materno:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds(
+                      "Falta de conhecimento sobre a ordenha do leite materno"
+                    )}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Falta de conhecimento sobre a situação clínica do
+                    recém-nascido:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds(
+                      "Falta de conhecimento sobre a situação clínica do recém-nascido"
+                    )}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Falta de conhecimento sobre o autocuidado com a ferida
+                    cirúrgica:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds(
+                      "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica"
+                    )}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Falta de conhecimento sobre o autocuidado com as mamas:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds(
+                      "Falta de conhecimento sobre o autocuidado com as mamas"
+                    )}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Falta de conhecimento sobre os cuidados com recém-nascido:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds(
+                      "Falta de conhecimento sobre os cuidados com recém-nascido"
+                    )}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Comunicação verbal prejudicada:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds(
+                      "Comunicação verbal prejudicada"
+                    )}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>Ansiedade:</Text>
+                  <Text>{getValuesPsycologicalNeeds("Ansiedade")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Atitude familiar conflitante:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds("Atitude familiar conflitante")}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Maternidade/paternidade prejudicada:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds(
+                      "Maternidade/paternidade prejudicada"
+                    )}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Risco de maternidade/paternidade prejudicada:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds(
+                      "Risco de maternidade/paternidade prejudicada"
+                    )}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Risco de vínculo mãe-filho prejudicado:
+                  </Text>
+                  <Text>
+                    {getValuesPsycologicalNeeds(
+                      "Risco de vínculo mãe-filho prejudicado"
+                    )}
+                  </Text>
+                </VStack>
               </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Escolaridade:</Text>
-                <Text>{getValuesPsycologicalNeeds("Escolaridade")}</Text>
+            </Accordion>
+            <Accordion title="Necessidades Psicoespirituais">
+              <VStack
+                bgColor={"white"}
+                flex={1}
+                px={10}
+                paddingTop={6}
+                paddingBottom={4}
+              >
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Angústia espiritual:
+                  </Text>
+                  <Text>{getValuesSpiritualNeeds("Angústia espiritual")}</Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Sofrimento espiritual:
+                  </Text>
+                  <Text>
+                    {getValuesSpiritualNeeds("Sofrimento espiritual")}
+                  </Text>
+                </VStack>
+                <VStack>
+                  <Text style={styles.labelTitleContentForm}>
+                    Risco de sofrimento espiritual:
+                  </Text>
+                  <Text>
+                    {getValuesSpiritualNeeds("Risco de sofrimento espiritual")}
+                  </Text>
+                </VStack>
               </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Falta de conhecimento sobre a amamentação:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds(
-                    "Falta de conhecimento sobre a amamentação"
-                  )}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Falta de conhecimento sobre a ordenha do leite materno:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds(
-                    "Falta de conhecimento sobre a ordenha do leite materno"
-                  )}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Falta de conhecimento sobre a situação clínica do
-                  recém-nascido:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds(
-                    "Falta de conhecimento sobre a situação clínica do recém-nascido"
-                  )}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Falta de conhecimento sobre o autocuidado com a ferida
-                  cirúrgica:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds(
-                    "Falta de conhecimento sobre o autocuidado com a ferida cirúrgica"
-                  )}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Falta de conhecimento sobre o autocuidado com as mamas:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds(
-                    "Falta de conhecimento sobre o autocuidado com as mamas"
-                  )}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Falta de conhecimento sobre os cuidados com recém-nascido:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds(
-                    "Falta de conhecimento sobre os cuidados com recém-nascido"
-                  )}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Comunicação verbal prejudicada:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds("Comunicação verbal prejudicada")}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>Ansiedade:</Text>
-                <Text>{getValuesPsycologicalNeeds("Ansiedade")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Atitude familiar conflitante:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds("Atitude familiar conflitante")}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Maternidade/paternidade prejudicada:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds(
-                    "Maternidade/paternidade prejudicada"
-                  )}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Risco de maternidade/paternidade prejudicada:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds(
-                    "Risco de maternidade/paternidade prejudicada"
-                  )}
-                </Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Risco de vínculo mãe-filho prejudicado:
-                </Text>
-                <Text>
-                  {getValuesPsycologicalNeeds(
-                    "Risco de vínculo mãe-filho prejudicado"
-                  )}
-                </Text>
-              </VStack>
-            </VStack>
-          </Accordion>
-          <Accordion title="Necessidades Psicoespirituais">
-            <VStack
-              bgColor={"white"}
-              flex={1}
-              px={10}
-              paddingTop={6}
-              paddingBottom={4}
-            >
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Angústia espiritual:
-                </Text>
-                <Text>{getValuesSpiritualNeeds("Angústia espiritual")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Sofrimento espiritual:
-                </Text>
-                <Text>{getValuesSpiritualNeeds("Sofrimento espiritual")}</Text>
-              </VStack>
-              <VStack>
-                <Text style={styles.labelTitleContentForm}>
-                  Risco de sofrimento espiritual:
-                </Text>
-                <Text>
-                  {getValuesSpiritualNeeds("Risco de sofrimento espiritual")}
-                </Text>
-              </VStack>
-            </VStack>
-          </Accordion>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+            </Accordion>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </>
   );
 };
 
