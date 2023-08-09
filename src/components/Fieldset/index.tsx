@@ -1,13 +1,13 @@
 // eslint-disable-next-line no-use-before-define
-import React, { useState } from "react";
-import { Alert, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { styles } from "./styles";
-import { colors } from "../../Assets/GlobalStyles";
-import { RectButton } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+import { Text, View } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
+import { colors } from "../../Assets/GlobalStyles";
 import CustomModal from "../../components/CustomModal";
 import { IPatientResponse } from "../../interfaces";
+import { styles } from "./styles";
 
 interface FieldsetProps {
   patient: IPatientResponse;
@@ -23,19 +23,23 @@ const Fieldset = (props: FieldsetProps): JSX.Element => {
   };
 
   const goViewPuerperal = () => {
-    navigation.navigate("ViewPuerperal", { patientId: props.patient.id });
+    navigation.navigate("ViewMaternalInfo", { patientId: props.patient.id });
+    setModalIsVisible(false);
   };
 
   const goToEditPuerperal = () => {
     navigation.navigate("NewPuerperal", { patientId: props.patient.id });
+    setModalIsVisible(false);
   };
 
   const goToDiagnosis = () => {
     navigation.navigate("Diagnosis", props.patient);
+    setModalIsVisible(false);
   };
 
   const goToEvolution = () => {
     navigation.navigate("Evolution", { patientId: props.patient.id });
+    setModalIsVisible(false);
   };
 
   return (

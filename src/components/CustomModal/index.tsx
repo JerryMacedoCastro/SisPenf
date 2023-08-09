@@ -1,6 +1,6 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Modal, Pressable, Text, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { globalStyles } from "../../Assets/GlobalStyles";
 import { styles } from "./styles";
 
@@ -23,9 +23,11 @@ const CustomModal = (props: customModalProps): JSX.Element => {
     firstButtonText,
     secondButtonText,
     thirdButtonText,
+    fourthButtonText,
     actionFirstButton,
     actionSecondButton,
     actionThirdButton,
+    actionFourthButton,
     onClose,
   } = props;
   const navigation = useNavigation();
@@ -63,10 +65,10 @@ const CustomModal = (props: customModalProps): JSX.Element => {
           </Pressable>
           <Pressable
             style={[globalStyles.button, globalStyles.secondaryButton]}
-            onPress={actionThirdButton || onClose}
+            onPress={actionFourthButton || onClose}
           >
             <Text style={globalStyles.secondaryButtonText}>
-              {thirdButtonText}
+              {fourthButtonText}
             </Text>
           </Pressable>
 
