@@ -1,39 +1,29 @@
-import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  ScrollView,
-  Platform,
-  Alert,
-  ActivityIndicator,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import DateTimePicker, {
-  DateTimePickerEvent,
-} from "@react-native-community/datetimepicker";
 import { format } from "date-fns";
-import { useForm, Controller } from "react-hook-form";
-import { VStack, Button, KeyboardAvoidingView } from "native-base";
+import { Button, KeyboardAvoidingView, VStack } from "native-base";
+import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Alert, Platform, ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { styles } from "./styles";
-import { colors, globalStyles } from "../../Assets/GlobalStyles";
-import CommonInput from "../../components/Input/CommonInput";
+import { StackScreenProps } from "@react-navigation/stack";
+import { globalStyles } from "../../Assets/GlobalStyles";
+import { RootStackParamList } from "../../Routes/app.routes";
 import DateHeader from "../../components/DateHeader";
-import Picker from "../../components/Picker";
+import Gradient from "../../components/Gradient";
+import CommonInput from "../../components/Input/CommonInput";
+import PickerSelect from "../../components/PickerSelect";
+import { useAuth } from "../../contexts/auth";
 import useKeyboardControll from "../../hooks/useKeyboardControll";
 import {
-  IPatientResponse,
-  INewPuerperalForm,
   IFormattedDate,
+  INewPuerperalForm,
+  IPatientResponse,
 } from "../../interfaces";
-import Gradient from "../../components/Gradient";
-import { useAuth } from "../../contexts/auth";
-import PickerSelect from "../../components/PickerSelect";
-import { createPatient, getPatientById } from "../../services/patient.service";
 import { addAnswers, getAnswers } from "../../services/answer.service";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../Routes/app.routes";
+import { createPatient, getPatientById } from "../../services/patient.service";
+import { changeDate, isValidDate } from "../../utils/date";
+import { styles } from "./styles";
 
 type Props = StackScreenProps<RootStackParamList, "NewPuerperal">;
 
@@ -66,9 +56,13 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
     useForm<INewPuerperalForm>();
   const { user } = useAuth();
 
+  const validDate = (date: string) => {
+    const formatoData = /^\d{2}\/\d{2}\/\d{4}$/;
+    return formatoData.test(date);
+  };
+
   const onChangeBirthDate = (selectedDate: Date) => {
     const currentDate = selectedDate || birthDate;
-    setShowBirthDateModal(Platform.OS === "ios");
     const formatted = format(currentDate, "dd/MM/yyyy");
     setBirthDate({ date: selectedDate, formattedDate: formatted });
   };
@@ -181,6 +175,7 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
 
   const submitForm = async (data: INewPuerperalForm) => {
     setLoading(true);
+    console.log("entrou", data);
 
     const answeredQuestions = [
       {
@@ -194,14 +189,39 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
         option: data["Dieta prescrita"],
       },
     ];
-    // if (infirmary === 0 || hospitalBed === 0) {
-    //   Alert.alert(
-    //     "Preencha todos os campos",
-    //     "Selecione o leito e a enfermaria!"
-    //   );
-    //   setLoading(false);
-    //   return;
-    // }
+
+    if (!isValidDate(birthDate.formattedDate)) {
+      setLoading(false);
+      return Alert.alert(
+        "Data inválida",
+        "Preencha a data de nascimento com valores válidos"
+      );
+    }
+
+    if (birthDate.date > new Date()) {
+      setLoading(false);
+      return Alert.alert(
+        "Data inválida",
+        "Preencha a data de nascimento com uma data menor ou igual a de hoje."
+      );
+    }
+
+    if (!isValidDate(admissionDate.formattedDate)) {
+      setLoading(false);
+      return Alert.alert(
+        "Data inválida",
+        "Preencha a data de admissão com valores válidos"
+      );
+    }
+
+    if (admissionDate.date > new Date()) {
+      setLoading(false);
+      return Alert.alert(
+        "Data inválida",
+        "Preencha a data de admissão com uma data menor ou igual a de hoje."
+      );
+    }
+
     if (
       !data.Nome ||
       !birthDate.formattedDate ||
@@ -216,6 +236,7 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
       setLoading(false);
       return;
     }
+
     try {
       const patient: IPatientResponse = await createPatient(
         patientId,
@@ -316,45 +337,41 @@ const NewPuerperal = ({ route }: Props): JSX.Element => {
                   />
                 )}
               />
-              <CommonInput
-                label="Data de nascimento"
-                placeholder={"Data de nascimento"}
-                value={birthDate.formattedDate}
-                returnKeyType="next"
-                onFocus={() => setShowBirthDateModal(true)}
-                showSoftInputOnFocus={false}
+              <Controller
+                control={control}
+                name="Data de nascimento"
+                render={({ field: { onChange } }) => (
+                  <CommonInput
+                    label="Data de nascimento"
+                    placeholder={"__/__/____"}
+                    value={birthDate.formattedDate}
+                    keyboardType="numeric"
+                    returnKeyType="next"
+                    onChangeText={(value) => {
+                      onChange(value);
+                      changeDate(value, setBirthDate);
+                    }}
+                  />
+                )}
               />
-              {showBirthDateModal && (
-                <DateTimePicker
-                  value={birthDate.date}
-                  placeholderText="Data de nascimento"
-                  mode={"date"}
-                  onChange={(_event: DateTimePickerEvent, date?: Date) =>
-                    date ? onChangeBirthDate(date) : null
-                  }
-                  dateFormat="day month year"
-                />
-              )}
 
-              <CommonInput
-                label="Data de admissão"
-                placeholder={"Data de admissão"}
-                value={admissionDate.formattedDate}
-                returnKeyType="next"
-                onFocus={() => setShowAdmissionDateModal(true)}
-                showSoftInputOnFocus={false}
+              <Controller
+                control={control}
+                name="Data de admissão"
+                render={({ field: { onChange } }) => (
+                  <CommonInput
+                    label="Data de admissão"
+                    placeholder={"__/__/____"}
+                    value={admissionDate.formattedDate}
+                    keyboardType="numeric"
+                    returnKeyType="next"
+                    onChangeText={(value) => {
+                      onChange(value);
+                      changeDate(value, setAdmissionDate);
+                    }}
+                  />
+                )}
               />
-              {showAdmissionDateModal && (
-                <DateTimePicker
-                  value={admissionDate.date}
-                  placeholderText="Data de admissão"
-                  mode={"date"}
-                  onChange={(_event: DateTimePickerEvent, date?: Date) =>
-                    date ? onChangeAdmissionDate(date) : null
-                  }
-                  dateFormat="day month year"
-                />
-              )}
 
               <Controller
                 control={control}

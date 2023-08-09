@@ -344,3 +344,7 @@ export type SecondPhysicalExamType =
   | "Sistema hematológico"
   | "Sistema endócrino"
   | "Autocuidado";
+
+export interface IPatientEvolution {
+  Evolução: string;
+}

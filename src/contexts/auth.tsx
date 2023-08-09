@@ -18,11 +18,7 @@ function useAuth(): IAuthContextData {
 }
 
 const AuthProvider = ({ children }: Props): JSX.Element => {
-  const [user, setUser] = useState<IUser | null>({
-    id: 1,
-    name: "teste",
-    email: "teste@email.com",
-  });
+  const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function loadStorageData() {

@@ -8,18 +8,24 @@ interface customModalProps {
   modalVisible: boolean;
   firstButtonText: string;
   secondButtonText: string;
-  actionFirstButton?: VoidFunction;
-  actionSecondButton?: VoidFunction;
+  thirdButtonText: string;
+  fourthButtonText: string;
+  actionFirstButton?: () => void;
+  actionSecondButton?: () => void;
+  actionThirdButton?: () => void;
+  actionFourthButton?: () => void;
   onClose: () => void;
 }
 
-const index = (props: customModalProps): JSX.Element => {
+const CustomModal = (props: customModalProps): JSX.Element => {
   const {
     modalVisible,
     firstButtonText,
     secondButtonText,
+    thirdButtonText,
     actionFirstButton,
     actionSecondButton,
+    actionThirdButton,
     onClose,
   } = props;
   const navigation = useNavigation();
@@ -47,6 +53,22 @@ const index = (props: customModalProps): JSX.Element => {
               {secondButtonText}
             </Text>
           </Pressable>
+          <Pressable
+            style={[globalStyles.button, globalStyles.secondaryButton]}
+            onPress={actionThirdButton || onClose}
+          >
+            <Text style={globalStyles.secondaryButtonText}>
+              {thirdButtonText}
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[globalStyles.button, globalStyles.secondaryButton]}
+            onPress={actionThirdButton || onClose}
+          >
+            <Text style={globalStyles.secondaryButtonText}>
+              {thirdButtonText}
+            </Text>
+          </Pressable>
 
           <Pressable
             onPress={onClose}
@@ -60,4 +82,4 @@ const index = (props: customModalProps): JSX.Element => {
   );
 };
 
-export default index;
+export default CustomModal;

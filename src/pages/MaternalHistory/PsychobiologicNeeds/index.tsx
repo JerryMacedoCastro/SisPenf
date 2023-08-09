@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { View, Platform, KeyboardAvoidingView, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { Alert, KeyboardAvoidingView, Platform, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { styles } from "../styles";
-import CommonInput from "../../../components/Input/CommonInput";
+import { StackScreenProps } from "@react-navigation/stack";
+import { format } from "date-fns";
+import { Button, Text, VStack } from "native-base";
+import { Controller, useForm } from "react-hook-form";
+import { globalStyles } from "../../../Assets/GlobalStyles";
+import { RootStackParamList } from "../../../Routes/app.routes";
 import DateHeader from "../../../components/DateHeader";
 import Gradient from "../../../components/Gradient";
-import { globalStyles } from "../../../Assets/GlobalStyles";
+import CommonInput from "../../../components/Input/CommonInput";
+import PickerSelect from "../../../components/PickerSelect";
+import { useAuth } from "../../../contexts/auth";
+import { getAnswerByDescription } from "../../../helpers/answers";
 import useKeyboardControll from "../../../hooks/useKeyboardControll";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../Routes/app.routes";
 import {
   IFormattedDate,
   IPsycobiologicNeedsForm,
   PsycobiologicNeedstype,
 } from "../../../interfaces";
 import { addAnswers, getAnswers } from "../../../services/answer.service";
-import { useAuth } from "../../../contexts/auth";
-import { Controller, useForm } from "react-hook-form";
-import PickerSelect from "../../../components/PickerSelect";
-import { Button, Text, VStack } from "native-base";
-import { format } from "date-fns";
-import { getAnswerByDescription } from "../../../helpers/answers";
+import { changeDate, isValidDate } from "../../../utils/date";
+import { styles } from "../styles";
 
 type Props = StackScreenProps<RootStackParamList, "PsychobiologicNeeds">;
 
@@ -159,6 +160,22 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
           comment: data["Tempo de bolsa rota até o parto"],
         },
       ];
+
+      if (!isValidDate(childbirthDate.formattedDate)) {
+        setLoading(false);
+        return Alert.alert(
+          "Data inválida",
+          "Preencha a data de parto com valores válidos"
+        );
+      }
+
+      if (childbirthDate.date > new Date()) {
+        setLoading(false);
+        return Alert.alert(
+          "Data inválida",
+          "Preencha a data de parto com uma data menor ou igual a de hoje."
+        );
+      }
 
       if (
         !data.Gesta ||
@@ -488,9 +505,10 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
                 render={({ field: { onChange } }) => (
                   <PickerSelect
                     options={[
-                      { description: "álcool" },
-                      { description: "cigarro" },
-                      { description: "drogas" },
+                      { description: "Nenhuma" },
+                      { description: "Álcool" },
+                      { description: "Cigarro" },
+                      { description: "Outras drogas" },
                     ]}
                     selectedValue={getValues(
                       "Uso de substâncias lícitas e/ou ilícitas"
@@ -509,25 +527,24 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
               <Text fontSize="lg" bold mb={4}>
                 Dados do parto:
               </Text>
-              <CommonInput
-                label="Data do parto"
-                placeholder={"Data do parto"}
-                value={childbirthDate.formattedDate}
-                returnKeyType="next"
-                onFocus={() => setShowChildbirthDateModal(true)}
-                showSoftInputOnFocus={false}
+              <Controller
+                control={control}
+                name="Data do parto"
+                render={({ field: { onChange } }) => (
+                  <CommonInput
+                    label="Data do parto"
+                    placeholder={"__/__/____"}
+                    value={childbirthDate.formattedDate}
+                    keyboardType="numeric"
+                    returnKeyType="next"
+                    onChangeText={(value) => {
+                      onChange(value);
+                      changeDate(value, setChildbirthDate);
+                    }}
+                  />
+                )}
               />
-              {showChildbirthDateModal && (
-                <DateTimePicker
-                  value={childbirthDate.date}
-                  placeholderText="Data do parto"
-                  mode={"date"}
-                  onChange={(_event: DateTimePickerEvent, date?: Date) =>
-                    date ? onChangeDate(date) : null
-                  }
-                  dateFormat="day month year"
-                />
-              )}
+
               <CommonInput
                 label="Hora do parto"
                 placeholder={"Hora do parto"}
@@ -539,7 +556,6 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
               {showChildbirthTimeModal && (
                 <DateTimePicker
                   value={childbirthTime.date}
-                  placeholderText="Hora do parto"
                   mode={"time"}
                   onChange={(_event: DateTimePickerEvent, date?: Date) =>
                     date ? onChangeTime(date) : null
@@ -570,9 +586,6 @@ const PsycobiologicNeeds = ({ route }: Props): JSX.Element => {
                     options={[
                       { description: "Cesariana" },
                       { description: "Vaginal" },
-                      { description: "Episiotomia" },
-                      { description: "Laceração" },
-                      { description: "Episiorrafia" },
                     ]}
                     selectedValue={getValues("Tipo de parto")}
                     placeholder={"Tipo de parto"}

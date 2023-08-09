@@ -9,13 +9,17 @@ import SpiritualNeeds from "../pages/MaternalHistory/SpiritualNeeds";
 import PsychobiologicNeeds from "../pages/MaternalHistory/PsychobiologicNeeds";
 import PartOne from "../pages/PhysicalExam/PartOne";
 import PartTwo from "../pages/PhysicalExam/PartTwo";
-import { colors } from "../Assets/GlobalStyles";
 import Diagnosis from "../pages/Diagnosis";
+import Evolution from "../pages/Evolution";
+
+import { colors } from "../Assets/GlobalStyles";
 import { IPatientResponse } from "../interfaces";
+import ViewMaternalInfo from "../pages/ViewMaternalInfo";
 
 export type RootStackParamList = {
   Home: undefined;
   NewPuerperal: { patientId: number | null };
+  ViewMaternalInfo: { patientId: number | null };
   FindPatient: undefined;
   PsychologicalNeeds: { patientId: number; isNewPatient: boolean };
   SpiritualNeeds: { patientId: number };
@@ -24,6 +28,7 @@ export type RootStackParamList = {
   Diagnosis: IPatientResponse;
   PartOne: { patientId: number };
   PartTwo: { patientId: number };
+  Evolution: { patientId: number };
 };
 
 const AppRoutes = (): JSX.Element => {
@@ -37,6 +42,7 @@ const AppRoutes = (): JSX.Element => {
     >
       <RootStack.Screen name="Home" component={Home} />
       <RootStack.Screen name="NewPuerperal" component={NewPuerperal} />
+      <RootStack.Screen name="ViewMaternalInfo" component={ViewMaternalInfo} />
       <RootStack.Screen name="FindPatient" component={FindPatient} />
       <RootStack.Screen
         name="PsychologicalNeeds"
@@ -50,6 +56,7 @@ const AppRoutes = (): JSX.Element => {
       <RootStack.Screen name="PartOne" component={PartOne} />
       <RootStack.Screen name="PartTwo" component={PartTwo} />
       <RootStack.Screen name="Diagnosis" component={Diagnosis} />
+      <RootStack.Screen name="Evolution" component={Evolution} />
     </RootStack.Navigator>
   );
 };
